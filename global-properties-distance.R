@@ -1,7 +1,7 @@
 #################################
 # distance-related
 #################################
-properties[["distance average"]] <- list(
+properties[["distance-average"]] <- list(
 	type=numeric(),
 	bounds=c(1,NA),
 	foo=function(graph) 

@@ -1,14 +1,14 @@
 #################################
 # node/link-related
 #################################
-properties[["node count"]] <- list(
+properties[["node-count"]] <- list(
 	type=integer(),
 	bounds=c(0,NA),
 	foo=function(graph) 
 	{	vcount(graph=graph)
 	}
 )
-properties[["link count"]] <- list(
+properties[["link-count"]] <- list(
 	type=integer(),
 	bounds=c(0,NA),
 	foo=function(graph) 

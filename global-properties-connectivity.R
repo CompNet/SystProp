@@ -2,7 +2,7 @@
 # connectivity-related
 #################################
 #TODO:   At foreign-graphml.c:373 :Could not add vertex ids, there is already an 'id' vertex attribute
-#properties[["link connectivity average"]] <- list(
+#properties[["link-connectivity-average"]] <- list(
 #	type=numeric(),
 #	bounds=c(0,NA),
 #	foo=function(graph) 
@@ -11,7 +11,7 @@
 #		mean(cache$linkconnectivity,na.rm=TRUE)
 #	}
 #)
-#properties[["link connectivity stdev"]] <- list(
+#properties[["link-connectivity-stdev"]] <- list(
 #	type=numeric(),
 #	bounds=c(0,NA),
 #	foo=function(graph) 
@@ -27,7 +27,7 @@ properties[["adhesion"]] <- list(		# aka minimal link connectivity
 	{	graph.adhesion(graph=graph, checks=TRUE)
 	}
 )
-#properties[["link connectivity max"]] <- list(
+#properties[["link-connectivity-max"]] <- list(
 #	type=integer(),
 #	bounds=c(0,NA),
 #	foo=function(graph) 
@@ -36,7 +36,7 @@ properties[["adhesion"]] <- list(		# aka minimal link connectivity
 #		max(cache$linkconnectivity,na.rm=TRUE)
 #	}
 #)
-#properties[["node connectivity average"]] <- list(
+#properties[["node-connectivity-average"]] <- list(
 #	type=numeric(),
 #	bounds=c(0,NA),
 #	foo=function(graph) 
@@ -45,7 +45,7 @@ properties[["adhesion"]] <- list(		# aka minimal link connectivity
 #		mean(cache$nodeconnectivity,na.rm=TRUE)
 #	}
 #)
-#properties[["node connectivity stdev"]] <- list(
+#properties[["node-connectivity-stdev"]] <- list(
 #	type=numeric(),
 #	bounds=c(0,NA),
 #	foo=function(graph) 
@@ -61,7 +61,7 @@ properties[["cohesion"]] <- list(		# aka minimal node connectivity
 	{	graph.cohesion(graph=graph, checks=TRUE)
 	}
 )
-#properties[["node connectivity max"]] <- list(
+#properties[["node-connectivity-max"]] <- list(
 #	type=integer(),
 #	bounds=c(0,NA),
 #	foo=function(graph) 

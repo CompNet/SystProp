@@ -1,14 +1,14 @@
 #################################
 # closeness-related
 #################################
-properties[["closeness centralization"]] <- list(
+properties[["closeness-centralization"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph)
 	{	centralization.closeness(graph=graph, mode="all",normalized=TRUE)$centralization
 	}
 )
-properties[["closeness centrality average"]] <- list(
+properties[["closeness-centrality-average"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph) 
@@ -17,7 +17,7 @@ properties[["closeness centrality average"]] <- list(
 		mean(cache$closeness,na.rm=TRUE)
 	}
 )
-properties[["closeness centrality stdev"]] <- list(
+properties[["closeness-centrality-stdev"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph) 
@@ -26,7 +26,7 @@ properties[["closeness centrality stdev"]] <- list(
 		sd(cache$closeness,na.rm=TRUE)
 	}
 )
-properties[["closeness centrality min"]] <- list(
+properties[["closeness-centrality-min"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph) 
@@ -35,7 +35,7 @@ properties[["closeness centrality min"]] <- list(
 		min(cache$closeness,na.rm=TRUE)
 	}
 )
-properties[["closeness centrality max"]] <- list(
+properties[["closeness-centrality-max"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph) 
@@ -44,7 +44,7 @@ properties[["closeness centrality max"]] <- list(
 		max(cache$closeness,na.rm=TRUE)
 	}
 )
-properties[["closeness centrality assortativity"]] <- list(
+properties[["closeness-centrality-assortativity"]] <- list(
 	type=numeric(),
 	bounds=c(-1,1),
 	foo=function(graph) 

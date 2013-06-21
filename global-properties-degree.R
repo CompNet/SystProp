@@ -1,7 +1,7 @@
 #################################
 # degree-related
 #################################
-properties[["degree average"]] <- list(
+properties[["degree-average"]] <- list(
 	type=numeric(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -10,7 +10,7 @@ properties[["degree average"]] <- list(
 		mean(cache$degree,na.rm=TRUE)
 	}
 )
-properties[["degree stdev"]] <- list(
+properties[["degree-stdev"]] <- list(
 	type=numeric(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -19,7 +19,7 @@ properties[["degree stdev"]] <- list(
 		sd(cache$degree,na.rm=TRUE)
 	}
 )
-properties[["degree min"]] <- list(
+properties[["degree-min"]] <- list(
 	type=integer(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -28,7 +28,7 @@ properties[["degree min"]] <- list(
 		min(cache$degree,na.rm=TRUE)
 	}
 )
-properties[["degree max"]] <- list(
+properties[["degree-max"]] <- list(
 	type=integer(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -37,7 +37,7 @@ properties[["degree max"]] <- list(
 		max(cache$degree,na.rm=TRUE)
 	}
 )
-properties[["degree assortativity"]] <- list(
+properties[["degree-assortativity"]] <- list(
 	type=numeric(),
 	bounds=c(-1,1),
 	foo=function(graph) 

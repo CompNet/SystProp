@@ -10,7 +10,7 @@ properties[["modularity"]] <- list(
 		max(cache$communities$modularity,na.rm=TRUE)
 	}
 )
-properties[["community number"]] <- list(
+properties[["community-number"]] <- list(
 	type=integer(),
 	bounds=c(0,NA),
 	foo=function(graph)

@@ -1,7 +1,7 @@
 #################################
 # eccentricity-related
 #################################
-properties[["eccentricity average"]] <- list(
+properties[["eccentricity-average"]] <- list(
 	type=numeric(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -10,7 +10,7 @@ properties[["eccentricity average"]] <- list(
 		mean(cache$eccentricity,na.rm=TRUE)
 	}
 )
-properties[["eccentricity stdev"]] <- list(
+properties[["eccentricity-stdev"]] <- list(
 	type=numeric(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -33,7 +33,7 @@ properties[["diameter"]] <- list(	# aka maximal eccentricity, maximal distance
 	{	diameter(graph=graph, directed=FALSE, unconnected=TRUE, weights=NULL)
 	}
 )
-properties[["eccentricity assortativity"]] <- list(
+properties[["eccentricity-assortativity"]] <- list(
 	type=numeric(),
 	bounds=c(-1,1),
 	foo=function(graph) 

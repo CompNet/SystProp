@@ -1,14 +1,14 @@
 #################################
 # betweenness-related
 #################################
-properties[["betweenness centralization"]] <- list(
+properties[["betweenness-centralization"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph)
 	{	centralization.betweenness(graph=graph, directed=FALSE, nobigint=TRUE, normalized=TRUE)$centralization
 	}
 )
-properties[["betweenness centrality average"]] <- list(
+properties[["betweenness-centrality-average"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph) 
@@ -17,7 +17,7 @@ properties[["betweenness centrality average"]] <- list(
 		mean(cache$betweenness,na.rm=TRUE)
 	}
 )
-properties[["betweenness centrality stdev"]] <- list(
+properties[["betweenness-centrality-stdev"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph)
@@ -26,7 +26,7 @@ properties[["betweenness centrality stdev"]] <- list(
 		sd(cache$betweenness,na.rm=TRUE)
 	}
 )
-properties[["betweenness centrality min"]] <- list(
+properties[["betweenness-centrality-min"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph)
@@ -35,7 +35,7 @@ properties[["betweenness centrality min"]] <- list(
 		min(cache$betweenness,na.rm=TRUE)
 	}
 )
-properties[["betweenness centrality max"]] <- list(
+properties[["betweenness-centrality-max"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph)
@@ -44,7 +44,7 @@ properties[["betweenness centrality max"]] <- list(
 		max(cache$betweenness,na.rm=TRUE)
 	}
 )
-properties[["betweenness centrality assortativity"]] <- list(
+properties[["betweenness-centrality-assortativity"]] <- list(
 	type=numeric(),
 	bounds=c(-1,1),
 	foo=function(graph)
