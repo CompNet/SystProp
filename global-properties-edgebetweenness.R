@@ -3,7 +3,7 @@
 #################################
 # processes a normalized version of the edge-betweenness
 edge.betweenness.norm <- function(graph, directed=TRUE, ...)
-{	bet <- edge.betweenness(graph, directed, ...)
+{	bet <- edge.betweenness(graph=graph, directed=directed, ...)
 	n <- vcount(graph)
 	
 	# undirected and directed nets should be treated differently
@@ -13,7 +13,8 @@ edge.betweenness.norm <- function(graph, directed=TRUE, ...)
 	else
 		norm <- n * (n-1) / 2
 	
-	bet / norm
+	result <- bet / norm
+	return(result)
 }
 
 properties[["edgebetweenness-centrality-average"]] <- list(
