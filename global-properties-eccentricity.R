@@ -19,14 +19,14 @@ properties[["eccentricity stdev"]] <- list(
 		sd(cache$eccentricity,na.rm=TRUE)
 	}
 )
-properties[["radius"]] <- list( 	# aka minimal eccentricity
+properties[["radius"]] <- list(		# aka minimal eccentricity
 	type=integer(),
 	bounds=c(0,NA),
 	foo=function(graph) 
 	{	radius(graph=graph, mode="all")
 	}
 )
-properties[["diameter"]] <- list(	 # aka maximal eccentricity, maximal distance
+properties[["diameter"]] <- list(	# aka maximal eccentricity, maximal distance
 	type=integer(),
 	bounds=c(0,NA),
 	foo=function(graph) 

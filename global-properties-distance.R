@@ -8,9 +8,10 @@ properties[["distance average"]] <- list(
 	{	average.path.length(graph=graph, directed=FALSE, unconnected=TRUE)
 	}
 )
-#params[["girth"]] <- list(		# cycle of maximal length
-#	type=integer(),
-#	foo=function(graph) 
-#	{	girth(graph=graph, circle=FALSE)$girth
-#	}
-#)
+properties[["girth"]] <- list(		# cycle of maximal length
+	type=integer(),
+	bounds=c(1,NA),
+	foo=function(graph) 
+	{	girth(graph=graph, circle=FALSE)$girth
+	}
+)
