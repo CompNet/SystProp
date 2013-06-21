@@ -14,7 +14,7 @@ properties[["transitivity local average"]] <- list(
 	foo=function(graph) 
 	{	if(length(cache$localtransitivity)==0)
 			cache$localtransitivity <<- transitivity(graph, type="localundirected",weights=NULL,isolates="zero")
-		mean(cache$localtransitivity)
+		mean(cache$localtransitivity,na.rm=TRUE)
 	}
 )
 properties[["transitivity local stdev"]] <- list(
@@ -23,7 +23,7 @@ properties[["transitivity local stdev"]] <- list(
 	foo=function(graph) 
 	{	if(length(cache$localtransitivity)==0)
 			cache$localtransitivity <<- transitivity(graph, type="localundirected",weights=NULL,isolates="zero")
-		sd(cache$localtransitivity)
+		sd(cache$localtransitivity,na.rm=TRUE)
 	}
 )
 properties[["transitivity local min"]] <- list(
@@ -32,7 +32,7 @@ properties[["transitivity local min"]] <- list(
 	foo=function(graph) 
 	{	if(length(cache$localtransitivity)==0)
 			cache$localtransitivity <<- transitivity(graph, type="localundirected",weights=NULL,isolates="zero")
-		min(cache$localtransitivity)
+		min(cache$localtransitivity,na.rm=TRUE)
 	}
 )
 properties[["transitivity local max"]] <- list(
@@ -41,7 +41,7 @@ properties[["transitivity local max"]] <- list(
 	foo=function(graph) 
 	{	if(length(cache$localtransitivity)==0)
 			cache$localtransitivity <<- transitivity(graph, type="localundirected",weights=NULL,isolates="zero")
-		max(cache$localtransitivity)
+		max(cache$localtransitivity,na.rm=TRUE)
 	}
 )
 properties[["transitivity assortativity"]] <- list(

@@ -7,7 +7,7 @@ properties[["modularity"]] <- list(
 	foo=function(graph)
 	{	if(length(cache$communities)==0)
 			cache$communities <<- multilevel.community(graph=as.undirected(graph), weights=NULL)
-		max(cache$communities$modularity)
+		max(cache$communities$modularity,na.rm=TRUE)
 	}
 )
 properties[["community number"]] <- list(

@@ -7,7 +7,7 @@ properties[["degree average"]] <- list(
 	foo=function(graph) 
 	{	if(length(cache$degree)==0)
 			cache$degree <<- degree(graph=graph, mode="all",loops=FALSE, normalized=FALSE)
-		mean(cache$degree)
+		mean(cache$degree,na.rm=TRUE)
 	}
 )
 properties[["degree stdev"]] <- list(
@@ -16,7 +16,7 @@ properties[["degree stdev"]] <- list(
 	foo=function(graph) 
 	{	if(length(cache$degree)==0)
 			cache$degree <<- degree(graph=graph, mode="all",loops=FALSE, normalized=FALSE)
-		sd(cache$degree)
+		sd(cache$degree,na.rm=TRUE)
 	}
 )
 properties[["degree min"]] <- list(
@@ -25,7 +25,7 @@ properties[["degree min"]] <- list(
 	foo=function(graph) 
 	{	if(length(cache$degree)==0)
 			cache$degree <<- degree(graph=graph, mode="all",loops=FALSE, normalized=FALSE)
-		min(cache$degree)
+		min(cache$degree,na.rm=TRUE)
 	}
 )
 properties[["degree max"]] <- list(
@@ -34,7 +34,7 @@ properties[["degree max"]] <- list(
 	foo=function(graph) 
 	{	if(length(cache$degree)==0)
 			cache$degree <<- degree(graph=graph, mode="all",loops=FALSE, normalized=FALSE)
-		max(cache$degree)
+		max(cache$degree,na.rm=TRUE)
 	}
 )
 properties[["degree assortativity"]] <- list(

@@ -14,7 +14,7 @@ properties[["closeness centrality average"]] <- list(
 	foo=function(graph) 
 	{	if(length(cache$closeness)==0)
 			cache$closeness <<- closeness(graph=graph, mode="all", weights=NULL, normalized=TRUE)
-		mean(cache$closeness)
+		mean(cache$closeness,na.rm=TRUE)
 	}
 )
 properties[["closeness centrality stdev"]] <- list(
@@ -23,7 +23,7 @@ properties[["closeness centrality stdev"]] <- list(
 	foo=function(graph) 
 	{	if(length(cache$closeness)==0)
 			cache$closeness <<- closeness(graph=graph, mode="all", weights=NULL, normalized=TRUE)
-		sd(cache$closeness)
+		sd(cache$closeness,na.rm=TRUE)
 	}
 )
 properties[["closeness centrality min"]] <- list(
@@ -32,7 +32,7 @@ properties[["closeness centrality min"]] <- list(
 	foo=function(graph) 
 	{	if(length(cache$closeness)==0)
 			cache$closeness <<- closeness(graph=graph, mode="all", weights=NULL, normalized=TRUE)
-		min(cache$closeness)
+		min(cache$closeness,na.rm=TRUE)
 	}
 )
 properties[["closeness centrality max"]] <- list(
@@ -41,7 +41,7 @@ properties[["closeness centrality max"]] <- list(
 	foo=function(graph) 
 	{	if(length(cache$closeness)==0)
 			cache$closeness <<- closeness(graph=graph, mode="all", weights=NULL, normalized=TRUE)
-		max(cache$closeness)
+		max(cache$closeness,na.rm=TRUE)
 	}
 )
 properties[["closeness centrality assortativity"]] <- list(

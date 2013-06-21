@@ -16,7 +16,7 @@ properties[["component average size"]] <- list(
 	foo=function(graph) 
 	{	if(length(cache$componentsizes)==0)
 			cache$componentsizes <<- clusters(graph=graph, mode="weak")$csize
-		mean(cache$componentsizes)
+		mean(cache$componentsizes,na.rm=TRUE)
 	}
 )
 properties[["component stdev size"]] <- list(

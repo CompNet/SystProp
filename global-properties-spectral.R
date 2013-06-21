@@ -14,7 +14,7 @@ properties[["eigenvector centrality average"]] <- list(
 	foo=function(graph) 
 	{	if(length(cache$eigenvectorcentrality)==0)
 			cache$eigenvectorcentrality <<- evcent(graph=graph, directed=FALSE, scale=TRUE, weights=NULL)$vector
-		mean(cache$eigenvectorcentrality)
+		mean(cache$eigenvectorcentrality,na.rm=TRUE)
 	}
 )
 properties[["eigenvector centrality stdev"]] <- list(
@@ -23,7 +23,7 @@ properties[["eigenvector centrality stdev"]] <- list(
 	foo=function(graph) 
 	{	if(length(cache$eigenvectorcentrality)==0)
 			cache$eigenvectorcentrality <<- evcent(graph=graph, directed=FALSE, scale=TRUE, weights=NULL)$vector
-		sd(cache$eigenvectorcentrality)
+		sd(cache$eigenvectorcentrality,na.rm=TRUE)
 	}
 )
 properties[["eigenvector centrality min"]] <- list(
@@ -32,8 +32,8 @@ properties[["eigenvector centrality min"]] <- list(
 	foo=function(graph) 
 	{	if(length(cache$eigenvectorcentrality)==0)
 			cache$eigenvectorcentrality <<- evcent(graph=graph, directed=FALSE, scale=TRUE, weights=NULL)$vector
-#print(cache$eigenvectorcentrality)		
-		min(cache$eigenvectorcentrality)
+		#print(cache$eigenvectorcentrality)		
+		min(cache$eigenvectorcentrality,na.rm=TRUE)
 	}
 )
 #properties[["eigenvector centrality max"]] <- list(
@@ -42,7 +42,7 @@ properties[["eigenvector centrality min"]] <- list(
 #	foo=function(graph) 
 #	{	if(length(cache$eigenvectorcentrality)==0)
 #			cache$eigenvectorcentrality <<- evcent(graph=graph, directed=FALSE, scale=TRUE, weights=NULL)$vector
-#		max(cache$eigenvectorcentrality)
+#		max(cache$eigenvectorcentrality,na.rm=TRUE)
 #	}
 #)
 properties[["eigenvector centrality assortativity"]] <- list(

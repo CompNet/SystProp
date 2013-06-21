@@ -7,7 +7,7 @@ properties[["eccentricity average"]] <- list(
 	foo=function(graph) 
 	{	if(length(cache$eccentricity)==0)
 			cache$eccentricity <<- eccentricity(graph=graph, mode="all")
-		mean(cache$eccentricity)
+		mean(cache$eccentricity,na.rm=TRUE)
 	}
 )
 properties[["eccentricity stdev"]] <- list(
@@ -16,7 +16,7 @@ properties[["eccentricity stdev"]] <- list(
 	foo=function(graph) 
 	{	if(length(cache$eccentricity)==0)
 			cache$eccentricity <<- eccentricity(graph=graph, mode="all")
-		sd(cache$eccentricity)
+		sd(cache$eccentricity,na.rm=TRUE)
 	}
 )
 properties[["radius"]] <- list( 	# aka minimal eccentricity

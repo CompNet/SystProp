@@ -14,7 +14,7 @@ properties[["betweenness centrality average"]] <- list(
 	foo=function(graph) 
 	{	if(length(cache$betweenness)==0)
 			cache$betweenness <<- betweenness(graph=graph, directed=FALSE, weights=NULL, nobigint=TRUE, normalized=TRUE)
-		mean(cache$betweenness)
+		mean(cache$betweenness,na.rm=TRUE)
 	}
 )
 properties[["betweenness centrality stdev"]] <- list(
@@ -23,7 +23,7 @@ properties[["betweenness centrality stdev"]] <- list(
 	foo=function(graph)
 	{	if(length(cache$betweenness)==0)
 			cache$betweenness <<- betweenness(graph=graph, directed=FALSE, weights=NULL, nobigint=TRUE, normalized=TRUE)
-		sd(cache$betweenness)
+		sd(cache$betweenness,na.rm=TRUE)
 	}
 )
 properties[["betweenness centrality min"]] <- list(
@@ -32,7 +32,7 @@ properties[["betweenness centrality min"]] <- list(
 	foo=function(graph)
 	{	if(length(cache$betweenness)==0)
 			cache$betweenness <<- betweenness(graph=graph, directed=FALSE, weights=NULL, nobigint=TRUE, normalized=TRUE)
-		min(cache$betweenness)
+		min(cache$betweenness,na.rm=TRUE)
 	}
 )
 properties[["betweenness centrality max"]] <- list(
@@ -41,7 +41,7 @@ properties[["betweenness centrality max"]] <- list(
 	foo=function(graph)
 	{	if(length(cache$betweenness)==0)
 			cache$betweenness <<- betweenness(graph=graph, directed=FALSE, weights=NULL, nobigint=TRUE, normalized=TRUE)
-		max(cache$betweenness)
+		max(cache$betweenness,na.rm=TRUE)
 	}
 )
 properties[["betweenness centrality assortativity"]] <- list(

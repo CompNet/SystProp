@@ -22,7 +22,7 @@ properties[["edgebetweenness centrality average"]] <- list(
 	foo=function(graph) 
 	{	if(length(cache$edgebetweennesscentrality)==0)
 			cache$edgebetweennesscentrality <<- edge.betweenness.norm(graph=graph, directed=FALSE, weights=NULL)
-		mean(cache$edgebetweennesscentrality)
+		mean(cache$edgebetweennesscentrality,na.rm=TRUE)
 	}
 )
 properties[["edgebetweenness centrality stdev"]] <- list(
@@ -31,7 +31,7 @@ properties[["edgebetweenness centrality stdev"]] <- list(
 	foo=function(graph) 
 	{	if(length(cache$edgebetweennesscentrality)==0)
 			cache$edgebetweennesscentrality <<- edge.betweenness.norm(graph=graph, directed=FALSE, weights=NULL)
-		sd(cache$edgebetweennesscentrality)
+		sd(cache$edgebetweennesscentrality,na.rm=TRUE)
 	}
 )
 properties[["edgebetweenness centrality min"]] <- list(
@@ -40,7 +40,7 @@ properties[["edgebetweenness centrality min"]] <- list(
 	foo=function(graph) 
 	{	if(length(cache$edgebetweennesscentrality)==0)
 			cache$edgebetweennesscentrality <<- edge.betweenness.norm(graph=graph, directed=FALSE, weights=NULL)
-		min(cache$edgebetweennesscentrality)
+		min(cache$edgebetweennesscentrality,na.rm=TRUE)
 	}
 )
 properties[["edgebetweenness centrality max"]] <- list(
@@ -49,6 +49,6 @@ properties[["edgebetweenness centrality max"]] <- list(
 	foo=function(graph) 
 	{	if(length(cache$edgebetweennesscentrality)==0)
 			cache$edgebetweennesscentrality <<- edge.betweenness.norm(graph=graph, directed=FALSE, weights=NULL)
-		max(cache$edgebetweennesscentrality)
+		max(cache$edgebetweennesscentrality,na.rm=TRUE)
 	}
 )
