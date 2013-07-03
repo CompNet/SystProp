@@ -50,6 +50,7 @@ source("SystProp/global-properties-spectral.R")
 #source("SystProp/global-properties-eccentricity.R")
 source("SystProp/global-properties-community.R")
 
+
 #################################
 # init/load data frame
 #################################
