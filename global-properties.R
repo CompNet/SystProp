@@ -132,6 +132,8 @@ for(f in folders)
 				start.time <- Sys.time();
 				cat("[",format(start.time,"%a %d %b %Y %X"),"] ..Processing property ",p,"/",length(properties),": ",prop.names[p],"\n",sep="")
 					data[as.character(f),prop.names[p]] <- property$foo(graph=g)
+					if(is.na(data[as.character(f),prop.names[p]]) || is.nan(data[as.character(f),prop.names[p]]))
+						data[as.character(f),prop.names[p]] <- Inf
 				end.time <- Sys.time();
 				total.time <- end.time - start.time;
 				cat("[",format(end.time,"%a %d %b %Y %X"),"] .. Processing completed in ",total.time,": ",data[as.character(f),prop.names[p]],"\n",sep="")
