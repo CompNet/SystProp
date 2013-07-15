@@ -1,10 +1,12 @@
 #################################
 # edgebetweeness-related
 #################################
+# limit used to approximate edgebetweenness
+edgebetweenness.cutoff <- 0	# 0 = no limit
+
 # processes a normalized version of the edge-betweenness
-edge.betweenness.norm <- function(graph, directed=TRUE, ...)
-{	bet <- edge.betweenness(graph=graph, directed=directed, ...)
-	n <- vcount(graph)
+normalize.edge.betweenness <- function(graph, values, directed=TRUE)
+{	n <- vcount(graph)
 	
 	# undirected and directed nets should be treated differently
 	# http://projects.skewed.de/graph-tool/changeset/36982c7a278d361111d7fa18ca55a52a129b33d2
@@ -13,7 +15,7 @@ edge.betweenness.norm <- function(graph, directed=TRUE, ...)
 	else
 		norm <- n * (n-1) / 2
 	
-	result <- bet / norm
+	result <- values / norm
 	return(result)
 }
 
@@ -21,35 +23,67 @@ properties[["edgebetweenness-centrality-average"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph) 
-	{	if(length(cache$edgebetweennesscentrality)==0)
-			cache$edgebetweennesscentrality <<- edge.betweenness.norm(graph=graph, directed=FALSE, weights=NULL)
-		mean(cache$edgebetweennesscentrality,na.rm=TRUE)
+	{	if(length(cache$edgebetweenness)==0)
+		{	prop.file <- paste(net.folder,"edgebetweenness-centrality.txt",sep="")
+			if(file.exists(prop.file))
+				cache$edgebetweenness <<- as.matrix(read.table(prop.file))
+			else
+			{	cache$edgebetweenness <<- edge.betweenness.estimate(graph=graph, directed=FALSE, weights=NULL, cutoff=edgebetweenness.cutoff)
+				write.tabble(cache$edgebetweenness,prop.file,row.names=FALSE,col.names=FALSE)
+			}
+		}
+		normalized <- normalize.edge.betweenness(graph=graph,values=cache$edgebetweenness,directed=FALSE)
+		mean(normalized,na.rm=TRUE)
 	}
 )
 properties[["edgebetweenness-centrality-stdev"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph) 
-	{	if(length(cache$edgebetweennesscentrality)==0)
-			cache$edgebetweennesscentrality <<- edge.betweenness.norm(graph=graph, directed=FALSE, weights=NULL)
-		sd(cache$edgebetweennesscentrality,na.rm=TRUE)
+	{	if(length(cache$edgebetweenness)==0)
+		{	prop.file <- paste(net.folder,"edgebetweenness-centrality.txt",sep="")
+			if(file.exists(prop.file))
+				cache$edgebetweenness <<- as.matrix(read.table(prop.file))
+			else
+			{	cache$edgebetweenness <<- edge.betweenness.estimate(graph=graph, directed=FALSE, weights=NULL, cutoff=edgebetweenness.cutoff)
+				write.tabble(cache$edgebetweenness,prop.file,row.names=FALSE,col.names=FALSE)
+			}
+		}
+		normalized <- normalize.edge.betweenness(graph=graph,values=cache$edgebetweenness,directed=FALSE)
+		sd(normalized,na.rm=TRUE)
 	}
 )
 properties[["edgebetweenness-centrality-min"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph) 
-	{	if(length(cache$edgebetweennesscentrality)==0)
-			cache$edgebetweennesscentrality <<- edge.betweenness.norm(graph=graph, directed=FALSE, weights=NULL)
-		min(cache$edgebetweennesscentrality,na.rm=TRUE)
+	{	if(length(cache$edgebetweenness)==0)
+		{	prop.file <- paste(net.folder,"edgebetweenness-centrality.txt",sep="")
+			if(file.exists(prop.file))
+				cache$edgebetweenness <<- as.matrix(read.table(prop.file))
+			else
+			{	cache$edgebetweenness <<- edge.betweenness.estimate(graph=graph, directed=FALSE, weights=NULL, cutoff=edgebetweenness.cutoff)
+				write.tabble(cache$edgebetweenness,prop.file,row.names=FALSE,col.names=FALSE)
+			}
+		}
+		normalized <- normalize.edge.betweenness(graph=graph,values=cache$edgebetweenness,directed=FALSE)
+		min(normalized,na.rm=TRUE)
 	}
 )
 properties[["edgebetweenness-centrality-max"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph) 
-	{	if(length(cache$edgebetweennesscentrality)==0)
-			cache$edgebetweennesscentrality <<- edge.betweenness.norm(graph=graph, directed=FALSE, weights=NULL)
-		max(cache$edgebetweennesscentrality,na.rm=TRUE)
+	{	if(length(cache$edgebetweenness)==0)
+		{	prop.file <- paste(net.folder,"edgebetweenness-centrality.txt",sep="")
+			if(file.exists(prop.file))
+				cache$edgebetweenness <<- as.matrix(read.table(prop.file))
+			else
+			{	cache$edgebetweenness <<- edge.betweenness.estimate(graph=graph, directed=FALSE, weights=NULL, cutoff=edgebetweenness.cutoff)
+				write.tabble(cache$edgebetweenness,prop.file,row.names=FALSE,col.names=FALSE)
+			}
+		}
+		normalized <- normalize.edge.betweenness(graph=graph,values=cache$edgebetweenness,directed=FALSE)
+		max(normalized,na.rm=TRUE)
 	}
 )

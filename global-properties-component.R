@@ -6,7 +6,14 @@ properties[["component-count"]] <- list(
 	bounds=c(0,NA),
 	foo=function(graph) 
 	{	if(length(cache$componentsizes)==0)
-			cache$componentsizes <<- clusters(graph=graph, mode="weak")$csize
+		{	prop.file <- paste(net.folder,"component-sizes.txt",sep="")
+			if(file.exists(prop.file))
+				cache$componentsizes <<- as.matrix(read.table(prop.file))
+			else
+			{	cache$componentsizes <<- clusters(graph=graph, mode="weak")$csize
+				write.tabble(cache$componentsizes,prop.file,row.names=FALSE,col.names=FALSE)
+			}
+		}
 		length(cache$componentsizes)
 	}
 )
@@ -15,7 +22,14 @@ properties[["component-average-size"]] <- list(
 	bounds=c(0,NA),
 	foo=function(graph) 
 	{	if(length(cache$componentsizes)==0)
-			cache$componentsizes <<- clusters(graph=graph, mode="weak")$csize
+		{	prop.file <- paste(net.folder,"component-sizes.txt",sep="")
+			if(file.exists(prop.file))
+				cache$componentsizes <<- as.matrix(read.table(prop.file))
+			else
+			{	cache$componentsizes <<- clusters(graph=graph, mode="weak")$csize
+				write.tabble(cache$componentsizes,prop.file,row.names=FALSE,col.names=FALSE)
+			}
+		}
 		mean(cache$componentsizes,na.rm=TRUE)
 	}
 )
@@ -24,7 +38,14 @@ properties[["component-stdev-size"]] <- list(
 	bounds=c(0,NA),
 	foo=function(graph) 
 	{	if(length(cache$componentsizes)==0)
-			cache$componentsizes <<- clusters(graph=graph, mode="weak")$csize
+		{	prop.file <- paste(net.folder,"component-sizes.txt",sep="")
+			if(file.exists(prop.file))
+				cache$componentsizes <<- as.matrix(read.table(prop.file))
+			else
+			{	cache$componentsizes <<- clusters(graph=graph, mode="weak")$csize
+				write.tabble(cache$componentsizes,prop.file,row.names=FALSE,col.names=FALSE)
+			}
+		}
 		sd(cache$componentsizes)
 	}
 )
@@ -33,7 +54,14 @@ properties[["component-min-size"]] <- list(
 	bounds=c(0,NA),
 	foo=function(graph) 
 	{	if(length(cache$componentsizes)==0)
-			cache$componentsizes <<- clusters(graph=graph, mode="weak")$csize
+		{	prop.file <- paste(net.folder,"component-sizes.txt",sep="")
+			if(file.exists(prop.file))
+				cache$componentsizes <<- as.matrix(read.table(prop.file))
+			else
+			{	cache$componentsizes <<- clusters(graph=graph, mode="weak")$csize
+				write.tabble(cache$componentsizes,prop.file,row.names=FALSE,col.names=FALSE)
+			}
+		}
 		min(cache$componentsizes)
 	}
 )
@@ -42,7 +70,14 @@ properties[["component-max-size"]] <- list(
 	bounds=c(0,NA),
 	foo=function(graph) 
 	{	if(length(cache$componentsizes)==0)
-			cache$componentsizes <<- clusters(graph=graph, mode="weak")$csize
+		{	prop.file <- paste(net.folder,"component-sizes.txt",sep="")
+			if(file.exists(prop.file))
+				cache$componentsizes <<- as.matrix(read.table(prop.file))
+			else
+			{	cache$componentsizes <<- clusters(graph=graph, mode="weak")$csize
+				write.tabble(cache$componentsizes,prop.file,row.names=FALSE,col.names=FALSE)
+			}
+		}
 		max(cache$componentsizes)
 	}
 )

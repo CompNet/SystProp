@@ -106,10 +106,11 @@ for(f in folders)
 		
 		# load network
 		start.time <- Sys.time();
-		data.file <- paste(data.folder,filename,"/network.graphml",sep="")
+		net.folder <- paste(data.folder,filename,"/",sep="")
+		data.file <- paste(net.folder,"network.graphml",sep="")
 		format <- "graphml"
 		if(!file.exists(data.file))
-		{	data.file <- paste(data.folder,filename,"/network.net",sep="")
+		{	data.file <- paste(net.folder,"network.net",sep="")
 			format <- "pajek"
 		}
 		cat("[",format(start.time,"%a %d %b %Y %X"),"] Loading network #",f,": '",data.file,"'\n",sep="")

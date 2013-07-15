@@ -1,11 +1,35 @@
 #################################
 # closeness-related
 #################################
+# limit used to approximate closeness
+closeness.cutoff <- 0	# 0 = no limit
+
+# processes a normalized version of the closeness
+normalize.closeness <- function(graph, values)
+{	n <- vcount(graph)
+	
+	result <- (n-1) * values
+	return(result)
+}
+
 properties[["closeness-centralization"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph)
-	{	centralization.closeness(graph=graph, mode="all",normalized=TRUE)$centralization
+	{	if(length(cache$closeness)==0)
+		{	prop.file <- paste(net.folder,"closeness-centrality.txt",sep="")
+			if(file.exists(prop.file))
+				cache$closeness <<- as.matrix(read.table(prop.file))
+			else
+			{	# we don't use igraph normalization, because some future processes might require raw values
+				cache$closeness <<- closeness.estimate(graph=graph, mode="all", weights=NULL, normalized=TRUE, closeness.cutoff)
+				write.tabble(cache$closeness,prop.file,row.names=FALSE,col.names=FALSE)
+			}
+		}
+		# we're not using the igraph centralization.closeness function, because we want to cache centrality values
+		# formula taken from Freeman L. C., "Centrality in Social Networks I: Conceptual Clarification", Social Networks, 1(3):215-239, 1978.
+		n <- vcount(graph)
+		(max(cache$closeness)*n - sum(cache$closeness))*(2*n - 3) / (n^2 - 3*n + 2)
 	}
 )
 properties[["closeness-centrality-average"]] <- list(
@@ -13,8 +37,17 @@ properties[["closeness-centrality-average"]] <- list(
 	bounds=c(0,1),
 	foo=function(graph) 
 	{	if(length(cache$closeness)==0)
-			cache$closeness <<- closeness(graph=graph, mode="all", weights=NULL, normalized=TRUE)
-		mean(cache$closeness,na.rm=TRUE)
+		{	prop.file <- paste(net.folder,"closeness-centrality.txt",sep="")
+			if(file.exists(prop.file))
+				cache$closeness <<- as.matrix(read.table(prop.file))
+			else
+			{	# we don't use igraph normalization, because some future processes might require raw values
+				cache$closeness <<- closeness.estimate(graph=graph, mode="all", weights=NULL, normalized=TRUE, closeness.cutoff)
+				write.tabble(cache$closeness,prop.file,row.names=FALSE,col.names=FALSE)
+			}
+		}
+		normalized <- normalize.closeness(graph=graph,values=cache$closeness)
+		mean(normalized,na.rm=TRUE)
 	}
 )
 properties[["closeness-centrality-stdev"]] <- list(
@@ -22,8 +55,17 @@ properties[["closeness-centrality-stdev"]] <- list(
 	bounds=c(0,1),
 	foo=function(graph) 
 	{	if(length(cache$closeness)==0)
-			cache$closeness <<- closeness(graph=graph, mode="all", weights=NULL, normalized=TRUE)
-		sd(cache$closeness,na.rm=TRUE)
+		{	prop.file <- paste(net.folder,"closeness-centrality.txt",sep="")
+			if(file.exists(prop.file))
+				cache$closeness <<- as.matrix(read.table(prop.file))
+			else
+			{	# we don't use igraph normalization, because some future processes might require raw values
+				cache$closeness <<- closeness.estimate(graph=graph, mode="all", weights=NULL, normalized=TRUE, closeness.cutoff)
+				write.tabble(cache$closeness,prop.file,row.names=FALSE,col.names=FALSE)
+			}
+		}
+		normalized <- normalize.closeness(graph=graph,values=cache$closeness)
+		sd(normalized,na.rm=TRUE)
 	}
 )
 properties[["closeness-centrality-min"]] <- list(
@@ -31,8 +73,17 @@ properties[["closeness-centrality-min"]] <- list(
 	bounds=c(0,1),
 	foo=function(graph) 
 	{	if(length(cache$closeness)==0)
-			cache$closeness <<- closeness(graph=graph, mode="all", weights=NULL, normalized=TRUE)
-		min(cache$closeness,na.rm=TRUE)
+		{	prop.file <- paste(net.folder,"closeness-centrality.txt",sep="")
+			if(file.exists(prop.file))
+				cache$closeness <<- as.matrix(read.table(prop.file))
+			else
+			{	# we don't use igraph normalization, because some future processes might require raw values
+				cache$closeness <<- closeness.estimate(graph=graph, mode="all", weights=NULL, normalized=TRUE, closeness.cutoff)
+				write.tabble(cache$closeness,prop.file,row.names=FALSE,col.names=FALSE)
+			}
+		}
+		normalized <- normalize.closeness(graph=graph,values=cache$closeness)
+		min(normalized,na.rm=TRUE)
 	}
 )
 properties[["closeness-centrality-max"]] <- list(
@@ -40,8 +91,17 @@ properties[["closeness-centrality-max"]] <- list(
 	bounds=c(0,1),
 	foo=function(graph) 
 	{	if(length(cache$closeness)==0)
-			cache$closeness <<- closeness(graph=graph, mode="all", weights=NULL, normalized=TRUE)
-		max(cache$closeness,na.rm=TRUE)
+		{	prop.file <- paste(net.folder,"closeness-centrality.txt",sep="")
+			if(file.exists(prop.file))
+				cache$closeness <<- as.matrix(read.table(prop.file))
+			else
+			{	# we don't use igraph normalization, because some future processes might require raw values
+				cache$closeness <<- closeness.estimate(graph=graph, mode="all", weights=NULL, normalized=TRUE, closeness.cutoff)
+				write.tabble(cache$closeness,prop.file,row.names=FALSE,col.names=FALSE)
+			}
+		}
+		normalized <- normalize.closeness(graph=graph,values=cache$closeness)
+		max(normalized,na.rm=TRUE)
 	}
 )
 properties[["closeness-centrality-assortativity"]] <- list(
@@ -49,7 +109,15 @@ properties[["closeness-centrality-assortativity"]] <- list(
 	bounds=c(-1,1),
 	foo=function(graph) 
 	{	if(length(cache$closeness)==0)
-			cache$closeness <<- closeness(graph=graph, mode="all", weights=NULL, normalized=TRUE)
+		{	prop.file <- paste(net.folder,"closeness-centrality.txt",sep="")
+			if(file.exists(prop.file))
+				cache$closeness <<- as.matrix(read.table(prop.file))
+			else
+			{	# we don't use igraph normalization, because some future processes might require raw values
+				cache$closeness <<- closeness.estimate(graph=graph, mode="all", weights=NULL, normalized=TRUE, closeness.cutoff)
+				write.tabble(cache$closeness,prop.file,row.names=FALSE,col.names=FALSE)
+			}
+		}
 		assortativity(graph=graph, types1=cache$closeness, types2=NULL, directed=FALSE)
 	}
 )
