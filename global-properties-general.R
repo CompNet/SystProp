@@ -19,7 +19,7 @@ properties[["weighted"]] <- list(
 	type=logical(),
 	bounds=c(FALSE,TRUE),
 	foo=function(graph) 
-	{	is.weighted(graph=graph)
+	{	is.weighted(graph)
 	}
 )
 properties[["bipartite"]] <- list(

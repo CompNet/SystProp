@@ -9,7 +9,7 @@ process.evcent <- function(graph)
 			cache$eigenvectorcentrality <<- as.matrix(read.table(prop.file))
 		else
 		{	cache$eigenvectorcentrality <<- evcent(graph=graph, directed=FALSE, scale=FALSE, weights=NULL)$vector
-			write.tabble(cache$eigenvectorcentrality,prop.file,row.names=FALSE,col.names=FALSE)
+			write.table(cache$eigenvectorcentrality,prop.file,row.names=FALSE,col.names=FALSE)
 		}
 	}
 }

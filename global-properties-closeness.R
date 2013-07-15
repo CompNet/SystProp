@@ -2,7 +2,7 @@
 # closeness-related
 #################################
 # limit used to approximate closeness
-closeness.cutoff <- 0	# 0 = no limit
+closeness.cutoff <- -1	# <0 = no limit
 
 # processes a normalized version of the closeness
 normalize.closeness <- function(graph, values)
@@ -20,8 +20,8 @@ process.closeness <- function(graph)
 			cache$closeness <<- as.matrix(read.table(prop.file))
 		else
 		{	# we don't use igraph normalization, because some future processes might require raw values
-			cache$closeness <<- closeness.estimate(graph=graph, mode="all", weights=NULL, normalized=TRUE, closeness.cutoff)
-			write.tabble(cache$closeness,prop.file,row.names=FALSE,col.names=FALSE)
+			cache$closeness <<- closeness.estimate(graph=graph, mode="all", weights=NULL, cutoff=closeness.cutoff)
+			write.table(cache$closeness,prop.file,row.names=FALSE,col.names=FALSE)
 		}
 	}
 }

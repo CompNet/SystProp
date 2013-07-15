@@ -9,7 +9,7 @@ process.components <- function(graph)
 			cache$componentsizes <<- as.matrix(read.table(prop.file))
 		else
 		{	cache$componentsizes <<- clusters(graph=graph, mode="weak")$csize
-			write.tabble(cache$componentsizes,prop.file,row.names=FALSE,col.names=FALSE)
+			write.table(cache$componentsizes,prop.file,row.names=FALSE,col.names=FALSE)
 		}
 	}
 }

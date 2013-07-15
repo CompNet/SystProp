@@ -2,7 +2,7 @@
 # betweenness-related
 #################################
 # limit used to approximate betweenness
-betweenness.cutoff <- 0	# 0 = no limit
+betweenness.cutoff <- -1	# <0 = no limit
 
 # processes a normalized version of the betweenness
 normalize.betweenness <- function(graph, values, directed=TRUE)
@@ -27,17 +27,18 @@ process.betweenness <- function(graph)
 			cache$betweenness <<- as.matrix(read.table(prop.file))
 		else
 		{	# we don't use igraph normalization, because some future processes might require raw values
-			cache$betweenness <<- betweenness.estimate(graph=graph, directed=FALSE, weights=NULL, nobigint=TRUE, normalized=FALSE, cutoff=betweenness.cutoff)
-			write.tabble(cache$betweenness,prop.file,row.names=FALSE,col.names=FALSE)
+			cache$betweenness <<- betweenness.estimate(graph=graph, directed=FALSE, weights=NULL, nobigint=TRUE, cutoff=betweenness.cutoff)
+			write.table(cache$betweenness,prop.file,row.names=FALSE,col.names=FALSE)
 		}
 	}
+	print(cache$betweenness)
 }
 
 properties[["betweenness-centralization"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph)
-	{	process.betweenness(graph)
+	{	process.betweenness(graph=graph)
 		# we're not using the igraph centralization.betweenness function, because we want to cache centrality values
 		# formula taken from Freeman L. C., "Centrality in Social Networks I: Conceptual Clarification", Social Networks, 1(3):215-239, 1978.
 		n <- vcount(graph)
@@ -48,7 +49,7 @@ properties[["betweenness-centrality-average"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph) 
-	{	process.betweenness(graph)
+	{	process.betweenness(graph=graph)
 		normalized <- normalize.betweenness(graph=graph,values=cache$betweenness,directed=FALSE)
 		mean(normalized,na.rm=TRUE)
 	}
@@ -57,7 +58,7 @@ properties[["betweenness-centrality-stdev"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph)
-	{	process.betweenness(graph)
+	{	process.betweenness(graph=graph)
 		normalized <- normalize.betweenness(graph=graph,values=cache$betweenness,directed=FALSE)
 		sd(normalized,na.rm=TRUE)
 	}
@@ -66,7 +67,7 @@ properties[["betweenness-centrality-min"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph)
-	{	process.betweenness(graph)
+	{	process.betweenness(graph=graph)
 		normalized <- normalize.betweenness(graph=graph,values=cache$betweenness,directed=FALSE)
 		min(normalized,na.rm=TRUE)
 	}
@@ -75,7 +76,7 @@ properties[["betweenness-centrality-max"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph)
-	{	process.betweenness(graph)
+	{	process.betweenness(graph=graph)
 		normalized <- normalize.betweenness(graph=graph,values=cache$betweenness,directed=FALSE)
 		max(normalized,na.rm=TRUE)
 	}
@@ -84,7 +85,7 @@ properties[["betweenness-centrality-assortativity"]] <- list(
 	type=numeric(),
 	bounds=c(-1,1),
 	foo=function(graph)
-	{	process.betweenness(graph)
+	{	process.betweenness(graph=graph)
 		assortativity(graph=graph, types1=cache$betweenness, types2=NULL, directed=FALSE)
 	}
 )

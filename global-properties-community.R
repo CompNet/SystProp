@@ -9,7 +9,7 @@ process.communities <- function(graph)
 			cache$communities <<- as.matrix(read.table(prop.file))
 		else
 		{	cache$communities <<- multilevel.community(graph=as.undirected(graph), weights=NULL)$membership
-			write.tabble(cache$communities,prop.file,row.names=FALSE,col.names=FALSE)
+			write.table(cache$communities,prop.file,row.names=FALSE,col.names=FALSE)
 		}
 	}
 }

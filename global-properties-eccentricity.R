@@ -9,7 +9,7 @@ process.eccentricity <- function(graph)
 			cache$eccentricity <<- as.matrix(read.table(prop.file))
 		else
 		{	cache$eccentricity <<- eccentricity(graph=graph, mode="all")
-			write.tabble(cache$eccentricity,prop.file,row.names=FALSE,col.names=FALSE)
+			write.table(cache$eccentricity,prop.file,row.names=FALSE,col.names=FALSE)
 		}
 	}
 }

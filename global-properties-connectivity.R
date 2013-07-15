@@ -8,8 +8,9 @@ process.link.connectivity <- function(graph)
 		if(file.exists(prop.file))
 			cache$linkconnectivity <<- as.matrix(read.table(prop.file))
 		else
-		{	cache$linkconnectivity <<- edge.connectivity(graph=graph, source=V(g), target=V(g), checks=TRUE)
-			write.tabble(cache$linkconnectivity,prop.file,row.names=FALSE,col.names=FALSE)
+		{	# TODO doesn't work like this. Too long, anyway.
+			cache$linkconnectivity <<- edge.connectivity(graph=graph, source=V(g), target=V(g), checks=TRUE)
+			write.table(cache$linkconnectivity,prop.file,row.names=FALSE,col.names=FALSE)
 		}
 	}
 }
@@ -20,8 +21,9 @@ process.node.connectivity <- function(graph)
 		if(file.exists(prop.file))
 			cache$nodeconnectivity <<- as.matrix(read.table(prop.file))
 		else
-		{	cache$nodeconnectivity <<- vertex.connectivity(graph=graph, source=V(g), target=V(g), checks=TRUE)
-			write.tabble(cache$nodeconnectivity,prop.file,row.names=FALSE,col.names=FALSE)
+		{	# TODO doesn't work like this. Too long, anyway.
+			cache$nodeconnectivity <<- vertex.connectivity(graph=graph, source=V(g), target=V(g), checks=TRUE)
+			write.table(cache$nodeconnectivity,prop.file,row.names=FALSE,col.names=FALSE)
 		}
 	}
 }
@@ -46,7 +48,7 @@ properties[["adhesion"]] <- list(		# aka minimal link connectivity
 	type=integer(),
 	bounds=c(0,NA),
 	foo=function(graph) 
-	{	## old version >> not efficient
+	{	## old version >> very slow
 		##graph.adhesion(graph=graph, checks=TRUE)
 		process.link.connectivity(graph)
 		min(cache$linkconnectivity,na.rm=TRUE)
@@ -80,7 +82,7 @@ properties[["cohesion"]] <- list(		# aka minimal node connectivity
 	type=integer(),
 	bounds=c(0,NA),
 	foo=function(graph) 
-	{	## old version >> not efficient
+	{	## old version >> very slow
 		##graph.cohesion(graph=graph, checks=TRUE)
 		process.node.connectivity(graph)
 		min(cache$nodeconnectivity,na.rm=TRUE)

@@ -9,7 +9,7 @@ process.local.transitivity <- function(graph)
 			cache$localtransitivity <<- as.matrix(read.table(prop.file))
 		else
 		{	cache$localtransitivity <<- transitivity(graph, type="localundirected",weights=NULL,isolates="zero")
-			write.tabble(cache$localtransitivity,prop.file,row.names=FALSE,col.names=FALSE)
+			write.table(cache$localtransitivity,prop.file,row.names=FALSE,col.names=FALSE)
 		}
 	}
 }

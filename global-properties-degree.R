@@ -9,7 +9,7 @@ process.degree <- function(graph)
 			cache$degree <<- as.matrix(read.table(prop.file))
 		else
 		{	cache$degree <<- degree(graph=graph, mode="all",loops=FALSE, normalized=FALSE)
-			write.tabble(cache$degree,prop.file,row.names=FALSE,col.names=FALSE)
+			write.table(cache$degree,prop.file,row.names=FALSE,col.names=FALSE)
 		}
 	}
 }

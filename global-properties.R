@@ -24,6 +24,7 @@ if(os=="windows")
 }
 plot.folder <- paste(data.folder,"plots/",sep="")
 
+
 #################################
 # load measures
 #################################
@@ -47,7 +48,7 @@ source("SystProp/global-properties-closeness.R")
 source("SystProp/global-properties-edgebetweenness.R")
 source("SystProp/global-properties-spectral.R")
 #source("SystProp/global-properties-connectivity.R")
-#source("SystProp/global-properties-eccentricity.R")
+source("SystProp/global-properties-eccentricity.R")
 source("SystProp/global-properties-community.R")
 
 
@@ -153,13 +154,17 @@ for(f in folders)
 #################################
 # plot results
 #################################
+if(!file.exists(substr(x=plot.folder, start=1, stop=nchar(plot.folder)-1)))
+	dir.create(path=plot.folder)
 cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Plot properties\n",sep="")
 for(p1 in 1:(length(properties)-1))
 {	property1 <- properties[[p1]]
 	name1 <- prop.names[p1]
 	values1 <- data[,name1]
+	values1 <- values1[!is.infinite(values1)]
+	values1 <- values1[!is.na(values1)]
 	
-	if(is.numeric(values1) && !all(is.na(values1)))
+	if(length(values1)>1 && is.numeric(values1))
 	{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Plot property ",name1," as x\n",sep="")
 		data <- data[order(data[,name1]),]
 		
@@ -173,8 +178,10 @@ for(p1 in 1:(length(properties)-1))
 		{	property2 <- properties[[p2]]
 			name2 <- prop.names[p2]
 			values2 <- data[,name2]
+			values2 <- values2[!is.infinite(values2)]
+			values2 <- values2[!is.na(values2)]
 			
-			if(is.numeric(values2) && !all(is.na(values2)))
+			if(length(values2)>1 && is.numeric(values2))
 			{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ....Plot property ",name2," as y\n",sep="")
 			
 				bounds2 <- property2$bounds
@@ -190,6 +197,12 @@ for(p1 in 1:(length(properties)-1))
 				plot(values1,values2,xlab=name1,ylab=name2,main=paste(name1,"vs",name2),xlim=bounds1, ylim=bounds2)
 				dev.off()
 			}
+			else
+			{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ....WARNING: No usable values for property ",name2," as x\n",sep="")
+			}
 		}
+	}
+	else
+	{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..WARNING: No usable values for property ",name1," as x\n",sep="")
 	}
 }
