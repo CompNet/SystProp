@@ -19,20 +19,25 @@ normalize.betweenness <- function(graph, values, directed=TRUE)
 	return(result)
 }
 
+# processes the raw betweenness
+process.betweenness <- function(graph)
+{	if(length(cache$betweenness)==0)
+	{	prop.file <- paste(net.folder,"betweenness-centrality.txt",sep="")
+		if(file.exists(prop.file))
+			cache$betweenness <<- as.matrix(read.table(prop.file))
+		else
+		{	# we don't use igraph normalization, because some future processes might require raw values
+			cache$betweenness <<- betweenness.estimate(graph=graph, directed=FALSE, weights=NULL, nobigint=TRUE, normalized=FALSE, cutoff=betweenness.cutoff)
+			write.tabble(cache$betweenness,prop.file,row.names=FALSE,col.names=FALSE)
+		}
+	}
+}
+
 properties[["betweenness-centralization"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph)
-	{	if(length(cache$betweenness)==0)
-		{	prop.file <- paste(net.folder,"betweenness-centrality.txt",sep="")
-			if(file.exists(prop.file))
-				cache$betweenness <<- as.matrix(read.table(prop.file))
-			else
-			{	# we don't use igraph normalization, because some future processes might require raw values
-				cache$betweenness <<- betweenness.estimate(graph=graph, directed=FALSE, weights=NULL, nobigint=TRUE, normalized=FALSE, cutoff=betweenness.cutoff)
-				write.tabble(cache$betweenness,prop.file,row.names=FALSE,col.names=FALSE)
-			}
-		}
+	{	process.betweenness(graph)
 		# we're not using the igraph centralization.betweenness function, because we want to cache centrality values
 		# formula taken from Freeman L. C., "Centrality in Social Networks I: Conceptual Clarification", Social Networks, 1(3):215-239, 1978.
 		n <- vcount(graph)
@@ -43,16 +48,7 @@ properties[["betweenness-centrality-average"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph) 
-	{	if(length(cache$betweenness)==0)
-		{	prop.file <- paste(net.folder,"betweenness-centrality.txt",sep="")
-			if(file.exists(prop.file))
-				cache$betweenness <<- as.matrix(read.table(prop.file))
-			else
-			{	# we don't use igraph normalization, because some future processes might require raw values
-				cache$betweenness <<- betweenness.estimate(graph=graph, directed=FALSE, weights=NULL, nobigint=TRUE, normalized=FALSE, cutoff=betweenness.cutoff)
-				write.tabble(cache$betweenness,prop.file,row.names=FALSE,col.names=FALSE)
-			}
-		}
+	{	process.betweenness(graph)
 		normalized <- normalize.betweenness(graph=graph,values=cache$betweenness,directed=FALSE)
 		mean(normalized,na.rm=TRUE)
 	}
@@ -61,16 +57,7 @@ properties[["betweenness-centrality-stdev"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph)
-	{	if(length(cache$betweenness)==0)
-		{	prop.file <- paste(net.folder,"betweenness-centrality.txt",sep="")
-			if(file.exists(prop.file))
-				cache$betweenness <<- as.matrix(read.table(prop.file))
-			else
-			{	# we don't use igraph normalization, because some future processes might require raw values
-				cache$betweenness <<- betweenness.estimate(graph=graph, directed=FALSE, weights=NULL, nobigint=TRUE, normalized=FALSE, cutoff=betweenness.cutoff)
-				write.tabble(cache$betweenness,prop.file,row.names=FALSE,col.names=FALSE)
-			}
-		}
+	{	process.betweenness(graph)
 		normalized <- normalize.betweenness(graph=graph,values=cache$betweenness,directed=FALSE)
 		sd(normalized,na.rm=TRUE)
 	}
@@ -79,16 +66,7 @@ properties[["betweenness-centrality-min"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph)
-	{	if(length(cache$betweenness)==0)
-		{	prop.file <- paste(net.folder,"betweenness-centrality.txt",sep="")
-			if(file.exists(prop.file))
-				cache$betweenness <<- as.matrix(read.table(prop.file))
-			else
-			{	# we don't use igraph normalization, because some future processes might require raw values
-				cache$betweenness <<- betweenness.estimate(graph=graph, directed=FALSE, weights=NULL, nobigint=TRUE, normalized=FALSE, cutoff=betweenness.cutoff)
-				write.tabble(cache$betweenness,prop.file,row.names=FALSE,col.names=FALSE)
-			}
-		}
+	{	process.betweenness(graph)
 		normalized <- normalize.betweenness(graph=graph,values=cache$betweenness,directed=FALSE)
 		min(normalized,na.rm=TRUE)
 	}
@@ -97,16 +75,7 @@ properties[["betweenness-centrality-max"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph)
-	{	if(length(cache$betweenness)==0)
-		{	prop.file <- paste(net.folder,"betweenness-centrality.txt",sep="")
-			if(file.exists(prop.file))
-				cache$betweenness <<- as.matrix(read.table(prop.file))
-			else
-			{	# we don't use igraph normalization, because some future processes might require raw values
-				cache$betweenness <<- betweenness.estimate(graph=graph, directed=FALSE, weights=NULL, nobigint=TRUE, normalized=FALSE, cutoff=betweenness.cutoff)
-				write.tabble(cache$betweenness,prop.file,row.names=FALSE,col.names=FALSE)
-			}
-		}
+	{	process.betweenness(graph)
 		normalized <- normalize.betweenness(graph=graph,values=cache$betweenness,directed=FALSE)
 		max(normalized,na.rm=TRUE)
 	}
@@ -115,16 +84,7 @@ properties[["betweenness-centrality-assortativity"]] <- list(
 	type=numeric(),
 	bounds=c(-1,1),
 	foo=function(graph)
-	{	if(length(cache$betweenness)==0)
-		{	prop.file <- paste(net.folder,"betweenness-centrality.txt",sep="")
-			if(file.exists(prop.file))
-				cache$betweenness <<- as.matrix(read.table(prop.file))
-			else
-			{	# we don't use igraph normalization, because some future processes might require raw values
-				cache$betweenness <<- betweenness.estimate(graph=graph, directed=FALSE, weights=NULL, nobigint=TRUE, normalized=FALSE, cutoff=betweenness.cutoff)
-				write.tabble(cache$betweenness,prop.file,row.names=FALSE,col.names=FALSE)
-			}
-		}
+	{	process.betweenness(graph)
 		assortativity(graph=graph, types1=cache$betweenness, types2=NULL, directed=FALSE)
 	}
 )

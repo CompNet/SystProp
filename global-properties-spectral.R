@@ -1,6 +1,19 @@
 #################################
 # eigenvector-related
 #################################
+# processes eigenvector centrality
+process.evcent <- function(graph)
+{	if(length(cache$eigenvectorcentrality)==0)
+	{	prop.file <- paste(net.folder,"eigenvector-centrality.txt",sep="")
+		if(file.exists(prop.file))
+			cache$eigenvectorcentrality <<- as.matrix(read.table(prop.file))
+		else
+		{	cache$eigenvectorcentrality <<- evcent(graph=graph, directed=FALSE, scale=FALSE, weights=NULL)$vector
+			write.tabble(cache$eigenvectorcentrality,prop.file,row.names=FALSE,col.names=FALSE)
+		}
+	}
+}
+	
 properties[["eigenvector-centralization"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
@@ -12,15 +25,7 @@ properties[["eigenvector-centrality-average"]] <- list(
 	type=numeric(),
 	bounds=c(0,NA),
 	foo=function(graph) 
-	{	if(length(cache$eigenvectorcentrality)==0)
-		{	prop.file <- paste(net.folder,"eigenvector-centrality.txt",sep="")
-			if(file.exists(prop.file))
-				cache$eigenvectorcentrality <<- as.matrix(read.table(prop.file))
-			else
-			{	cache$eigenvectorcentrality <<- evcent(graph=graph, directed=FALSE, scale=FALSE, weights=NULL)$vector
-				write.tabble(cache$eigenvectorcentrality,prop.file,row.names=FALSE,col.names=FALSE)
-			}
-		}
+	{	process.evcent(graph)
 		mean(cache$eigenvectorcentrality,na.rm=TRUE)
 	}
 )
@@ -28,15 +33,7 @@ properties[["eigenvector-centrality-stdev"]] <- list(
 	type=numeric(),
 	bounds=c(0,NA),
 	foo=function(graph) 
-	{	if(length(cache$eigenvectorcentrality)==0)
-		{	prop.file <- paste(net.folder,"eigenvector-centrality.txt",sep="")
-			if(file.exists(prop.file))
-				cache$eigenvectorcentrality <<- as.matrix(read.table(prop.file))
-			else
-			{	cache$eigenvectorcentrality <<- evcent(graph=graph, directed=FALSE, scale=TRUE, weights=NULL)$vector
-				write.tabble(cache$eigenvectorcentrality,prop.file,row.names=FALSE,col.names=FALSE)
-			}
-		}
+	{	process.evcent(graph)
 		sd(cache$eigenvectorcentrality,na.rm=TRUE)
 	}
 )
@@ -44,15 +41,7 @@ properties[["eigenvector-centrality-min"]] <- list(
 	type=numeric(),
 	bounds=c(0,NA),
 	foo=function(graph) 
-	{	if(length(cache$eigenvectorcentrality)==0)
-		{	prop.file <- paste(net.folder,"eigenvector-centrality.txt",sep="")
-			if(file.exists(prop.file))
-				cache$eigenvectorcentrality <<- as.matrix(read.table(prop.file))
-			else
-			{	cache$eigenvectorcentrality <<- evcent(graph=graph, directed=FALSE, scale=TRUE, weights=NULL)$vector
-				write.tabble(cache$eigenvectorcentrality,prop.file,row.names=FALSE,col.names=FALSE)
-			}
-		}
+	{	process.evcent(graph)
 		#print(cache$eigenvectorcentrality)		
 		min(cache$eigenvectorcentrality,na.rm=TRUE)
 	}
@@ -61,15 +50,7 @@ properties[["eigenvector-centrality-max"]] <- list(
 	type=numeric(),
 	bounds=c(0,NA),
 	foo=function(graph) 
-	{	if(length(cache$eigenvectorcentrality)==0)
-		{	prop.file <- paste(net.folder,"eigenvector-centrality.txt",sep="")
-			if(file.exists(prop.file))
-				cache$eigenvectorcentrality <<- as.matrix(read.table(prop.file))
-			else
-			{	cache$eigenvectorcentrality <<- evcent(graph=graph, directed=FALSE, scale=TRUE, weights=NULL)$vector
-				write.tabble(cache$eigenvectorcentrality,prop.file,row.names=FALSE,col.names=FALSE)
-			}
-		}
+	{	process.evcent(graph)
 		#print(cache$eigenvectorcentrality)		
 		max(cache$eigenvectorcentrality,na.rm=TRUE)
 	}
@@ -78,15 +59,7 @@ properties[["eigenvector-centrality-assortativity"]] <- list(
 	type=numeric(),
 	bounds=c(-1,1),
 	foo=function(graph) 
-	{	if(length(cache$eigenvectorcentrality)==0)
-		{	prop.file <- paste(net.folder,"eigenvector-centrality.txt",sep="")
-			if(file.exists(prop.file))
-				cache$eigenvectorcentrality <<- as.matrix(read.table(prop.file))
-			else
-			{	cache$eigenvectorcentrality <<- evcent(graph=graph, directed=FALSE, scale=TRUE, weights=NULL)$vector
-				write.tabble(cache$eigenvectorcentrality,prop.file,row.names=FALSE,col.names=FALSE)
-			}
-		}
+	{	process.evcent(graph)
 		assortativity(graph=graph, types1=cache$eigenvectorcentrality, types2=NULL, directed=FALSE)
 	}
 )
