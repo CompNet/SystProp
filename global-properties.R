@@ -160,41 +160,42 @@ cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Plot properties\n",sep="")
 for(p1 in 1:(length(properties)-1))
 {	property1 <- properties[[p1]]
 	name1 <- prop.names[p1]
-	values1 <- data[,name1]
-	values1 <- values1[!is.infinite(values1)]
-	values1 <- values1[!is.na(values1)]
+	idx1 <- !is.infinite(data[,name1]) & !is.na(data[,name1]) 
+	print(idx1)
+	values1 <- data[idx1,name1]
+	print(values1)
 	
 	if(length(values1)>1 && is.numeric(values1))
 	{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Plot property ",name1," as x\n",sep="")
 		data <- data[order(data[,name1]),]
 		
-		bounds1 <- property1$bounds
-		if(is.na(bounds1[1]))
-			bounds1[1] <- min(values1,na.rm=TRUE)
-		if(is.na(bounds1[2]))
-			bounds1[2] <- max(values1,na.rm=TRUE)
-		
 		for(p2 in (p1+1):length(properties))
 		{	property2 <- properties[[p2]]
 			name2 <- prop.names[p2]
-			values2 <- data[,name2]
-			values2 <- values2[!is.infinite(values2)]
-			values2 <- values2[!is.na(values2)]
+			idx2 <- idx1 & !is.infinite(data[,name2]) & !is.na(data[,name2])
+			values2 <- data[idx2,name2]
+			values1b <- data[idx2,name1]
 			
 			if(length(values2)>1 && is.numeric(values2))
 			{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ....Plot property ",name2," as y\n",sep="")
 			
+				bounds1 <- property1$bounds
+				if(is.na(bounds1[1]))
+					bounds1[1] <- min(values1b)
+				if(is.na(bounds1[2]))
+					bounds1[2] <- max(values1b)
+				
 				bounds2 <- property2$bounds
 				if(is.na(bounds2[1]))
-					bounds2[1] <- min(values2,na.rm=TRUE)
+					bounds2[1] <- min(values2)
 				if(is.na(bounds2[2]))
-					bounds2[2] <- max(values2,na.rm=TRUE)
+					bounds2[2] <- max(values2)
 				
 				plot.file <- paste(plot.folder,name1,".vs.",name2,".png",sep="")
 				png(filename=plot.file,width=1000,height=1000,units="px",pointsize=20,bg="white")
 				#pdf(file=plot.file,bg="white")
 			
-				plot(values1,values2,xlab=name1,ylab=name2,main=paste(name1,"vs",name2),xlim=bounds1, ylim=bounds2)
+				plot(values1b,values2,xlab=name1,ylab=name2,main=paste(name1,"vs",name2),xlim=bounds1, ylim=bounds2)
 				dev.off()
 			}
 			else
