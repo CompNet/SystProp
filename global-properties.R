@@ -13,12 +13,19 @@ library(igraph)
 # setup parameters
 #################################
 do.cache <- TRUE
+do.plot <- FALSE
 os <- .Platform$OS.type
 if(os=="windows")
 {	data.folder <- "f:/networks/"
 #	data.folder <- "c:/Temp/"
 #	folders <- 1:5
-	folders <- c(1:17, 19:57, 59:71, 73, 75:98)	#1:297
+	# all possible folders
+#	folders <- 1:297
+	folders <- 1:106
+	# remove missing files
+	folders <- folders[!(folders %in% c(34,36,41,43,53,54,55,59,74,99,190,191,192,193))]
+	# remove unwanted files
+#	folders <- folders[!(folders %in% c(18,58,72,74))]
 }else
 {	data.folder <- "/var/data/networks/"
 #	folders <- c(1,10,100,101,106,107,108,109,110,112,113,114,115,119,123,124,125,126,127,128,129,13,130,131,132,133,134,135,136,137,138,139,14,140,146,147,148,15,152,153,154,155,159,166,167,168,17,171,172,173,174,175,178,179,180,181,182,2,20,201,202,203,204,205,206,207,208,209,21,210,211,212,213,214,215,216,227,228,229,23,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250,26,29,3,30,31,32,33,34,35,36,38,41,43,44,45,46,47,48,49,5,50,51,52,53,54,55,6,7,73,75,76,77,78,79,8,80,81,82,83,84,9,90,91,92,93,94,95,96,97,98,99)
@@ -40,18 +47,18 @@ plot.folder <- paste(data.folder,"plots/",sep="")
 # TODO multiplex, attributed...
 properties <- list()
 source("SystProp/global-properties-general.R")
-source("SystProp/global-properties-element.R")
-source("SystProp/global-properties-component.R")
-source("SystProp/global-properties-degree.R")
-source("SystProp/global-properties-distance.R")
-source("SystProp/global-properties-transitivity.R")
-source("SystProp/global-properties-betweenness.R")
-source("SystProp/global-properties-closeness.R")
-source("SystProp/global-properties-edgebetweenness.R")
-source("SystProp/global-properties-spectral.R")
-#source("SystProp/global-properties-connectivity.R")
-source("SystProp/global-properties-eccentricity.R")
-source("SystProp/global-properties-community.R")
+#source("SystProp/global-properties-element.R")
+#source("SystProp/global-properties-component.R")
+#source("SystProp/global-properties-degree.R")
+#source("SystProp/global-properties-distance.R")
+#source("SystProp/global-properties-transitivity.R")
+#source("SystProp/global-properties-betweenness.R")
+#source("SystProp/global-properties-closeness.R")
+#source("SystProp/global-properties-edgebetweenness.R")
+#source("SystProp/global-properties-spectral.R")
+##source("SystProp/global-properties-connectivity.R")
+#source("SystProp/global-properties-eccentricity.R")
+#source("SystProp/global-properties-community.R")
 
 
 #################################
@@ -156,56 +163,58 @@ for(f in folders)
 #################################
 # plot results
 #################################
-if(!file.exists(substr(x=plot.folder, start=1, stop=nchar(plot.folder)-1)))
-	dir.create(path=plot.folder)
-cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Plot properties\n",sep="")
-for(p1 in 1:(length(properties)-1))
-{	property1 <- properties[[p1]]
-	name1 <- prop.names[p1]
-	idx1 <- !is.infinite(data[,name1]) & !is.na(data[,name1]) 
-	values1 <- data[idx1,name1]
-	
-	if(length(values1)>1 && is.numeric(values1))
-	{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Plot property ",name1," as x\n",sep="")
-		data <- data[order(data[,name1]),]
+if(do.plot)
+{	if(!file.exists(substr(x=plot.folder, start=1, stop=nchar(plot.folder)-1)))
+		dir.create(path=plot.folder)
+	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Plot properties\n",sep="")
+	for(p1 in 1:(length(properties)-1))
+	{	property1 <- properties[[p1]]
+		name1 <- prop.names[p1]
 		idx1 <- !is.infinite(data[,name1]) & !is.na(data[,name1]) 
 		values1 <- data[idx1,name1]
 		
-		for(p2 in (p1+1):length(properties))
-		{	property2 <- properties[[p2]]
-			name2 <- prop.names[p2]
-			idx2 <- idx1 & !is.infinite(data[,name2]) & !is.na(data[,name2])
-			values2 <- data[idx2,name2]
-			values1b <- data[idx2,name1]
+		if(length(values1)>1 && is.numeric(values1))
+		{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Plot property ",name1," as x\n",sep="")
+			data <- data[order(data[,name1]),]
+			idx1 <- !is.infinite(data[,name1]) & !is.na(data[,name1]) 
+			values1 <- data[idx1,name1]
 			
-			if(length(values2)>1 && is.numeric(values2))
-			{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ....Plot property ",name2," as y\n",sep="")
-			
-				bounds1 <- property1$bounds
-				if(is.na(bounds1[1]))
-					bounds1[1] <- min(values1b)
-				if(is.na(bounds1[2]))
-					bounds1[2] <- max(values1b)
+			for(p2 in (p1+1):length(properties))
+			{	property2 <- properties[[p2]]
+				name2 <- prop.names[p2]
+				idx2 <- idx1 & !is.infinite(data[,name2]) & !is.na(data[,name2])
+				values2 <- data[idx2,name2]
+				values1b <- data[idx2,name1]
 				
-				bounds2 <- property2$bounds
-				if(is.na(bounds2[1]))
-					bounds2[1] <- min(values2)
-				if(is.na(bounds2[2]))
-					bounds2[2] <- max(values2)
+				if(length(values2)>1 && is.numeric(values2))
+				{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ....Plot property ",name2," as y\n",sep="")
 				
-				plot.file <- paste(plot.folder,name1,".vs.",name2,".png",sep="")
-				png(filename=plot.file,width=1000,height=1000,units="px",pointsize=20,bg="white")
-				#pdf(file=plot.file,bg="white")
-			
-				plot(values1b,values2,xlab=name1,ylab=name2,main=paste(name1,"vs",name2),xlim=bounds1, ylim=bounds2)
-				dev.off()
-			}
-			else
-			{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ....WARNING: No usable values for property ",name2," as x\n",sep="")
+					bounds1 <- property1$bounds
+					if(is.na(bounds1[1]))
+						bounds1[1] <- min(values1b)
+					if(is.na(bounds1[2]))
+						bounds1[2] <- max(values1b)
+					
+					bounds2 <- property2$bounds
+					if(is.na(bounds2[1]))
+						bounds2[1] <- min(values2)
+					if(is.na(bounds2[2]))
+						bounds2[2] <- max(values2)
+					
+					plot.file <- paste(plot.folder,name1,".vs.",name2,".png",sep="")
+					png(filename=plot.file,width=1000,height=1000,units="px",pointsize=20,bg="white")
+					#pdf(file=plot.file,bg="white")
+				
+					plot(values1b,values2,xlab=name1,ylab=name2,main=paste(name1,"vs",name2),xlim=bounds1, ylim=bounds2)
+					dev.off()
+				}
+				else
+				{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ....WARNING: No usable values for property ",name2," as x\n",sep="")
+				}
 			}
 		}
-	}
-	else
-	{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..WARNING: No usable values for property ",name1," as x\n",sep="")
+		else
+		{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..WARNING: No usable values for property ",name1," as x\n",sep="")
+		}
 	}
 }
