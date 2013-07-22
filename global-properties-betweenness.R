@@ -31,7 +31,7 @@ process.betweenness <- function(graph)
 			write.table(cache$betweenness,prop.file,row.names=FALSE,col.names=FALSE)
 		}
 	}
-	print(cache$betweenness)
+	#print(cache$betweenness)
 }
 
 properties[["betweenness-centralization"]] <- list(
