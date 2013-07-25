@@ -51,7 +51,8 @@ plot.folder <- paste(data.folder,"plots/",sep="")
 # TODO stats on embeddedness
 # TODO whether the graph is bipartite or not
 # TODO multiplex, attributed...
-# TODO multiplex: focus on the most relevant type of links
+# TODO multiplex: focus on the most relevant type of links (loading script?)
+# TODO categorize networks depending on : type of relationships (interaction, hierarchy, etc.) / type of system (biological, artificial, etc.)
 properties <- list()
 source("SystProp/global-properties-general.R")
 source("SystProp/global-properties-element.R")
