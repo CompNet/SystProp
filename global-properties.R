@@ -33,9 +33,9 @@ if(os=="windows")
 #	folders <- 1:297
 	folders <- 1:106
 	# remove missing files
-	folders <- folders[!(folders %in% c(36,41,43,53,54,55,59,74,99,107,182,190,191,192,193))]
+	folders <- folders[!(folders %in% c(36,41,43,53,54,55,59,74,99,107,190,191,192,193))]
 	# remove large files
-#	folders <- folders[!(folders %in% c(18,58,72,74))]
+	folders <- folders[!(folders %in% c(18,58,72,74))]
 }
 plot.folder <- paste(data.folder,"plots/",sep="")
 
@@ -50,8 +50,9 @@ plot.folder <- paste(data.folder,"plots/",sep="")
 # TODO p value of the power law distribution test
 # TODO stats on embeddedness
 # TODO whether the graph is bipartite or not
-# TODO multiplex, attributed, signed...
-# TODO multiplex: focus on the most relevant type of links (script in net folder to load net the right way)
+# TODO multiplex, attributed...
+# TODO multiplex: focus on the most relevant type of links (loading script?)
+# TODO categorize networks depending on : type of relationships (interaction, hierarchy, etc.) / type of system (biological, artificial, etc.)
 properties <- list()
 source("SystProp/global-properties-general.R")
 source("SystProp/global-properties-element.R")
