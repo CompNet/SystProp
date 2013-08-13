@@ -1,0 +1,112 @@
+#################################
+# attribute-related properties
+#################################
+properties[["node-attributes-total"]] <- list(
+	type=integer(),
+	bounds=c(0,NA),
+	foo=function(graph) 
+	{	att.names <- list.vertex.attributes(g)
+		length(att.names)
+	}
+)
+properties[["node-attributes-numeric"]] <- list(
+	type=integer(),
+	bounds=c(0,NA),
+	foo=function(graph) 
+	{	att.names <- list.vertex.attributes(g)
+		result <- 0
+		for(att.name in att.names)
+		{	values <- get.vertex.attribute(graph=g, name=att.name)
+			if(is.numeric(values))
+				result <- result + 1
+		}
+		return(result)
+	}
+)
+properties[["node-attributes-nominal"]] <- list(
+	type=integer(),
+	bounds=c(0,NA),
+	foo=function(graph) 
+	{	att.names <- list.vertex.attributes(g)
+		result <- 0
+		for(att.name in att.names)
+		{	values <- get.vertex.attribute(graph=g, name=att.name)
+			values <- values[which(!is.na(values))]
+			# we consider only non-numeric attributes, with repeating values
+				if(!is.numeric(values) && length(values)>unique(values))
+					result <- result + 1
+			}
+			return(result)
+		}
+)
+properties[["node-attributes-unique"]] <- list(
+	type=integer(),
+	bounds=c(0,NA),
+	foo=function(graph) 
+	{	att.names <- list.vertex.attributes(g)
+		result <- 0
+		for(att.name in att.names)
+		{	values <- get.vertex.attribute(graph=g, name=att.name)
+			values <- values[which(!is.na(values))]
+			# we consider only non-numeric attributes, without repeating values
+				if(!is.numeric(values) && length(values)==unique(values))
+					result <- result + 1
+			}
+			return(result)
+		}
+)
+
+properties[["link-attributes-total"]] <- list(
+	type=integer(),
+	bounds=c(0,NA),
+	foo=function(graph) 
+	{	att.names <- list.edge.attributes(g)
+		length(att.names)
+	}
+)
+properties[["link-attributes-numeric"]] <- list(
+	type=integer(),
+	bounds=c(0,NA),
+	foo=function(graph) 
+	{	att.names <- list.edge.attributes(g)
+		result <- 0
+		for(att.name in att.names)
+		{	values <- get.edge.attribute(graph=g, name=att.name)
+			if(is.numeric(values))
+				result <- result + 1
+		}
+		return(result)
+	}
+)
+properties[["link-attributes-nominal"]] <- list(
+	type=integer(),
+	bounds=c(0,NA),
+	foo=function(graph) 
+	{	att.names <- list.edge.attributes(g)
+		result <- 0
+		for(att.name in att.names)
+		{	values <- get.edge.attribute(graph=g, name=att.name)
+			values <- values[which(!is.na(values))]
+			# we consider only non-numeric attributes, with repeating values
+			if(!is.numeric(values) && length(values)>unique(values))
+				result <- result + 1
+		}
+		return(result)
+	}
+)
+properties[["link-attributes-unique"]] <- list(
+	type=integer(),
+	bounds=c(0,NA),
+	foo=function(graph) 
+	{	att.names <- list.edge.attributes(g)
+		result <- 0
+		for(att.name in att.names)
+		{	values <- get.edge.attribute(graph=g, name=att.name)
+			values <- values[which(!is.na(values))]
+			# we consider only non-numeric attributes, without repeating values
+			if(!is.numeric(values) && length(values)==unique(values))
+				result <- result + 1
+		}
+		return(result)
+	}
+)

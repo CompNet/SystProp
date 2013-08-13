@@ -12,7 +12,7 @@ library(igraph)
 #################################
 # setup parameters
 #################################
-do.cache <- TRUE
+do.cache <- FALSE
 do.plot <- FALSE
 os <- .Platform$OS.type
 if(os=="windows")
@@ -20,10 +20,9 @@ if(os=="windows")
 #	data.folder <- "c:/Temp/"
 #	folders <- 1:5
 	# all possible folders
-#	folders <- 1:297
-	folders <- 1:106
+	folders <- 1:484
 	# remove missing files
-	folders <- folders[!(folders %in% c(34,36,41,43,53,54,55,59,74,99,190,191,192,193))]
+#	folders <- folders[!(folders %in% c(34,36,41,43,53,54,55,59,74,99,190,191,192,193))]
 	# remove unwanted files
 #	folders <- folders[!(folders %in% c(18,58,72,74))]
 }else
@@ -33,9 +32,9 @@ if(os=="windows")
 #	folders <- 1:297
 	folders <- 1:106
 	# remove missing files
-	folders <- folders[!(folders %in% c(36,41,43,53,54,55,59,74,99,107,190,191,192,193))]
+	folders <- folders[!(folders %in% c())]
 	# remove large files
-	folders <- folders[!(folders %in% c(18,58,72,74))]
+	folders <- folders[!(folders %in% c(18,54,55,58,71,72,74,99,182,191,192,218,219,220,221,275,319,320,332,333,336,343,344,345,346,347,348,349,350,360,361,362,364,368,373,376,377,378,379, 381,382,383,384,385,386,387))]
 }
 plot.folder <- paste(data.folder,"plots/",sep="")
 
@@ -49,24 +48,32 @@ plot.folder <- paste(data.folder,"plots/",sep="")
 # TODO hop plots
 # TODO p value of the power law distribution test
 # TODO stats on embeddedness
-# TODO whether the graph is bipartite or not
-# TODO multiplex, attributed...
-# TODO multiplex: focus on the most relevant type of links (loading script?)
-# TODO categorize networks depending on : type of relationships (interaction, hierarchy, etc.) / type of system (biological, artificial, etc.)
+
+# TODO categorize networks depending on : 
+#		type of relationships (interaction, hierarchy, etc.) 
+#		VS. type of system (biological, artificial, etc.)
+# TODO process only basic properties for all network "as is", and for detailed properties, focus on undirected, selected networks (unipartite projection, multiplex, etc)
+# TODO check for 'weights' instead of 'weight'
+
+# TODO design two scripts: a regular one, and another one focusing on undirected, unweighted, etc., network
+# 		>loading script allowing to retrieve the appropriate version of a network?
+#		>or is it better to use some case-by-case in this script?
 properties <- list()
+source("SystProp/global-properties-check.R")
 source("SystProp/global-properties-general.R")
-source("SystProp/global-properties-element.R")
-source("SystProp/global-properties-component.R")
-source("SystProp/global-properties-degree.R")
-source("SystProp/global-properties-distance.R")
-source("SystProp/global-properties-transitivity.R")
-source("SystProp/global-properties-betweenness.R")
-source("SystProp/global-properties-closeness.R")
-source("SystProp/global-properties-edgebetweenness.R")
-source("SystProp/global-properties-spectral.R")
-#source("SystProp/global-properties-connectivity.R")
-source("SystProp/global-properties-eccentricity.R")
-source("SystProp/global-properties-community.R")
+#	source("SystProp/global-properties-attribute.R")
+#	source("SystProp/global-properties-element.R")
+#	source("SystProp/global-properties-component.R")
+#	source("SystProp/global-properties-degree.R")
+#source("SystProp/global-properties-distance.R")
+#	source("SystProp/global-properties-transitivity.R")
+#source("SystProp/global-properties-betweenness.R")
+#source("SystProp/global-properties-closeness.R")
+#source("SystProp/global-properties-edgebetweenness.R")
+#source("SystProp/global-properties-spectral.R")
+##source("SystProp/global-properties-connectivity.R")
+#source("SystProp/global-properties-eccentricity.R")
+#source("SystProp/global-properties-community.R")
 
 
 #################################
@@ -115,7 +122,7 @@ for(f in folders)
 	
 	# no network available
 	if(is.na(filename))
-		cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] No network could be found for ",filename,"\n",sep="")
+		cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] WARNING: No network could be found for ",filename,"\n",sep="")
 	
 	# network available
 	else
@@ -131,40 +138,45 @@ for(f in folders)
 		{	data.file <- paste(net.folder,"network.net",sep="")
 			format <- "pajek"
 		}
-		cat("[",format(start.time,"%a %d %b %Y %X"),"] Loading network #",f,": '",data.file,"'\n",sep="")
-		g <- read.graph(data.file,format=format)
-		if(length(E(g)$weight)>0)
-			g <- remove.edge.attribute(graph=g, name="weight")
-		end.time <- Sys.time();
-		total.time <- end.time - start.time;
-		cat("[",format(end.time,"%a %d %b %Y %X"),"] Loading (",vcount(g)," nodes)completed in ",total.time,"\n",sep="")
-		
-		# process all required properties
-		start.time0 <- Sys.time();
-		cat("[",format(start.time0,"%a %d %b %Y %X"),"] Processing properties\n",sep="")
-		for(p in 1:length(properties))
-		{	property <- properties[[p]]
-			value <- data[as.character(f),prop.names[p]]
-			if(do.cache && !is.null(value) && !is.na(value))
-				cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Property ",prop.names[p]," (",p,"/",length(properties),") has already been processed before (",data[as.character(f),prop.names[p]],")\n",sep="")
-			else{
-				start.time <- Sys.time();
-				cat("[",format(start.time,"%a %d %b %Y %X"),"] ..Processing property ",p,"/",length(properties),": ",prop.names[p],"\n",sep="")
-					data[as.character(f),prop.names[p]] <- property$foo(graph=g)
-					if(is.na(data[as.character(f),prop.names[p]]) || is.nan(data[as.character(f),prop.names[p]]))
-						data[as.character(f),prop.names[p]] <- Inf
-				end.time <- Sys.time();
-				total.time <- end.time - start.time;
-				cat("[",format(end.time,"%a %d %b %Y %X"),"] ..Processing completed in ",total.time,": ",data[as.character(f),prop.names[p]],"\n",sep="")
-				
-				# write resulting table
-				cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Update property files\n",sep="")
-				write.table(x=data, file=table.file)
+		if(!file.exists(data.file))
+		{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] WARNING: No network file could be found for ",filename,"\n",sep="")
+			format <- NULL
+		}else
+		{	cat("[",format(start.time,"%a %d %b %Y %X"),"] Loading network #",f,": '",data.file,"'\n",sep="")
+			g <- read.graph(data.file,format=format)
+			if(length(E(g)$weight)>0)
+				g <- remove.edge.attribute(graph=g, name="weight")
+			end.time <- Sys.time();
+			total.time <- end.time - start.time;
+			cat("[",format(end.time,"%a %d %b %Y %X"),"] Loading (",vcount(g)," nodes)completed in ",total.time,"\n",sep="")
+			
+			# process all required properties
+			start.time0 <- Sys.time();
+			cat("[",format(start.time0,"%a %d %b %Y %X"),"] Processing properties\n",sep="")
+			for(p in 1:length(properties))
+			{	property <- properties[[p]]
+				value <- data[as.character(f),prop.names[p]]
+				if(do.cache && !is.null(value) && !is.na(value))
+					cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Property ",prop.names[p]," (",p,"/",length(properties),") has already been processed before (",data[as.character(f),prop.names[p]],")\n",sep="")
+				else
+				{	start.time <- Sys.time();
+					cat("[",format(start.time,"%a %d %b %Y %X"),"] ..Processing property ",p,"/",length(properties),": ",prop.names[p],"\n",sep="")
+						data[as.character(f),prop.names[p]] <- property$foo(graph=g)
+						if(is.na(data[as.character(f),prop.names[p]]) || is.nan(data[as.character(f),prop.names[p]]))
+							data[as.character(f),prop.names[p]] <- Inf
+					end.time <- Sys.time();
+					total.time <- end.time - start.time;
+					cat("[",format(end.time,"%a %d %b %Y %X"),"] ..Processing completed in ",total.time,": ",data[as.character(f),prop.names[p]],"\n",sep="")
+					
+					# write resulting table
+					cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Update property files\n",sep="")
+					write.table(x=data, file=table.file)
+				}
 			}
+			end.time0 <- Sys.time();
+			total.time0 <- end.time0 - start.time0;
+			cat("[",format(end.time0,"%a %d %b %Y %X"),"] Processing completed in ",total.time0,"\n",sep="")
 		}
-		end.time0 <- Sys.time();
-		total.time0 <- end.time0 - start.time0;
-		cat("[",format(end.time0,"%a %d %b %Y %X"),"] Processing completed in ",total.time0,"\n",sep="")
 	}
 }
 
