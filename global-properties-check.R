@@ -6,7 +6,7 @@ properties[["weight-vs-weights"]] <- list(
 	bounds=c(FALSE,TRUE),
 	foo=function(graph) 
 	{	ref.att <- c("weights","Weights")
-		g.att <- list.edge.attributes(g)
+		g.att <- list.edge.attributes(graph)
 		inter <- intersect(ref.att, g.att)
 		length(inter) > 1
 	}
@@ -16,7 +16,7 @@ properties[["link-name"]] <- list(
 	bounds=c(FALSE,TRUE),
 	foo=function(graph) 
 	{	ref.att <- c("name","Name")
-		g.att <- list.edge.attributes(g)
+		g.att <- list.edge.attributes(graph)
 		inter <- intersect(ref.att, g.att)
 		length(inter) > 1
 	}
@@ -26,7 +26,7 @@ properties[["node-mode"]] <- list(
 	bounds=c(FALSE,TRUE),
 	foo=function(graph) 
 	{	ref.att <- c("mode","Mode")
-		g.att <- list.vertex.attributes(g)
+		g.att <- list.vertex.attributes(graph)
 		inter <- intersect(ref.att, g.att)
 		length(inter) > 1
 	}

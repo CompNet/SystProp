@@ -29,7 +29,7 @@ properties[["bipartite"]] <- list(
 	{	#is.bipartite(graph=graph)
 		# we just check whether a node attribute of a certain name exists
 		ref.att <- c("type","Type","mode","Mode")
-		g.att <- list.vertex.attributes(g)
+		g.att <- list.vertex.attributes(graph)
 		inter <- intersect(ref.att, g.att)
 		length(inter) > 1
 		
@@ -41,7 +41,7 @@ properties[["multiplex"]] <- list(
 	foo=function(graph) 
 	{	# we just check whether a link attribute of a certain name exists
 		ref.att <- c("type","Type","name","Name")
-		g.att <- list.edge.attributes(g)
+		g.att <- list.edge.attributes(graph)
 		inter <- intersect(ref.att, g.att)
 		length(inter) > 1
 	}
