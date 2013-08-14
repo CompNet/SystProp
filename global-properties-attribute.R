@@ -6,6 +6,7 @@ properties[["node-attributes-total"]] <- list(
 	bounds=c(0,NA),
 	foo=function(graph) 
 	{	att.names <- list.vertex.attributes(graph)
+		att.names <- att.names[att.names!="id"]	# automatically inserted by igrapgh
 		length(att.names)
 	}
 )
@@ -14,6 +15,7 @@ properties[["node-attributes-numeric"]] <- list(
 	bounds=c(0,NA),
 	foo=function(graph) 
 	{	att.names <- list.vertex.attributes(graph)
+		att.names <- att.names[att.names!="id"]	# automatically inserted by igrapgh
 		result <- 0
 		for(att.name in att.names)
 		{	values <- get.vertex.attribute(graph=graph, name=att.name)
@@ -23,37 +25,39 @@ properties[["node-attributes-numeric"]] <- list(
 		return(result)
 	}
 )
-properties[["node-attributes-nominal"]] <- list(
+properties[["node-attributes-categorical"]] <- list(
 	type=integer(),
 	bounds=c(0,NA),
 	foo=function(graph) 
 	{	att.names <- list.vertex.attributes(graph)
+		att.names <- att.names[att.names!="id"]	# automatically inserted by igrapgh
 		result <- 0
 		for(att.name in att.names)
 		{	values <- get.vertex.attribute(graph=graph, name=att.name)
 			values <- values[which(!is.na(values))]
 			# we consider only non-numeric attributes, with repeating values
-				if(!is.numeric(values) && length(values)>unique(values))
-					result <- result + 1
-			}
-			return(result)
+			if(!is.numeric(values) && length(values)>length(unique(values)))
+				result <- result + 1
 		}
+		return(result)
+	}
 )
 properties[["node-attributes-unique"]] <- list(
 	type=integer(),
 	bounds=c(0,NA),
 	foo=function(graph) 
 	{	att.names <- list.vertex.attributes(graph)
+		att.names <- att.names[att.names!="id"]	# automatically inserted by igrapgh
 		result <- 0
 		for(att.name in att.names)
 		{	values <- get.vertex.attribute(graph=graph, name=att.name)
 			values <- values[which(!is.na(values))]
 			# we consider only non-numeric attributes, without repeating values
-				if(!is.numeric(values) && length(values)==unique(values))
-					result <- result + 1
-			}
-			return(result)
+			if(!is.numeric(values) && length(values)==length(unique(values)))
+				result <- result + 1
 		}
+		return(result)
+	}
 )
 
 properties[["link-attributes-total"]] <- list(
@@ -78,7 +82,7 @@ properties[["link-attributes-numeric"]] <- list(
 		return(result)
 	}
 )
-properties[["link-attributes-nominal"]] <- list(
+properties[["link-attributes-categorical"]] <- list(
 	type=integer(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -88,7 +92,7 @@ properties[["link-attributes-nominal"]] <- list(
 		{	values <- get.edge.attribute(graph=graph, name=att.name)
 			values <- values[which(!is.na(values))]
 			# we consider only non-numeric attributes, with repeating values
-			if(!is.numeric(values) && length(values)>unique(values))
+			if(!is.numeric(values) && length(values)>length(unique(values)))
 				result <- result + 1
 		}
 		return(result)
@@ -104,7 +108,7 @@ properties[["link-attributes-unique"]] <- list(
 		{	values <- get.edge.attribute(graph=graph, name=att.name)
 			values <- values[which(!is.na(values))]
 			# we consider only non-numeric attributes, without repeating values
-			if(!is.numeric(values) && length(values)==unique(values))
+			if(!is.numeric(values) && length(values)==length(unique(values)))
 				result <- result + 1
 		}
 		return(result)

@@ -12,28 +12,28 @@ library(igraph)
 #################################
 # setup parameters
 #################################
-do.cache <- FALSE
-do.plot <- FALSE
+do.cache <- FALSE			# cache table results (series such as degree are always cached)
+do.plot <- FALSE			# plot properties
+do.normalize <- TRUE		# collapse multiple links, project bipartite graph, etc.
 os <- .Platform$OS.type
 if(os=="windows")
 {	data.folder <- "f:/networks/"
 #	data.folder <- "c:/Temp/"
 #	folders <- 1:5
 	# all possible folders
-	folders <- 274:502
+	folders <- 1:502
 	# remove missing files
 #	folders <- folders[!(folders %in% c(34,36,41,43,53,54,55,59,74,99,190,191,192,193))]
-	# remove unwanted files
-#	folders <- folders[!(folders %in% c(18,58,72,74))]
+	# remove large files
+#	folders <- folders[!(folders %in% c(18,54:55,58,71:72,99,109,149:150,182,190:192,200,218:221,274:275,293:294:296,298:305,307:318,320,323,326:330,332:333,335,341:343:345,358:359,365,367,369,371:372,374:377,385:387:401,405,406,408,409,412,413,418,419,427,429:431,434:435,438:450,453:456,458,461,463:467,470,472,474))]
 }else
 {	data.folder <- "/var/data/networks/"
-#	folders <- c(1,10,100,101,106,107,108,109,110,112,113,114,115,119,123,124,125,126,127,128,129,13,130,131,132,133,134,135,136,137,138,139,14,140,146,147,148,15,152,153,154,155,159,166,167,168,17,171,172,173,174,175,178,179,180,181,182,2,20,201,202,203,204,205,206,207,208,209,21,210,211,212,213,214,215,216,227,228,229,23,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250,26,29,3,30,31,32,33,34,35,36,38,41,43,44,45,46,47,48,49,5,50,51,52,53,54,55,6,7,73,75,76,77,78,79,8,80,81,82,83,84,9,90,91,92,93,94,95,96,97,98,99)
 	# all possible folders
 	folders <- 1:502
 	# remove missing files
 	folders <- folders[!(folders %in% c())]
 	# remove large files
-	folders <- folders[!(folders %in% c(18,54,55,58,71,72,74,99,182,191,192,218,219,220,221,275,319,320,332,333,336,343,344,345,346,347,348,349,350,360,361,362,364,368,373,376,377,378,379, 381,382,383,384,385,386,387))]
+#	folders <- folders[!(folders %in% c(18,54:55,58,71:72,99,109,149:150,182,190:192,200,218:221,274:275,293:294:296,298:305,307:318,320,323,326:330,332:333,335,341:343:345,358:359,365,367,369,371:372,374:377,385:387:401,405,406,408,409,412,413,418,419,427,429:431,434:435,438:450,453:456,458,461,463:467,470,472,474))]
 }
 plot.folder <- paste(data.folder,"plots/",sep="")
 
@@ -148,7 +148,13 @@ for(f in folders)
 				g <- remove.edge.attribute(graph=g, name="weight")
 			end.time <- Sys.time();
 			total.time <- end.time - start.time;
-			cat("[",format(end.time,"%a %d %b %Y %X"),"] Loading (",vcount(g)," nodes)completed in ",total.time,"\n",sep="")
+			cat("[",format(end.time,"%a %d %b %Y %X"),"] Loading (",vcount(g)," nodes and ",ecount(g)," links) completed in ",total.time,"\n",sep="")
+			
+			# normalize network
+			if(do.normalize)
+			{	
+				
+			}
 			
 			# process all required properties
 			start.time0 <- Sys.time();

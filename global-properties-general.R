@@ -31,8 +31,7 @@ properties[["bipartite"]] <- list(
 		ref.att <- c("type","Type","mode","Mode")
 		g.att <- list.vertex.attributes(graph)
 		inter <- intersect(ref.att, g.att)
-		length(inter) > 1
-		
+		length(inter) > 0
 	}
 )
 properties[["multiplex"]] <- list(
@@ -43,7 +42,7 @@ properties[["multiplex"]] <- list(
 		ref.att <- c("type","Type","name","Name")
 		g.att <- list.edge.attributes(graph)
 		inter <- intersect(ref.att, g.att)
-		length(inter) > 1
+		length(inter) > 0
 	}
 )
 properties[["multiple-links"]] <- list(
