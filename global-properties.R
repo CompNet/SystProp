@@ -14,7 +14,7 @@ library(igraph)
 #################################
 do.cache <- FALSE			# cache table results (series such as degree are always cached)
 do.plot <- FALSE			# plot properties
-do.normalize <- TRUE		# collapse multiple links, project bipartite graph, etc.
+do.normalize <- FALSE		# collapse multiple links, project bipartite graph, etc.
 os <- .Platform$OS.type
 if(os=="windows")
 {	data.folder <- "f:/networks/"
@@ -142,21 +142,41 @@ for(f in folders)
 		}else
 		{	cat("[",format(start.time,"%a %d %b %Y %X"),"] Loading network #",f,": '",data.file,"'\n",sep="")
 			g <- read.graph(data.file,format=format)
-			if(length(E(g)$weight)>0)
-				g <- remove.edge.attribute(graph=g, name="weight")
 			end.time <- Sys.time();
 			total.time <- end.time - start.time;
 			cat("[",format(end.time,"%a %d %b %Y %X"),"] Loading (",vcount(g)," nodes and ",ecount(g)," links) completed in ",total.time,"\n",sep="")
 			
 			# normalize network
 			if(do.normalize)
-			{	
+			{	start.time <- Sys.time();
+				cat("[",format(start.time,"%a %d %b %Y %X"),"] Cleaning network\n",sep="")
 				
+				# possibly project bipartite network
+				# TODO
+				
+				# retain only one type of link in multiplex networks
+				# TODO
+				
+				# removing all attributes
+				att.names <- list.vertex.attributes(graph)
+				for(att.name in att.names)
+					g <- remove.vertex.attribute(graph=g, name=att.name)
+				att.names <- list.edge.attributes(graph)
+				for(att.name in att.names)
+					g <- remove.edge.attribute(graph=g, name=att.name)
+				
+				# remove loops and multiple links
+				if(!is.simple(g))
+					g <- simplify(g)
+				
+				end.time <- Sys.time();
+				total.time <- end.time - start.time;
+				cat("[",format(end.time,"%a %d %b %Y %X"),"] Cleaning completed in in ",total.time,"\n",sep="")
 			}
 			
 			# process all required properties
-			start.time0 <- Sys.time();
-			cat("[",format(start.time0,"%a %d %b %Y %X"),"] Processing properties\n",sep="")
+			start.time <- Sys.time();
+			cat("[",format(start.time,"%a %d %b %Y %X"),"] Processing properties\n",sep="")
 			for(p in 1:length(properties))
 			{	property <- properties[[p]]
 				value <- data[as.character(f),prop.names[p]]
@@ -177,9 +197,9 @@ for(f in folders)
 					write.table(x=data, file=table.file)
 				}
 			}
-			end.time0 <- Sys.time();
-			total.time0 <- end.time0 - start.time0;
-			cat("[",format(end.time0,"%a %d %b %Y %X"),"] Processing completed in ",total.time0,"\n",sep="")
+			end.time <- Sys.time();
+			total.time <- end.time - start.time;
+			cat("[",format(end.time,"%a %d %b %Y %X"),"] Processing completed in ",total.time,"\n",sep="")
 		}
 	}
 }

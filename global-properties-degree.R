@@ -4,7 +4,7 @@
 # processes degrees
 process.degree <- function(graph)
 {	if(length(cache$degree)==0)
-	{	prop.file <- paste(net.folder,"degree.txt",sep="")
+	{	prop.file <- paste(net.folder,"degree-all.txt",sep="")
 		if(file.exists(prop.file))
 			cache$degree <<- as.matrix(read.table(prop.file))
 		else
@@ -14,7 +14,7 @@ process.degree <- function(graph)
 	}
 }
 
-properties[["degree-centralization"]] <- list(
+properties[["degree-all-centralization"]] <- list(
 	type=integer(),
 	bounds=c(0,1),
 	foo=function(graph) 
@@ -24,7 +24,7 @@ properties[["degree-centralization"]] <- list(
 		(max(cache$degree)*n - sum(cache$degree)) / (n^2 - 3*n +2)
 	}
 )
-properties[["degree-average"]] <- list(
+properties[["degree-all-average"]] <- list(
 	type=numeric(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -32,7 +32,7 @@ properties[["degree-average"]] <- list(
 		mean(cache$degree,na.rm=TRUE)
 	}
 )
-properties[["degree-stdev"]] <- list(
+properties[["degree-all-stdev"]] <- list(
 	type=numeric(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -40,7 +40,7 @@ properties[["degree-stdev"]] <- list(
 		sd(cache$degree,na.rm=TRUE)
 	}
 )
-properties[["degree-min"]] <- list(
+properties[["degree-all-min"]] <- list(
 	type=integer(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -48,7 +48,7 @@ properties[["degree-min"]] <- list(
 		min(cache$degree,na.rm=TRUE)
 	}
 )
-properties[["degree-max"]] <- list(
+properties[["degree-all-max"]] <- list(
 	type=integer(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -56,7 +56,7 @@ properties[["degree-max"]] <- list(
 		max(cache$degree,na.rm=TRUE)
 	}
 )
-properties[["degree-assortativity"]] <- list(
+properties[["degree-all-assortativity"]] <- list(
 	type=numeric(),
 	bounds=c(-1,1),
 	foo=function(graph) 

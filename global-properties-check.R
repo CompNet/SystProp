@@ -31,3 +31,11 @@ properties[["node-mode"]] <- list(
 		length(inter) > 0
 	}
 )
+properties[["file-size"]] <- list(
+	type=integer(),
+	bounds=c(0,NA),
+	foo=function(graph) 
+	{	info <- file.info(data.file)
+		return(info$size)
+	}
+)
