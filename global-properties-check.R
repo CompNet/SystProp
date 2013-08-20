@@ -1,6 +1,21 @@
 #################################
 # various tests used to debug the dataset
 #################################
+properties[["file-name"]] <- list(
+	type=integer(),
+	bounds=c(NA,NA),
+	foo=function(graph) 
+	{	dirname(data.file)
+	}
+)
+properties[["file-size"]] <- list(
+	type=integer(),
+	bounds=c(0,NA),
+	foo=function(graph) 
+	{	info <- file.info(data.file)
+		return(info$size)
+	}
+)
 properties[["weight-vs-weights"]] <- list(
 	type=logical(),
 	bounds=c(FALSE,TRUE),
@@ -29,13 +44,5 @@ properties[["node-mode"]] <- list(
 		g.att <- list.vertex.attributes(graph)
 		inter <- intersect(ref.att, g.att)
 		length(inter) > 0
-	}
-)
-properties[["file-size"]] <- list(
-	type=integer(),
-	bounds=c(0,NA),
-	foo=function(graph) 
-	{	info <- file.info(data.file)
-		return(info$size)
 	}
 )
