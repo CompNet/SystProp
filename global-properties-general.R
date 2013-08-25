@@ -14,7 +14,9 @@ properties[["weighted"]] <- list(
 	foo=function(graph) 
 	{	#is.weighted(graph)
 		# we just check whether a link attribute of a certain name exists
-		ref.att <- c("weight","Weight")
+		ref.att <- c("weight"
+						#,"Weight"
+					)
 		g.att <- list.edge.attributes(graph)
 		inter <- intersect(ref.att, g.att)
 		length(inter) > 0
@@ -33,7 +35,9 @@ properties[["bipartite"]] <- list(
 	foo=function(graph) 
 	{	#is.bipartite(graph=graph)
 		# we just check whether a node attribute of a certain name exists
-		ref.att <- c("type","Type")
+		ref.att <- c("type"
+						#,"Type"
+					)
 		g.att <- list.vertex.attributes(graph)
 		inter <- intersect(ref.att, g.att)
 		length(inter) > 0
@@ -44,7 +48,9 @@ properties[["multiplex"]] <- list(
 	bounds=c(FALSE,TRUE),
 	foo=function(graph) 
 	{	# we just check whether a link attribute of a certain name exists
-		ref.att <- c("type","Type")
+		ref.att <- c("type"
+						#,"Type"
+					)
 		g.att <- list.edge.attributes(graph)
 		inter <- intersect(ref.att, g.att)
 		length(inter) > 0

@@ -49,13 +49,6 @@ plot.folder <- paste(data.folder,"plots/",sep="")
 # TODO categorize networks depending on : 
 #		type of relationships (interaction, hierarchy, etc.) 
 #		VS. type of system (biological, artificial, etc.)
-# TODO process only basic properties for all network "as is", and for detailed properties, focus on undirected, selected networks (unipartite projection, multiplex, etc)
-# TODO check for 'weights' instead of 'weight'
-
-# TODO design two scripts: a regular one, and another one focusing on undirected, unweighted, etc., network
-# 		>loading script allowing to retrieve the appropriate version of a network?
-#		>or is it better to use some case-by-case in this script?
-#		>> remove isolates
 properties <- list()
 source("SystProp/global-properties-check.R")
 source("SystProp/global-properties-general.R")
@@ -146,34 +139,6 @@ for(f in folders)
 			total.time <- end.time - start.time;
 			cat("[",format(end.time,"%a %d %b %Y %X"),"] Loading (",vcount(g)," nodes and ",ecount(g)," links) completed in ",total.time,"\n",sep="")
 			
-			# normalize network
-			if(do.normalize)
-			{	start.time <- Sys.time();
-				cat("[",format(start.time,"%a %d %b %Y %X"),"] Cleaning network\n",sep="")
-				
-				# possibly project bipartite network
-				# TODO
-				
-				# retain only one type of link in multiplex networks
-				# TODO
-				
-				# removing all attributes
-				att.names <- list.vertex.attributes(graph)
-				for(att.name in att.names)
-					g <- remove.vertex.attribute(graph=g, name=att.name)
-				att.names <- list.edge.attributes(graph)
-				for(att.name in att.names)
-					g <- remove.edge.attribute(graph=g, name=att.name)
-				
-				# remove loops and multiple links
-				if(!is.simple(g))
-					g <- simplify(g)
-				
-				end.time <- Sys.time();
-				total.time <- end.time - start.time;
-				cat("[",format(end.time,"%a %d %b %Y %X"),"] Cleaning completed in in ",total.time,"\n",sep="")
-			}
-			
 			# process all required properties
 			start.time <- Sys.time();
 			cat("[",format(start.time,"%a %d %b %Y %X"),"] Processing properties\n",sep="")
@@ -183,13 +148,13 @@ for(f in folders)
 				if(do.cache && !is.null(value) && !is.na(value))
 					cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Property ",prop.names[p]," (",p,"/",length(properties),") has already been processed before (",data[as.character(f),prop.names[p]],")\n",sep="")
 				else
-				{	start.time <- Sys.time();
-					cat("[",format(start.time,"%a %d %b %Y %X"),"] ..Processing property ",p,"/",length(properties),": ",prop.names[p],"\n",sep="")
+				{	start.time1 <- Sys.time();
+					cat("[",format(start.time1,"%a %d %b %Y %X"),"] ..Processing property ",p,"/",length(properties),": ",prop.names[p],"\n",sep="")
 						data[as.character(f),prop.names[p]] <- property$foo(graph=g)
 						if(is.na(data[as.character(f),prop.names[p]]) || is.nan(data[as.character(f),prop.names[p]]))
 							data[as.character(f),prop.names[p]] <- Inf
 					end.time <- Sys.time();
-					total.time <- end.time - start.time;
+					total.time <- end.time - start.time1;
 					cat("[",format(end.time,"%a %d %b %Y %X"),"] ..Processing completed in ",total.time,": ",data[as.character(f),prop.names[p]],"\n",sep="")
 					
 					# write resulting table
