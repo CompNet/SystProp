@@ -1,7 +1,7 @@
 #################################
-# Processes attribute-related properties
+# Processes attribute-related measures
 #################################
-properties[["node-attributes-total"]] <- list(
+measures[["node-attributes-total"]] <- list(
 	type=integer(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -10,7 +10,7 @@ properties[["node-attributes-total"]] <- list(
 		length(att.names)
 	}
 )
-properties[["node-attributes-numeric"]] <- list(
+measures[["node-attributes-numeric"]] <- list(
 	type=integer(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -25,7 +25,7 @@ properties[["node-attributes-numeric"]] <- list(
 		return(result)
 	}
 )
-properties[["node-attributes-categorical"]] <- list(
+measures[["node-attributes-categorical"]] <- list(
 	type=integer(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -42,7 +42,7 @@ properties[["node-attributes-categorical"]] <- list(
 		return(result)
 	}
 )
-properties[["node-attributes-unique"]] <- list(
+measures[["node-attributes-unique"]] <- list(
 	type=integer(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -60,7 +60,7 @@ properties[["node-attributes-unique"]] <- list(
 	}
 )
 
-properties[["link-attributes-total"]] <- list(
+measures[["link-attributes-total"]] <- list(
 	type=integer(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -68,7 +68,7 @@ properties[["link-attributes-total"]] <- list(
 		length(att.names)
 	}
 )
-properties[["link-attributes-numeric"]] <- list(
+measures[["link-attributes-numeric"]] <- list(
 	type=integer(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -82,7 +82,7 @@ properties[["link-attributes-numeric"]] <- list(
 		return(result)
 	}
 )
-properties[["link-attributes-categorical"]] <- list(
+measures[["link-attributes-categorical"]] <- list(
 	type=integer(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -98,7 +98,7 @@ properties[["link-attributes-categorical"]] <- list(
 		return(result)
 	}
 )
-properties[["link-attributes-unique"]] <- list(
+measures[["link-attributes-unique"]] <- list(
 	type=integer(),
 	bounds=c(0,NA),
 	foo=function(graph) 

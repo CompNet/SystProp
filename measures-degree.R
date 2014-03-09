@@ -14,7 +14,7 @@ process.degree <- function(graph)
 	}
 }
 
-properties[["degree-all-centralization"]] <- list(
+measures[["degree-all-centralization"]] <- list(
 	type=integer(),
 	bounds=c(0,1),
 	foo=function(graph) 
@@ -24,7 +24,7 @@ properties[["degree-all-centralization"]] <- list(
 		(max(cache$degree)*n - sum(cache$degree)) / (n^2 - 3*n +2)
 	}
 )
-properties[["degree-all-average"]] <- list(
+measures[["degree-all-average"]] <- list(
 	type=numeric(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -32,7 +32,7 @@ properties[["degree-all-average"]] <- list(
 		mean(cache$degree,na.rm=TRUE)
 	}
 )
-properties[["degree-all-stdev"]] <- list(
+measures[["degree-all-stdev"]] <- list(
 	type=numeric(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -40,7 +40,7 @@ properties[["degree-all-stdev"]] <- list(
 		sd(cache$degree,na.rm=TRUE)
 	}
 )
-properties[["degree-all-min"]] <- list(
+measures[["degree-all-min"]] <- list(
 	type=integer(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -48,7 +48,7 @@ properties[["degree-all-min"]] <- list(
 		min(cache$degree,na.rm=TRUE)
 	}
 )
-properties[["degree-all-max"]] <- list(
+measures[["degree-all-max"]] <- list(
 	type=integer(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -56,7 +56,7 @@ properties[["degree-all-max"]] <- list(
 		max(cache$degree,na.rm=TRUE)
 	}
 )
-properties[["degree-all-assortativity"]] <- list(
+measures[["degree-all-assortativity"]] <- list(
 	type=numeric(),
 	bounds=c(-1,1),
 	foo=function(graph) 

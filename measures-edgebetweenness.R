@@ -33,7 +33,7 @@ process.edgebetweenness <- function(graph)
 	#print(cache$edgebetweenness)
 }
 
-properties[["edgebetweenness-centrality-average"]] <- list(
+measures[["edgebetweenness-centrality-average"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph) 
@@ -42,7 +42,7 @@ properties[["edgebetweenness-centrality-average"]] <- list(
 		mean(normalized,na.rm=TRUE)
 	}
 )
-properties[["edgebetweenness-centrality-stdev"]] <- list(
+measures[["edgebetweenness-centrality-stdev"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph) 
@@ -51,7 +51,7 @@ properties[["edgebetweenness-centrality-stdev"]] <- list(
 		sd(normalized,na.rm=TRUE)
 	}
 )
-properties[["edgebetweenness-centrality-min"]] <- list(
+measures[["edgebetweenness-centrality-min"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph) 
@@ -60,7 +60,7 @@ properties[["edgebetweenness-centrality-min"]] <- list(
 		min(normalized,na.rm=TRUE)
 	}
 )
-properties[["edgebetweenness-centrality-max"]] <- list(
+measures[["edgebetweenness-centrality-max"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph) 

@@ -14,14 +14,14 @@ process.local.transitivity <- function(graph)
 	}
 }
 
-properties[["transitivity-global"]] <- list(
+measures[["transitivity-global"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph) 
 	{	transitivity(graph, type="globalundirected",weights=NULL,isolates="zero")
 	}
 )
-properties[["transitivity-local-average"]] <- list(
+measures[["transitivity-local-average"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph) 
@@ -29,7 +29,7 @@ properties[["transitivity-local-average"]] <- list(
 		mean(cache$localtransitivity,na.rm=TRUE)
 	}
 )
-properties[["transitivity-local-stdev"]] <- list(
+measures[["transitivity-local-stdev"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph) 
@@ -37,7 +37,7 @@ properties[["transitivity-local-stdev"]] <- list(
 		sd(cache$localtransitivity,na.rm=TRUE)
 	}
 )
-properties[["transitivity-local-min"]] <- list(
+measures[["transitivity-local-min"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph) 
@@ -45,7 +45,7 @@ properties[["transitivity-local-min"]] <- list(
 		min(cache$localtransitivity,na.rm=TRUE)
 	}
 )
-properties[["transitivity-local-max"]] <- list(
+measures[["transitivity-local-max"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph) 
@@ -53,7 +53,7 @@ properties[["transitivity-local-max"]] <- list(
 		max(cache$localtransitivity,na.rm=TRUE)
 	}
 )
-properties[["transitivity-assortativity"]] <- list(
+measures[["transitivity-assortativity"]] <- list(
 	type=numeric(),
 	bounds=c(-1,1),
 	foo=function(graph) 

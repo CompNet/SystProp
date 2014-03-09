@@ -2,14 +2,14 @@
 # Performs various tests used to identify problems
 # in the dataset.
 #################################
-properties[["file-name"]] <- list(
+measures[["file-name"]] <- list(
 	type=integer(),
 	bounds=c(NA,NA),
 	foo=function(graph) 
 	{	dirname(data.file)
 	}
 )
-properties[["file-size"]] <- list(
+measures[["file-size"]] <- list(
 	type=integer(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -17,7 +17,7 @@ properties[["file-size"]] <- list(
 		return(info$size)
 	}
 )
-properties[["weight-vs-weights"]] <- list(
+measures[["weight-vs-weights"]] <- list(
 	type=logical(),
 	bounds=c(FALSE,TRUE),
 	foo=function(graph) 
@@ -27,7 +27,7 @@ properties[["weight-vs-weights"]] <- list(
 		length(inter) > 0
 	}
 )
-properties[["weight-vs-Weight"]] <- list(
+measures[["weight-vs-Weight"]] <- list(
 	type=logical(),
 	bounds=c(FALSE,TRUE),
 	foo=function(graph) 
@@ -35,7 +35,7 @@ properties[["weight-vs-Weight"]] <- list(
 		any(g.att=="Weight")
 	}
 )
-properties[["type-vs-Type"]] <- list(
+measures[["type-vs-Type"]] <- list(
 	type=logical(),
 	bounds=c(FALSE,TRUE),
 	foo=function(graph) 
@@ -43,7 +43,7 @@ properties[["type-vs-Type"]] <- list(
 		any(g.att=="Type")
 	}
 )
-properties[["link-name"]] <- list(
+measures[["link-name"]] <- list(
 	type=logical(),
 	bounds=c(FALSE,TRUE),
 	foo=function(graph) 
@@ -53,7 +53,7 @@ properties[["link-name"]] <- list(
 		length(inter) > 0
 	}
 )
-properties[["node-mode"]] <- list(
+measures[["node-mode"]] <- list(
 	type=logical(),
 	bounds=c(FALSE,TRUE),
 	foo=function(graph) 

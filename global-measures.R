@@ -1,9 +1,9 @@
-# Process all the network properties at once.
+# Processes all the network measures at once.
 #
 # setwd("~/eclipse/workspaces/Networks")
 # setwd("c:/eclipse/workspaces/Networks")
 #
-# source("SystProp/global-properties.R")
+# source("SystProp/global-measures.R")
 ###################################################
 
 #################################
@@ -15,7 +15,7 @@ library(igraph)
 # setup parameters
 #################################
 do.cache <- FALSE			# cache table results (series such as degree are always cached)
-do.plot <- FALSE			# plot properties
+do.plot <- FALSE			# plot measures
 do.normalize <- FALSE		# collapse multiple links, project bipartite graph, etc.
 os <- .Platform$OS.type
 if(os=="windows")
@@ -51,43 +51,43 @@ plot.folder <- paste(data.folder,"plots/",sep="")
 # TODO categorize networks depending on : 
 #		type of relationships (interaction, hierarchy, etc.) 
 #		VS. type of system (biological, artificial, etc.)
-properties <- list()
-source("SystProp/global-properties-check.R")
-source("SystProp/global-properties-general.R")
-source("SystProp/global-properties-attribute.R")
-#	source("SystProp/global-properties-element.R")
-#	source("SystProp/global-properties-component.R")
-#	source("SystProp/global-properties-degree.R")
-#source("SystProp/global-properties-distance.R")
-#	source("SystProp/global-properties-transitivity.R")
-#source("SystProp/global-properties-betweenness.R")
-#source("SystProp/global-properties-closeness.R")
-#source("SystProp/global-properties-edgebetweenness.R")
-#source("SystProp/global-properties-spectral.R")
-##source("SystProp/global-properties-connectivity.R")
-#source("SystProp/global-properties-eccentricity.R")
-#source("SystProp/global-properties-community.R")
+measures <- list()
+source("SystProp/measures-check.R")
+source("SystProp/measures-general.R")
+source("SystProp/measures-attribute.R")
+#	source("SystProp/measures-element.R")
+#	source("SystProp/measures-component.R")
+#	source("SystProp/measures-degree.R")
+#source("SystProp/measures-distance.R")
+#	source("SystProp/measures-transitivity.R")
+#source("SystProp/measures-betweenness.R")
+#source("SystProp/measures-closeness.R")
+#source("SystProp/measures-edgebetweenness.R")
+#source("SystProp/measures-spectral.R")
+##source("SystProp/measures-connectivity.R")
+#source("SystProp/measures-eccentricity.R")
+#source("SystProp/measures-community.R")
 
 
 #################################
 # init/load data frame
 #################################
-table.file <- paste(data.folder,"/global.properties.txt",sep="")
-prop.names <- names(properties)
+table.file <- paste(data.folder,"/global.measures.txt",sep="")
+prop.names <- names(measures)
 if(file.exists(table.file))
 {	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Load existing data frame\n",sep="")
 	data <- read.table(file=table.file,check.names=FALSE)
-	for(p in 1:length(properties))
-	{	property <- properties[[p]]
+	for(p in 1:length(measures))
+	{	measure <- measures[[p]]
 		if(length(data[[prop.names[p]]])==0)
 			data[prop.names[p]] <- NA
 	}
 }else
 {	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Init new data frame\n",sep="")
 	data <- data.frame(stringsAsFactors=FALSE)	
-	for(p in 1:length(properties))
-	{	property <- properties[[p]]
-		data[prop.names[p]] <- property$type
+	for(p in 1:length(measures))
+	{	measure <- measures[[p]]
+		data[prop.names[p]] <- measure$type
 	}
 }
 print(data)
@@ -98,7 +98,7 @@ paths <- list.files(path=data.folder, pattern="\\d{4}\\..*", all.files=TRUE, ful
 paths <- sort(paths)
 
 #################################
-# process properties
+# process measures
 #################################
 j <- 1
 for(f in folders)
@@ -141,18 +141,18 @@ for(f in folders)
 			total.time <- end.time - start.time;
 			cat("[",format(end.time,"%a %d %b %Y %X"),"] Loading (",vcount(g)," nodes and ",ecount(g)," links) completed in ",total.time,"\n",sep="")
 			
-			# process all required properties
+			# process all required measures
 			start.time <- Sys.time();
-			cat("[",format(start.time,"%a %d %b %Y %X"),"] Processing properties\n",sep="")
-			for(p in 1:length(properties))
-			{	property <- properties[[p]]
+			cat("[",format(start.time,"%a %d %b %Y %X"),"] Processing measures\n",sep="")
+			for(p in 1:length(measures))
+			{	measure <- measures[[p]]
 				value <- data[as.character(f),prop.names[p]]
 				if(do.cache && !is.null(value) && !is.na(value))
-					cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Property ",prop.names[p]," (",p,"/",length(properties),") has already been processed before (",data[as.character(f),prop.names[p]],")\n",sep="")
+					cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Measure ",prop.names[p]," (",p,"/",length(measures),") has already been processed before (",data[as.character(f),prop.names[p]],")\n",sep="")
 				else
 				{	start.time1 <- Sys.time();
-					cat("[",format(start.time1,"%a %d %b %Y %X"),"] ..Processing property ",p,"/",length(properties),": ",prop.names[p],"\n",sep="")
-						data[as.character(f),prop.names[p]] <- property$foo(graph=g)
+					cat("[",format(start.time1,"%a %d %b %Y %X"),"] ..Processing measure ",p,"/",length(measures),": ",prop.names[p],"\n",sep="")
+						data[as.character(f),prop.names[p]] <- measure$foo(graph=g)
 						if(is.na(data[as.character(f),prop.names[p]]) || is.nan(data[as.character(f),prop.names[p]]))
 							data[as.character(f),prop.names[p]] <- Inf
 					end.time <- Sys.time();
@@ -160,7 +160,7 @@ for(f in folders)
 					cat("[",format(end.time,"%a %d %b %Y %X"),"] ..Processing completed in ",total.time,": ",data[as.character(f),prop.names[p]],"\n",sep="")
 					
 					# write resulting table
-					cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Update property files\n",sep="")
+					cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Update measure files\n",sep="")
 					write.table(x=data, file=table.file)
 				}
 			}
@@ -177,36 +177,36 @@ for(f in folders)
 if(do.plot)
 {	if(!file.exists(substr(x=plot.folder, start=1, stop=nchar(plot.folder)-1)))
 		dir.create(path=plot.folder)
-	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Plot properties\n",sep="")
-	for(p1 in 1:(length(properties)-1))
-	{	property1 <- properties[[p1]]
+	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Plot measures\n",sep="")
+	for(p1 in 1:(length(measures)-1))
+	{	measure1 <- measures[[p1]]
 		name1 <- prop.names[p1]
 		idx1 <- !is.infinite(data[,name1]) & !is.na(data[,name1]) 
 		values1 <- data[idx1,name1]
 		
 		if(length(values1)>1 && is.numeric(values1))
-		{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Plot property ",name1," as x\n",sep="")
+		{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Plot measure ",name1," as x\n",sep="")
 			data <- data[order(data[,name1]),]
 			idx1 <- !is.infinite(data[,name1]) & !is.na(data[,name1]) 
 			values1 <- data[idx1,name1]
 			
-			for(p2 in (p1+1):length(properties))
-			{	property2 <- properties[[p2]]
+			for(p2 in (p1+1):length(measures))
+			{	measure2 <- measures[[p2]]
 				name2 <- prop.names[p2]
 				idx2 <- idx1 & !is.infinite(data[,name2]) & !is.na(data[,name2])
 				values2 <- data[idx2,name2]
 				values1b <- data[idx2,name1]
 				
 				if(length(values2)>1 && is.numeric(values2))
-				{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ....Plot property ",name2," as y\n",sep="")
+				{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ....Plot measure ",name2," as y\n",sep="")
 				
-					bounds1 <- property1$bounds
+					bounds1 <- measure1$bounds
 					if(is.na(bounds1[1]))
 						bounds1[1] <- min(values1b)
 					if(is.na(bounds1[2]))
 						bounds1[2] <- max(values1b)
 					
-					bounds2 <- property2$bounds
+					bounds2 <- measure2$bounds
 					if(is.na(bounds2[1]))
 						bounds2[1] <- min(values2)
 					if(is.na(bounds2[2]))
@@ -220,12 +220,12 @@ if(do.plot)
 					dev.off()
 				}
 				else
-				{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ....WARNING: No usable values for property ",name2," as x\n",sep="")
+				{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ....WARNING: No usable values for measure ",name2," as x\n",sep="")
 				}
 			}
 		}
 		else
-		{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..WARNING: No usable values for property ",name1," as x\n",sep="")
+		{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..WARNING: No usable values for measure ",name1," as x\n",sep="")
 		}
 	}
 }

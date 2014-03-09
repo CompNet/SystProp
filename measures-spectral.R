@@ -14,14 +14,14 @@ process.evcent <- function(graph)
 	}
 }
 	
-properties[["eigenvector-centralization"]] <- list(
+measures[["eigenvector-centralization"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph) 
 	{	centralization.evcent(graph=graph, directed=FALSE, scale=FALSE, normalized=TRUE)$centralization
 	}
 )
-properties[["eigenvector-centrality-average"]] <- list(
+measures[["eigenvector-centrality-average"]] <- list(
 	type=numeric(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -29,7 +29,7 @@ properties[["eigenvector-centrality-average"]] <- list(
 		mean(cache$eigenvectorcentrality,na.rm=TRUE)
 	}
 )
-properties[["eigenvector-centrality-stdev"]] <- list(
+measures[["eigenvector-centrality-stdev"]] <- list(
 	type=numeric(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -37,7 +37,7 @@ properties[["eigenvector-centrality-stdev"]] <- list(
 		sd(cache$eigenvectorcentrality,na.rm=TRUE)
 	}
 )
-properties[["eigenvector-centrality-min"]] <- list(
+measures[["eigenvector-centrality-min"]] <- list(
 	type=numeric(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -46,7 +46,7 @@ properties[["eigenvector-centrality-min"]] <- list(
 		min(cache$eigenvectorcentrality,na.rm=TRUE)
 	}
 )
-properties[["eigenvector-centrality-max"]] <- list(
+measures[["eigenvector-centrality-max"]] <- list(
 	type=numeric(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -55,7 +55,7 @@ properties[["eigenvector-centrality-max"]] <- list(
 		max(cache$eigenvectorcentrality,na.rm=TRUE)
 	}
 )
-properties[["eigenvector-centrality-assortativity"]] <- list(
+measures[["eigenvector-centrality-assortativity"]] <- list(
 	type=numeric(),
 	bounds=c(-1,1),
 	foo=function(graph) 

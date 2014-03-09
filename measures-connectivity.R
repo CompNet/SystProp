@@ -28,7 +28,7 @@ process.node.connectivity <- function(graph)
 	}
 }
 
-properties[["link-connectivity-average"]] <- list(
+measures[["link-connectivity-average"]] <- list(
 	type=numeric(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -36,7 +36,7 @@ properties[["link-connectivity-average"]] <- list(
 		mean(cache$linkconnectivity,na.rm=TRUE)
 	}
 )
-properties[["link-connectivity-stdev"]] <- list(
+measures[["link-connectivity-stdev"]] <- list(
 	type=numeric(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -44,7 +44,7 @@ properties[["link-connectivity-stdev"]] <- list(
 		sd(cache$linkconnectivity,na.rm=TRUE)
 	}
 )
-properties[["adhesion"]] <- list(		# aka minimal link connectivity
+measures[["adhesion"]] <- list(		# aka minimal link connectivity
 	type=integer(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -54,7 +54,7 @@ properties[["adhesion"]] <- list(		# aka minimal link connectivity
 		min(cache$linkconnectivity,na.rm=TRUE)
 	}
 )
-properties[["link-connectivity-max"]] <- list(
+measures[["link-connectivity-max"]] <- list(
 	type=integer(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -62,7 +62,7 @@ properties[["link-connectivity-max"]] <- list(
 		max(cache$linkconnectivity,na.rm=TRUE)
 	}
 )
-properties[["node-connectivity-average"]] <- list(
+measures[["node-connectivity-average"]] <- list(
 	type=numeric(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -70,7 +70,7 @@ properties[["node-connectivity-average"]] <- list(
 		mean(cache$nodeconnectivity,na.rm=TRUE)
 	}
 )
-properties[["node-connectivity-stdev"]] <- list(
+measures[["node-connectivity-stdev"]] <- list(
 	type=numeric(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -88,7 +88,7 @@ properties[["cohesion"]] <- list(		# aka minimal node connectivity
 		min(cache$nodeconnectivity,na.rm=TRUE)
 	}
 )
-properties[["node-connectivity-max"]] <- list(
+measures[["node-connectivity-max"]] <- list(
 	type=integer(),
 	bounds=c(0,NA),
 	foo=function(graph) 

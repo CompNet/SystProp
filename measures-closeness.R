@@ -26,7 +26,7 @@ process.closeness <- function(graph)
 	}
 }
 
-properties[["closeness-centralization"]] <- list(
+measures[["closeness-centralization"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph)
@@ -37,7 +37,7 @@ properties[["closeness-centralization"]] <- list(
 		(max(cache$closeness)*n - sum(cache$closeness))*(2*n - 3) / (n^2 - 3*n + 2)
 	}
 )
-properties[["closeness-centrality-average"]] <- list(
+measures[["closeness-centrality-average"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph) 
@@ -46,7 +46,7 @@ properties[["closeness-centrality-average"]] <- list(
 		mean(normalized,na.rm=TRUE)
 	}
 )
-properties[["closeness-centrality-stdev"]] <- list(
+measures[["closeness-centrality-stdev"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph) 
@@ -55,7 +55,7 @@ properties[["closeness-centrality-stdev"]] <- list(
 		sd(normalized,na.rm=TRUE)
 	}
 )
-properties[["closeness-centrality-min"]] <- list(
+measures[["closeness-centrality-min"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph) 
@@ -64,7 +64,7 @@ properties[["closeness-centrality-min"]] <- list(
 		min(normalized,na.rm=TRUE)
 	}
 )
-properties[["closeness-centrality-max"]] <- list(
+measures[["closeness-centrality-max"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph) 
@@ -73,7 +73,7 @@ properties[["closeness-centrality-max"]] <- list(
 		max(normalized,na.rm=TRUE)
 	}
 )
-properties[["closeness-centrality-assortativity"]] <- list(
+measures[["closeness-centrality-assortativity"]] <- list(
 	type=numeric(),
 	bounds=c(-1,1),
 	foo=function(graph) 

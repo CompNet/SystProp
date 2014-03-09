@@ -14,7 +14,7 @@ process.components <- function(graph)
 	}
 }
 
-properties[["component-count"]] <- list(
+measures[["component-count"]] <- list(
 	type=integer(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -22,7 +22,7 @@ properties[["component-count"]] <- list(
 		length(cache$componentsizes)
 	}
 )
-properties[["component-average-size"]] <- list(
+measures[["component-average-size"]] <- list(
 	type=numeric(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -30,7 +30,7 @@ properties[["component-average-size"]] <- list(
 		mean(cache$componentsizes,na.rm=TRUE)
 	}
 )
-properties[["component-stdev-size"]] <- list(
+measures[["component-stdev-size"]] <- list(
 	type=numeric(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -38,7 +38,7 @@ properties[["component-stdev-size"]] <- list(
 		sd(cache$componentsizes)
 	}
 )
-properties[["component-min-size"]] <- list(
+measures[["component-min-size"]] <- list(
 	type=integer(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -46,7 +46,7 @@ properties[["component-min-size"]] <- list(
 		min(cache$componentsizes)
 	}
 )
-properties[["component-max-size"]] <- list(
+measures[["component-max-size"]] <- list(
 	type=integer(),
 	bounds=c(0,NA),
 	foo=function(graph) 

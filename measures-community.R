@@ -14,7 +14,7 @@ process.communities <- function(graph)
 	}
 }
 
-properties[["modularity"]] <- list(
+measures[["modularity"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph)
@@ -22,7 +22,7 @@ properties[["modularity"]] <- list(
 		modularity(x=graph, membership=cache$communities, weights=NULL)
 	}
 )
-properties[["community-number"]] <- list(
+measures[["community-number"]] <- list(
 	type=integer(),
 	bounds=c(0,NA),
 	foo=function(graph)

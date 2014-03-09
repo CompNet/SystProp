@@ -14,7 +14,7 @@ process.eccentricity <- function(graph)
 	}
 }
 
-properties[["eccentricity-average"]] <- list(
+measures[["eccentricity-average"]] <- list(
 	type=numeric(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -22,7 +22,7 @@ properties[["eccentricity-average"]] <- list(
 		mean(cache$eccentricity,na.rm=TRUE)
 	}
 )
-properties[["eccentricity-stdev"]] <- list(
+measures[["eccentricity-stdev"]] <- list(
 	type=numeric(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -30,7 +30,7 @@ properties[["eccentricity-stdev"]] <- list(
 		sd(cache$eccentricity,na.rm=TRUE)
 	}
 )
-properties[["radius"]] <- list(		# aka minimal eccentricity
+measures[["radius"]] <- list(		# aka minimal eccentricity
 	type=integer(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -40,7 +40,7 @@ properties[["radius"]] <- list(		# aka minimal eccentricity
 		max(cache$eccentricity,na.rm=TRUE)
 	}
 )
-properties[["diameter"]] <- list(	# aka maximal eccentricity, maximal distance
+measures[["diameter"]] <- list(	# aka maximal eccentricity, maximal distance
 	type=integer(),
 	bounds=c(0,NA),
 	foo=function(graph) 
@@ -50,7 +50,7 @@ properties[["diameter"]] <- list(	# aka maximal eccentricity, maximal distance
 		min(cache$eccentricity,na.rm=TRUE)
 	}
 )
-properties[["eccentricity-assortativity"]] <- list(
+measures[["eccentricity-assortativity"]] <- list(
 	type=numeric(),
 	bounds=c(-1,1),
 	foo=function(graph) 

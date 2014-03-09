@@ -1,5 +1,5 @@
 #################################
-# Processes betweenness-related properties.
+# Processes betweenness-related measures.
 #################################
 # limit used to approximate betweenness
 betweenness.cutoff <- -1	# <0 = no limit
@@ -34,7 +34,7 @@ process.betweenness <- function(graph)
 	#print(cache$betweenness)
 }
 
-properties[["betweenness-centralization"]] <- list(
+measures[["betweenness-centralization"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph)
@@ -45,7 +45,7 @@ properties[["betweenness-centralization"]] <- list(
 		2 * (max(cache$betweenness)*n - sum(cache$betweenness)) / (n^3 - 4*n^2 + 5*n - 2)
 	}
 )
-properties[["betweenness-centrality-average"]] <- list(
+measures[["betweenness-centrality-average"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph) 
@@ -54,7 +54,7 @@ properties[["betweenness-centrality-average"]] <- list(
 		mean(normalized,na.rm=TRUE)
 	}
 )
-properties[["betweenness-centrality-stdev"]] <- list(
+measures[["betweenness-centrality-stdev"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph)
@@ -63,7 +63,7 @@ properties[["betweenness-centrality-stdev"]] <- list(
 		sd(normalized,na.rm=TRUE)
 	}
 )
-properties[["betweenness-centrality-min"]] <- list(
+measures[["betweenness-centrality-min"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph)
@@ -72,7 +72,7 @@ properties[["betweenness-centrality-min"]] <- list(
 		min(normalized,na.rm=TRUE)
 	}
 )
-properties[["betweenness-centrality-max"]] <- list(
+measures[["betweenness-centrality-max"]] <- list(
 	type=numeric(),
 	bounds=c(0,1),
 	foo=function(graph)
@@ -81,7 +81,7 @@ properties[["betweenness-centrality-max"]] <- list(
 		max(normalized,na.rm=TRUE)
 	}
 )
-properties[["betweenness-centrality-assortativity"]] <- list(
+measures[["betweenness-centrality-assortativity"]] <- list(
 	type=numeric(),
 	bounds=c(-1,1),
 	foo=function(graph)

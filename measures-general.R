@@ -1,14 +1,14 @@
 #################################
 # Processes general measures.
 #################################
-properties[["directed"]] <- list(
+measures[["directed"]] <- list(
 	type=logical(),
 	bounds=c(FALSE,TRUE),
 	foo=function(graph) 
 	{	is.directed(graph=graph)
 	}
 )
-properties[["weighted"]] <- list(
+measures[["weighted"]] <- list(
 	type=logical(),
 	bounds=c(FALSE,TRUE),
 	foo=function(graph) 
@@ -22,14 +22,14 @@ properties[["weighted"]] <- list(
 		length(inter) > 0
 	}
 )
-properties[["connected"]] <- list(
+measures[["connected"]] <- list(
 	type=logical(),
 	bounds=c(FALSE,TRUE),
 	foo=function(graph) 
 	{	is.connected(graph=graph,mode="weak")
 	}
 )
-properties[["bipartite"]] <- list(
+measures[["bipartite"]] <- list(
 	type=logical(),
 	bounds=c(FALSE,TRUE),
 	foo=function(graph) 
@@ -43,7 +43,7 @@ properties[["bipartite"]] <- list(
 		length(inter) > 0
 	}
 )
-properties[["multiplex"]] <- list(
+measures[["multiplex"]] <- list(
 	type=logical(),
 	bounds=c(FALSE,TRUE),
 	foo=function(graph) 
@@ -56,25 +56,25 @@ properties[["multiplex"]] <- list(
 		length(inter) > 0
 	}
 )
-properties[["multiple-links"]] <- list(
+measures[["multiple-links"]] <- list(
 	type=logical(),
 	bounds=c(FALSE,TRUE),
 	foo=function(graph) 
 	{	has.multiple(graph=graph)
 	}
 )
-properties[["loop"]] <- list(
-		type=logical(),
-		bounds=c(FALSE,TRUE),
-		foo=function(graph) 
-		{	values <- is.loop(graph=graph)
-			!all(!values)
-		}
+measures[["loop"]] <- list(
+	type=logical(),
+	bounds=c(FALSE,TRUE),
+	foo=function(graph) 
+	{	values <- is.loop(graph=graph)
+		!all(!values)
+	}
 )
-properties[["format"]] <- list(
-		type=character(),
-		bounds=c(NA,NA),
-		foo=function(graph) 
-		{	return(format)
-		}
+measures[["format"]] <- list(
+	type=character(),
+	bounds=c(NA,NA),
+	foo=function(graph) 
+	{	return(format)
+	}
 )
