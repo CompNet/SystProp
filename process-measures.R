@@ -3,7 +3,7 @@
 # setwd("~/eclipse/workspaces/Networks")
 # setwd("c:/eclipse/workspaces/Networks")
 #
-# source("SystProp/global-measures.R")
+# source("SystProp/process-measures.R")
 ###################################################
 
 #################################
@@ -23,17 +23,17 @@ if(os=="windows")
 #	data.folder <- "c:/Temp/"
 #	folders <- 1:5
 	# all possible folders
-	folders <- 1:611
+	folders <- 316:611 #191 TODO
 	# remove missing files (not converted yet)
-	folders <- folders[!(folders %in% c(182,312,326,399,400,401,439,464,465))]
+	folders <- folders[!(folders %in% c(182,312,326,371,399,400,401,430,439,464,465))]
 	# remove large files
 #	folders <- folders[!(folders %in% c(18,54:55,58,71:72,99,109,149:150,182,190:192,200,218:221,274:275,293:294:296,298:305,307:318,320,323,326:330,332:333,335,341:343:345,358:359,365,367,369,371:372,374:377,385:387:401,405,406,408,409,412,413,418,419,427,429:431,434:435,438:450,453:456,458,461,463:467,470,472,474))]
 }else
 {	data.folder <- "/var/data/networks/"
 	# all possible folders
-	folders <- 1:611
+	folders <- 316:611
 	# remove missing files (not converted yet)
-	folders <- folders[!(folders %in% c(182,312,326,399,400,401,439,464,465))]
+	folders <- folders[!(folders %in% c(182,312,326,371,399,400,401,430,439,464,465))]
 	# remove large files
 #	folders <- folders[!(folders %in% c(18,54:55,58,71:72,99,109,149:150,182,190:192,200,218:221,274:275,293:294:296,298:305,307:318,320,323,326:330,332:333,335,341:343:345,358:359,365,367,369,371:372,374:377,385:387:401,405,406,408,409,412,413,418,419,427,429:431,434:435,438:450,453:456,458,461,463:467,470,472,474))]
 }
