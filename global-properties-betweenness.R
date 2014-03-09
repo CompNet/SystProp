@@ -1,5 +1,5 @@
 #################################
-# betweenness-related
+# Processes betweenness-related properties.
 #################################
 # limit used to approximate betweenness
 betweenness.cutoff <- -1	# <0 = no limit

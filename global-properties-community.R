@@ -1,5 +1,5 @@
 #################################
-# community-related
+# Processes community-related measures.
 #################################
 # identifies community structure
 process.communities <- function(graph)

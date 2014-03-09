@@ -1,5 +1,5 @@
 #################################
-# connectivity-related
+# Processes connectivity-related measures.
 #################################
 # processes the link-connectivities
 process.link.connectivity <- function(graph)

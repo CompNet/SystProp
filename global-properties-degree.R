@@ -1,5 +1,5 @@
 #################################
-# degree-related
+# Processes degree-related measures.
 #################################
 # processes degrees
 process.degree <- function(graph)

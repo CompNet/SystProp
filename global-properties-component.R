@@ -1,5 +1,5 @@
 #################################
-# component-related
+# Processes component-related measures.
 #################################
 # identifies components
 process.components <- function(graph)

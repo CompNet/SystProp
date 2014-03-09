@@ -1,5 +1,5 @@
 #################################
-# general properties
+# Processes general measures.
 #################################
 properties[["directed"]] <- list(
 	type=logical(),

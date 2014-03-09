@@ -1,4 +1,6 @@
 SystProp
 ========
 
-Systematic study of real-world complex networks topological properties
+Systematic study of the topological properties of real-world complex networks.
+
+

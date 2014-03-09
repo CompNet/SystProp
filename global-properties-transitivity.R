@@ -1,5 +1,5 @@
 #################################
-# transitivity-related
+# Processes transitivity-related measures.
 #################################
 # processes local transitivies
 process.local.transitivity <- function(graph)

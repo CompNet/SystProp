@@ -1,5 +1,5 @@
 #################################
-# edgebetweeness-related
+# Processes edgebetweeness-related measures.
 #################################
 # limit used to approximate edgebetweenness
 edgebetweenness.cutoff <- -1	# <0 = no limit

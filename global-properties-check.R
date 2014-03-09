@@ -1,5 +1,6 @@
 #################################
-# various tests used to debug the dataset
+# Performs various tests used to identify problems
+# in the dataset.
 #################################
 properties[["file-name"]] <- list(
 	type=integer(),

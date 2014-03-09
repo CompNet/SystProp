@@ -1,3 +1,5 @@
+# Process all the network properties at once.
+#
 # setwd("~/eclipse/workspaces/Networks")
 # setwd("c:/eclipse/workspaces/Networks")
 #

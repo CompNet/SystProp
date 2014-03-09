@@ -1,5 +1,5 @@
 #################################
-# closeness-related
+# Processes closeness-related measures.
 #################################
 # limit used to approximate closeness
 closeness.cutoff <- -1	# <0 = no limit

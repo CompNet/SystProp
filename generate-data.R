@@ -1,3 +1,5 @@
+# Generates some random data, for testing purposes.
+#
 # setwd("~/eclipse/workspaces/Networks")
 # setwd("c:/eclipse/workspaces/Networks")
 #

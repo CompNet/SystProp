@@ -1,5 +1,5 @@
 #################################
-# eccentricity-related
+# Processes eccentricity-related measures.
 #################################
 # processes eccentricities
 process.eccentricity <- function(graph)

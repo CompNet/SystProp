@@ -1,5 +1,5 @@
 #################################
-# distance-related
+# Processes distance-related measures.
 #################################
 properties[["distance-average"]] <- list(
 	type=numeric(),

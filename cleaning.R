@@ -1,3 +1,11 @@
+# Cleans and normalizes the networks 
+# 	- multiplex networks are made single
+#	- multipartite networks are projected on a single dimension
+#	- directed networks are made undirected
+#	- weights and attributes are dropped
+#	- isolates are removed
+# The reason for this cleaning is to get comparable networks.
+#
 # setwd("~/eclipse/workspaces/Networks")
 # setwd("c:/eclipse/workspaces/Networks")
 #

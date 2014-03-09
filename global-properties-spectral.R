@@ -1,5 +1,5 @@
 #################################
-# eigenvector-related
+# Processes spectral measures.
 #################################
 # processes eigenvector centrality
 process.evcent <- function(graph)

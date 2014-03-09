@@ -1,5 +1,5 @@
 #################################
-# attribute-related properties
+# Processes attribute-related properties
 #################################
 properties[["node-attributes-total"]] <- list(
 	type=integer(),

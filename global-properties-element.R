@@ -1,5 +1,5 @@
 #################################
-# node/link-related
+# Processes node/link-related measures.
 #################################
 properties[["node-count"]] <- list(
 	type=integer(),
