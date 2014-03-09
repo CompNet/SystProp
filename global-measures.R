@@ -19,19 +19,21 @@ do.plot <- FALSE			# plot measures
 do.normalize <- FALSE		# collapse multiple links, project bipartite graph, etc.
 os <- .Platform$OS.type
 if(os=="windows")
-{	data.folder <- "f:/networks/"
+{	data.folder <- "d:/networks/"
 #	data.folder <- "c:/Temp/"
 #	folders <- 1:5
 	# all possible folders
-	folders <- 1:502
+	folders <- 1:611
+	# remove missing files (not converted yet)
+	folders <- folders[!(folders %in% c(182,312,326,399,400,401,439,464,465))]
 	# remove large files
 #	folders <- folders[!(folders %in% c(18,54:55,58,71:72,99,109,149:150,182,190:192,200,218:221,274:275,293:294:296,298:305,307:318,320,323,326:330,332:333,335,341:343:345,358:359,365,367,369,371:372,374:377,385:387:401,405,406,408,409,412,413,418,419,427,429:431,434:435,438:450,453:456,458,461,463:467,470,472,474))]
 }else
 {	data.folder <- "/var/data/networks/"
 	# all possible folders
-	folders <- 1:502
-	# remove missing files
-	folders <- folders[!(folders %in% c())]
+	folders <- 1:611
+	# remove missing files (not converted yet)
+	folders <- folders[!(folders %in% c(182,312,326,399,400,401,439,464,465))]
 	# remove large files
 #	folders <- folders[!(folders %in% c(18,54:55,58,71:72,99,109,149:150,182,190:192,200,218:221,274:275,293:294:296,298:305,307:318,320,323,326:330,332:333,335,341:343:345,358:359,365,367,369,371:372,374:377,385:387:401,405,406,408,409,412,413,418,419,427,429:431,434:435,438:450,453:456,458,461,463:467,470,472,474))]
 }
@@ -51,6 +53,7 @@ plot.folder <- paste(data.folder,"plots/",sep="")
 # TODO categorize networks depending on : 
 #		type of relationships (interaction, hierarchy, etc.) 
 #		VS. type of system (biological, artificial, etc.)
+
 measures <- list()
 source("SystProp/measures-check.R")
 source("SystProp/measures-general.R")
@@ -139,7 +142,7 @@ for(f in folders)
 			g <- read.graph(data.file,format=format)
 			end.time <- Sys.time();
 			total.time <- end.time - start.time;
-			cat("[",format(end.time,"%a %d %b %Y %X"),"] Loading (",vcount(g)," nodes and ",ecount(g)," links) completed in ",total.time,"\n",sep="")
+			cat("[",format(end.time,"%a %d %b %Y %X"),"] Loading (",vcount(g)," nodes and ",ecount(g)," links) completed in ",format(total.time),"\n",sep="")
 			
 			# process all required measures
 			start.time <- Sys.time();
@@ -157,7 +160,7 @@ for(f in folders)
 							data[as.character(f),prop.names[p]] <- Inf
 					end.time <- Sys.time();
 					total.time <- end.time - start.time1;
-					cat("[",format(end.time,"%a %d %b %Y %X"),"] ..Processing completed in ",total.time,": ",data[as.character(f),prop.names[p]],"\n",sep="")
+					cat("[",format(end.time,"%a %d %b %Y %X"),"] ..Processing completed in ",format(total.time),": ",data[as.character(f),prop.names[p]],"\n",sep="")
 					
 					# write resulting table
 					cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] ..Update measure files\n",sep="")
@@ -166,7 +169,7 @@ for(f in folders)
 			}
 			end.time <- Sys.time();
 			total.time <- end.time - start.time;
-			cat("[",format(end.time,"%a %d %b %Y %X"),"] Processing completed in ",total.time,"\n",sep="")
+			cat("[",format(end.time,"%a %d %b %Y %X"),"] Processing completed in ",format(total.time),"\n",sep="")
 		}
 	}
 }
