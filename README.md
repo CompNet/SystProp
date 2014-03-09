@@ -18,10 +18,14 @@ In a third step of our work, we try do identify groups of networks depending on 
 TODO
 
 
-## Contact and License
+## Contact
 These scripts were written by [Vincent Labatut](https://galatasaray.academia.edu/VincentLabatut), 2013-2014, <[vlabatut@gsu.edu.tr](mailto:vlabatut@gsu.edu.tr)>, Computer Science Department, Galatasaray University, Istanbul, Turkey. 
+
 They rely heavily on the excellent [igraph library](http://igraph.sourceforge.net/).
 
+If you use them, please cite the paper "".
+
+## License
 _This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version._
 
 _This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details._
