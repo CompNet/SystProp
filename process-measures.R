@@ -23,7 +23,7 @@ if(os=="windows")
 #	data.folder <- "c:/Temp/"
 #	folders <- 1:5
 	# all possible folders
-	folders <- 316:611 #191 TODO
+	folders <- 329:611 #191 TODO
 	# remove missing files (not converted yet)
 	folders <- folders[!(folders %in% c(182,312,326,371,399,400,401,430,439,464,465))]
 	# remove large files
@@ -31,7 +31,7 @@ if(os=="windows")
 }else
 {	data.folder <- "/var/data/networks/"
 	# all possible folders
-	folders <- 316:611
+	folders <- 329:611
 	# remove missing files (not converted yet)
 	folders <- folders[!(folders %in% c(182,312,326,371,399,400,401,430,439,464,465))]
 	# remove large files
