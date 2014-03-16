@@ -6,7 +6,7 @@ measures[["file-name"]] <- list(
 	type=integer(),
 	bounds=c(NA,NA),
 	foo=function(graph) 
-	{	dirname(data.file)
+	{	basename(dirname(data.file))
 	}
 )
 measures[["file-size"]] <- list(

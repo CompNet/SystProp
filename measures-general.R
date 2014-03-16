@@ -75,6 +75,6 @@ measures[["format"]] <- list(
 	type=character(),
 	bounds=c(NA,NA),
 	foo=function(graph) 
-	{	return(format)
+	{	return(file.format)
 	}
 )
