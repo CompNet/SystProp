@@ -28,7 +28,7 @@ if(os=="windows")
 }
 plot.folder <- paste(data.folder,"plots/",sep="")
 missing.folders <- # missing files (not converted yet)
-	c(5,182,312,326,370,371,399,400,401,430,439,464,465)
+	c(5,182,312,326,371,399,400,401,430,439,464,465)
 size.limit <- 1000000000 # only process files whose size is below this limit
 
 #################################
