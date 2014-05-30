@@ -3,7 +3,7 @@
 # (by order of decreasing importance) :
 # - Being connected
 # - Highest number of nodes
-# - Highest density
+# - Lowest density (projection tends to lead to dense graphs)
 #
 # setwd("~/eclipse/workspaces/Networks")
 # setwd("c:/eclipse/workspaces/Networks")
@@ -25,7 +25,11 @@ if(os=="windows")
 #	data.folder <- "c:/Temp/"
 #	folders <- 1:5
 	# all possible folders
-	folders <- 1:611
+	folders <- c(
+#		10,11,12,72,88,89,116,117,118,145,151,179,183,214,288,314,315,317,318,322,366,372,377,390,391,402,403,404,407,410,423,425,426,478,479,482,483,484,	# OK
+#		274,307,308,309,310,311,313,316,320,323,324,327,328,329,330,373,374,375,																			# trop gros
+#		376,385,386,387,388,389,392,393,394,395,396,397,398,405,406,408,409,418,419,420,421,422,424,427,469,474,480											# trop gros
+	)
 	# remove missing files (not converted yet)
 	folders <- folders[!(folders %in% c(182,312,326,399,400,401,439,464,465))]
 	# remove large files to speed up calculations
@@ -39,16 +43,8 @@ if(os=="windows")
 	# remove large files to speed up calculations
 #	folders <- folders[!(folders %in% c(18,54:55,58,71:72,99,109,149:150,182,190:192,200,218:221,274:275,293:294:296,298:305,307:318,320,323,326:330,332:333,335,341:343:345,358:359,365,367,369,371:372,374:377,385:387:401,405,406,408,409,412,413,418,419,427,429:431,434:435,438:450,453:456,458,461,463:467,470,472,474))]
 }
-out.folder <- paste(data.folder,"cleaned/",sep="")
-
-
-#################################
-# Toad table for bipartite and multiplex graphs
-# This table explains which projection to perform (multipartite nets)
-# and which link type to keep (multiplex nets) in the cleaned networks.
-#################################
-simpref.file <- paste(data.folder,"simplification.preferences.txt",sep="")
-simplif.pref <- read.table(simpref.file, row.names=1)
+out.folder <- paste(data.folder,"_cleaned/",sep="")
+dir.create(out.folder,showWarnings=FALSE)
 
 
 #################################
@@ -61,6 +57,7 @@ paths <- sort(paths)
 #################################
 # clean each network
 #################################
+prop.names <- c("Nodes","Links","Density","Connected")
 j <- 1
 for(f in folders)
 {	# check for file name existence
@@ -99,58 +96,62 @@ for(f in folders)
 			total.time <- end.time - start.time;
 			cat("[",format(end.time,"%a %d %b %Y %X"),"] Loading (",vcount(g)," nodes and ",ecount(g)," links) completed in ",format(total.time),"\n",sep="")
 			
-			# possibly project bipartite network
-			att.names <- list.vertex.attributes(graph)
-			if(any(att.names=="type"))
-			{	# retrieve preferred node type 
-				pref.type <- simplif.pref[f,1]
-				
-				# perform both projections
-				vals <- rep(TRUE,vcount(g))
-				vals[which(V(g)$type==pref.type)] <- FALSE
-				res <- bipartite.projection(graph=g, types=type, multiplicity=TRUE)
-				
-				# keep only the desired one
-				g <- res[[1]]
-			}
-			
-			
-			# retain only one type of link in multiplex networks
-			att.names <- list.edge.attributes(graph)
-			if(any(att.names=="type"))
-			{	# retrieve preferred link type 
-				pref.type <- simplif.pref[f,2]
-				
-				# remove corresponding links
-				idx <- which(E(g)$type==pref.type)
-				g <- delete.edges(graph=g, edges=idx)
-			}
+			# output folder
+			net.folder <- paste(out.folder,filename,"/",sep="")
+			dir.create(net.folder,showWarnings=FALSE)
 			
 			# remove all isolates
 			idx <- which(degree(graph=g, mode="all")<1)
 			g <- delete.vertices(graph=g, v=idx)
 			
 			# remove all node attributes
-			att.names <- list.vertex.attributes(graph)
+			att.names <- list.vertex.attributes(graph=g)
 			for(att.name in att.names)
-				g <- remove.vertex.attribute(graph=g, name=att.name)
+			{	if(att.name!="type")
+					g <- remove.vertex.attribute(graph=g, name=att.name)
+			}
 			
 			# remove all link attributes (including weights)
-			att.names <- list.edge.attributes(graph)
+			att.names <- list.edge.attributes(graph=g)
 			for(att.name in att.names)
 				g <- remove.edge.attribute(graph=g, name=att.name)
 			
-			# make the graph undirected
-			g <- as.undirected(graph=g, mode="collapse")
+			# project bipartite network
+			att.names <- list.vertex.attributes(graph=g)
+			prop <- NA
+			if(any(att.names=="type"))
+			{	# init
+				types <- sort(unique(V(g)$type))
+				prop <- matrix(ncol=length(prop.names),nrow=length(types))
+				rownames(prop) <- types
+				colnames(prop) <- prop.names
+						
+				# process and record all projections
+				for(type in types)
+				{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Processing type ",type," (",length(which(V(g)$type==type)),")\n",sep="")
+					vals <- rep(TRUE,vcount(g))
+					vals[which(V(g)$type==type)] <- FALSE
+					g2 <- bipartite.projection(graph=g, types=vals, multiplicity=FALSE, which=FALSE)
+					cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] #nodes=",vcount(g2)," #links=",ecount(g2),"\n",sep="")
+					
+					# update property matrix
+					prop[type,] <- c(vcount(g2),ecount(g2),graph.density(g2),all(degree(g2)>0))
+
+					# record projected version
+					data.file <- paste(net.folder,"network.",type,".net",sep="")
+					write.graph(g2,data.file,format="pajek")
+					
+					g2 <- NULL; gc();
+				}
+			}else
+			{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] WARNING: Network not detected as multipartite\n",sep="")
+			}
 			
-			# remove loops and multiple links
-			if(!is.simple(g))
-				g <- simplify(graph=g, remove.multiple=TRUE, remove.loops=TRUE)
-			
-			# record cleaned version of the network
-			net.folder <- paste(out.folder,filename,"/",sep="")
-			data.file <- paste(net.folder,"network.net",sep="")
-			write.graph(g,data.file,format="pajek")
+			# record property matrix
+			if(!is.na(prop))
+			{	data.file <- paste(net.folder,"properties.txt",sep="")
+				write.table(prop,data.file)
+			}
 			
 			end.time <- Sys.time();
 			total.time <- end.time - start.time;

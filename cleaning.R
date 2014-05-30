@@ -46,7 +46,7 @@ out.folder <- paste(data.folder,"cleaned/",sep="")
 
 
 #################################
-# Toad table for bipartite and multiplex graphs
+# Load table for bipartite and multiplex graphs
 # This table explains which projection to perform (multipartite nets)
 # and which link type to keep (multiplex nets) in the cleaned networks.
 #################################
@@ -103,7 +103,7 @@ for(f in folders)
 			cat("[",format(end.time,"%a %d %b %Y %X"),"] Loading (",vcount(g)," nodes and ",ecount(g)," links) completed in ",format(total.time),"\n",sep="")
 			
 			# possibly project bipartite network
-			att.names <- list.vertex.attributes(graph)
+			att.names <- list.vertex.attributes(graph=g)
 			if(any(att.names=="type"))
 			{	# retrieve preferred node type 
 				pref.type <- simplif.pref[f,1]
@@ -111,15 +111,11 @@ for(f in folders)
 				# perform both projections
 				vals <- rep(TRUE,vcount(g))
 				vals[which(V(g)$type==pref.type)] <- FALSE
-				res <- bipartite.projection(graph=g, types=type, multiplicity=TRUE)
-				
-				# keep only the desired one
-				g <- res[[1]]
+				g <- bipartite.projection(graph=g, types=vals, multiplicity=TRUE, which=FALSE)
 			}
 			
-			
 			# retain only one type of link in multiplex networks
-			att.names <- list.edge.attributes(graph)
+			att.names <- list.edge.attributes(graph=g)
 			if(any(att.names=="type"))
 			{	# retrieve preferred link type 
 				pref.type <- simplif.pref[f,2]
