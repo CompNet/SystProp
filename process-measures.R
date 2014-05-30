@@ -23,7 +23,8 @@ if(os=="windows")
 #	data.folder <- "c:/Temp/"
 	folders <- 1:611
 }else
-{	data.folder <- "/var/data/networks/"
+{	#data.folder <- "/var/data/networks/"
+	data.folder <- "/media/Samsung/networks/"
 	folders <- 1:611
 }
 plot.folder <- paste(data.folder,"plots/",sep="")
@@ -260,6 +261,6 @@ if(do.plot)
 }
 
 # 10 : absent
-# 54, 191, 305, 440, 441, 442, 446, 448, 456, 471 : igraph refuse fichiers pajek (p-ê une question de taille du fichier ?)
-# 306, 308, 310, 327, 328, 329, 330, 386, 387, 408, 409, 419, 461, 474 : igraph refuse fichiers graphml (p-ê encodage UTF8 ?)
+# 54, 191, 305, 440, 441, 442, 446, 448, 456, 471 : igraph refuse fichiers pajek (p-ï¿½ une question de taille du fichier ?)
+# 306, 308, 310, 327, 328, 329, 330, 386, 387, 408, 409, 419, 461, 474 : igraph refuse fichiers graphml (p-ï¿½ encodage UTF8 ?)
 

@@ -34,7 +34,8 @@ if(os=="windows")
 	# remove large files to speed up calculations
 #	folders <- folders[!(folders %in% c(18,54:55,58,71:72,99,109,149:150,182,190:192,200,218:221,274:275,293:294:296,298:305,307:318,320,323,326:330,332:333,335,341:343:345,358:359,365,367,369,371:372,374:377,385:387:401,405,406,408,409,412,413,418,419,427,429:431,434:435,438:450,453:456,458,461,463:467,470,472,474))]
 }else
-{	data.folder <- "/var/data/networks/"
+{	#data.folder <- "/var/data/networks/"
+	data.folder <- "/media/Samsung/networks/"
 	# all possible folders
 	folders <- 1:611
 	# remove missing files (not converted yet)
