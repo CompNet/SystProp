@@ -40,7 +40,17 @@ if(os=="windows")
 {	#data.folder <- "/var/data/networks/"
 	data.folder <- "/media/Samsung/networks/"
 	# all possible folders
-	folders <- 1:611
+	#folders <- 1:611
+	folders <- c(
+		# OK
+#		10,11,12,72,88,89,116,117,118,145,151,179,183,214,288,311,313,314,315,316,317,318,322,324,366,372,377,390,391,397,398,402,403,404,407,410,418,423,425,426,478,479,480,482,483,484,
+			
+		# only one
+#		274,307,309,320,323,327,328,329,373,374,375,376,385,386,387,388,389,392,393,394,395,396,405,406,408,409,419,420,421,422,424,427,469,474
+			
+		# none at all
+#		308,310,330
+	)
 	# remove missing files (not converted yet)
 	folders <- folders[!(folders %in% c(182,312,326,399,400,401,439,464,465))]
 	# remove large files to speed up calculations
@@ -128,9 +138,9 @@ for(f in folders)
 				prop <- matrix(ncol=length(prop.names),nrow=length(types))
 				rownames(prop) <- types
 				colnames(prop) <- prop.names
-						
+				
 				# process and record all projections
-				for(type in types)
+				for(type in types[-1])#TODO
 				{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Processing type ",type," (",length(which(V(g)$type==type)),")\n",sep="")
 					vals <- rep(TRUE,vcount(g))
 					vals[which(V(g)$type==type)] <- FALSE
