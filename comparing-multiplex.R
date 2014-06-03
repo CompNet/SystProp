@@ -1,4 +1,4 @@
-# Compare the projections of multipartite networks, in order to 
+# Compare the projections of multiplex networks, in order to 
 # determine which one is the most appropriate. Our criteria are
 # (by order of decreasing importance) :
 # - Being connected
@@ -26,11 +26,10 @@ if(os=="windows")
 #	folders <- 1:5
 	# all possible folders
 	folders <- c(
-#		10,11,12,72,88,89,116,117,118,145,151,179,183,214,288,314,315,317,318,322,366,			# OK
-#		372,377,390,391,402,403,404,407,410,423,425,426,478,479,482,483,484,					# OK
-		274,307,308,309,310,311,313,316,320,323,324,327,328,329,330,373,374,375,				# trop gros
-		376,385,386,387,388,389,392,393,394,395,396,397,398,405,406,408,409,418,				# trop gros
-		419,420,421,422,424,427,469,474,480														# trop gros
+			  2,  6, 11, 27, 28, 32, 56, 57, 59, 60, 62, 63, 64, 65, 66,
+			 67, 68, 69, 70, 96, 98,
+			102,104,116,141,142,143,144,155,156,157,158,161,162,163,165,
+			169,170,360,361,362,363,365,366,452,462,475,476,482,503
 	)
 	# remove missing files (not converted yet)
 	folders <- folders[!(folders %in% c(182,312,326,399,400,401,439,464,465))]
@@ -42,21 +41,17 @@ if(os=="windows")
 	# all possible folders
 	#folders <- 1:611
 	folders <- c(
-		# OK
-#		10,11,12,72,88,89,116,117,118,145,151,179,183,214,288,311,313,314,315,316,317,318,322,324,366,372,377,390,391,397,398,402,403,404,407,410,418,423,425,426,478,479,480,482,483,484,
-			
-		# only one
-#		274,307,309,320,323,327,328,329,373,374,375,376,385,386,387,388,389,392,393,394,395,396,405,406,408,409,419,420,421,422,424,427,469,474
-			
-		# none at all
-#		308,310,330
+			2,  6, 11, 27, 28, 32, 56, 57, 59, 60, 62, 63, 64, 65, 66,
+			67, 68, 69, 70, 96, 98,
+			102,104,116,141,142,143,144,155,156,157,158,161,162,163,165,
+			169,170,360,361,362,363,365,366,452,462,475,476,482,503
 	)
 	# remove missing files (not converted yet)
 	folders <- folders[!(folders %in% c(182,312,326,399,400,401,439,464,465))]
 	# remove large files to speed up calculations
 #	folders <- folders[!(folders %in% c(18,54:55,58,71:72,99,109,149:150,182,190:192,200,218:221,274:275,293:294:296,298:305,307:318,320,323,326:330,332:333,335,341:343:345,358:359,365,367,369,371:372,374:377,385:387:401,405,406,408,409,412,413,418,419,427,429:431,434:435,438:450,453:456,458,461,463:467,470,472,474))]
 }
-out.folder <- paste(data.folder,"_cleaned/",sep="")
+out.folder <- paste(data.folder,"_multiplex/",sep="")
 dir.create(out.folder,showWarnings=FALSE)
 
 
@@ -120,17 +115,17 @@ for(f in folders)
 			# remove all node attributes
 			att.names <- list.vertex.attributes(graph=g)
 			for(att.name in att.names)
-			{	if(att.name!="type")
-					g <- remove.vertex.attribute(graph=g, name=att.name)
-			}
-			
+				g <- remove.vertex.attribute(graph=g, name=att.name)
+						
 			# remove all link attributes (including weights)
 			att.names <- list.edge.attributes(graph=g)
 			for(att.name in att.names)
-				g <- remove.edge.attribute(graph=g, name=att.name)
+			{	if(att.name!="type")
+					g <- remove.edge.attribute(graph=g, name=att.name)	
+			}
 			
-			# project bipartite network
-			att.names <- list.vertex.attributes(graph=g)
+			# simplify multiplex network
+			att.names <- list.edge.attributes(graph=g)
 			prop <- NA
 			if(any(att.names=="type"))
 			{	# init
@@ -139,25 +134,25 @@ for(f in folders)
 				rownames(prop) <- types
 				colnames(prop) <- prop.names
 				
-				# process and record all projections
-				for(type in types[-1])#TODO
-				{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Processing type ",type," (",length(which(V(g)$type==type)),")\n",sep="")
-					vals <- rep(TRUE,vcount(g))
-					vals[which(V(g)$type==type)] <- FALSE
-					g2 <- bipartite.projection(graph=g, types=vals, multiplicity=FALSE, which=FALSE)
+				# process and record all simplifications
+				for(type in types)
+				{	el <- which(E(g)$type==type)
+					cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Processing type ",type," (",length(el),")\n",sep="")
+					
+					g2 <- delete.edges(g,vals)
 					cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] #nodes=",vcount(g2)," #links=",ecount(g2),"\n",sep="")
 					
 					# update property matrix
 					prop[type,] <- c(vcount(g2),ecount(g2),graph.density(g2),all(degree(g2)>0))
 
-					# record projected version
+					# record simplified version
 					data.file <- paste(net.folder,"network.",type,".net",sep="")
 					write.graph(g2,data.file,format="pajek")
 					
 					g2 <- NULL; gc();
 				}
 			}else
-			{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] WARNING: Network not detected as multipartite\n",sep="")
+			{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] WARNING: Network not detected as multiplex\n",sep="")
 			}
 			
 			# record property matrix
