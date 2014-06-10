@@ -8,7 +8,7 @@
 # setwd("~/eclipse/workspaces/Networks")
 # setwd("c:/eclipse/workspaces/Networks")
 #
-# source("SystProp/comparing-multi.R")
+# source("SystProp/comparing-multiplex.R")
 ###################################################
 
 #################################
@@ -108,10 +108,6 @@ for(f in folders)
 			net.folder <- paste(out.folder,filename,"/",sep="")
 			dir.create(net.folder,showWarnings=FALSE)
 			
-			# remove all isolates
-			idx <- which(degree(graph=g, mode="all")<1)
-			g <- delete.vertices(graph=g, v=idx)
-			
 			# remove all node attributes
 			att.names <- list.vertex.attributes(graph=g)
 			for(att.name in att.names)
@@ -121,7 +117,7 @@ for(f in folders)
 			att.names <- list.edge.attributes(graph=g)
 			for(att.name in att.names)
 			{	if(att.name!="type")
-					g <- remove.edge.attribute(graph=g, name=att.name)	
+					g <- remove.edge.attribute(graph=g, name=att.name)
 			}
 			
 			# simplify multiplex network
@@ -129,23 +125,29 @@ for(f in folders)
 			prop <- NA
 			if(any(att.names=="type"))
 			{	# init
-				types <- sort(unique(V(g)$type))
+				types <- sort(unique(E(g)$type))
 				prop <- matrix(ncol=length(prop.names),nrow=length(types))
 				rownames(prop) <- types
 				colnames(prop) <- prop.names
 				
 				# process and record all simplifications
 				for(type in types)
-				{	el <- which(E(g)$type==type)
-					cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Processing type ",type," (",length(el),")\n",sep="")
-					
-					g2 <- delete.edges(g,vals)
+				{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Processing type ",type," (",length(which(E(g)$type==type)),")\n",sep="")
+					g2 <- delete.edges(g,which(E(g)$type!=type))
 					cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] #nodes=",vcount(g2)," #links=",ecount(g2),"\n",sep="")
+					g2 <- remove.edge.attribute(graph=g2, name="type")
+					
+					# remove all isolates
+					idx <- which(degree(graph=g2, mode="all")<1)
+					g2 <- delete.vertices(graph=g2, v=idx)
 					
 					# update property matrix
 					prop[type,] <- c(vcount(g2),ecount(g2),graph.density(g2),all(degree(g2)>0))
-
+					cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] #nodes=",vcount(g2)," #links=",ecount(g2),"\n",sep="")
+					
 					# record simplified version
+					type <- gsub(":","-",type)
+					type <- gsub("/","-",type)
 					data.file <- paste(net.folder,"network.",type,".net",sep="")
 					write.graph(g2,data.file,format="pajek")
 					

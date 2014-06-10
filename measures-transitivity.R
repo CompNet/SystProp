@@ -21,43 +21,43 @@ measures[["transitivity-global"]] <- list(
 	{	transitivity(graph, type="globalundirected",weights=NULL,isolates="zero")
 	}
 )
-measures[["transitivity-local-average"]] <- list(
-	type=numeric(),
-	bounds=c(0,1),
-	foo=function(graph) 
-	{	process.local.transitivity(graph)
-		mean(cache$localtransitivity,na.rm=TRUE)
-	}
-)
-measures[["transitivity-local-stdev"]] <- list(
-	type=numeric(),
-	bounds=c(0,1),
-	foo=function(graph) 
-	{	process.local.transitivity(graph)
-		sd(cache$localtransitivity,na.rm=TRUE)
-	}
-)
-measures[["transitivity-local-min"]] <- list(
-	type=numeric(),
-	bounds=c(0,1),
-	foo=function(graph) 
-	{	process.local.transitivity(graph)
-		min(cache$localtransitivity,na.rm=TRUE)
-	}
-)
-measures[["transitivity-local-max"]] <- list(
-	type=numeric(),
-	bounds=c(0,1),
-	foo=function(graph) 
-	{	process.local.transitivity(graph)
-		max(cache$localtransitivity,na.rm=TRUE)
-	}
-)
-measures[["transitivity-assortativity"]] <- list(
-	type=numeric(),
-	bounds=c(-1,1),
-	foo=function(graph) 
-	{	process.local.transitivity(graph)
-		assortativity(graph=graph, types1=cache$localtransitivity, types2=NULL, directed=FALSE)
-	}
-)
+#measures[["transitivity-local-average"]] <- list(
+#	type=numeric(),
+#	bounds=c(0,1),
+#	foo=function(graph) 
+#	{	process.local.transitivity(graph)
+#		mean(cache$localtransitivity,na.rm=TRUE)
+#	}
+#)
+#measures[["transitivity-local-stdev"]] <- list(
+#	type=numeric(),
+#	bounds=c(0,1),
+#	foo=function(graph) 
+#	{	process.local.transitivity(graph)
+#		sd(cache$localtransitivity,na.rm=TRUE)
+#	}
+#)
+#measures[["transitivity-local-min"]] <- list(
+#	type=numeric(),
+#	bounds=c(0,1),
+#	foo=function(graph) 
+#	{	process.local.transitivity(graph)
+#		min(cache$localtransitivity,na.rm=TRUE)
+#	}
+#)
+#measures[["transitivity-local-max"]] <- list(
+#	type=numeric(),
+#	bounds=c(0,1),
+#	foo=function(graph) 
+#	{	process.local.transitivity(graph)
+#		max(cache$localtransitivity,na.rm=TRUE)
+#	}
+#)
+#measures[["transitivity-assortativity"]] <- list(
+#	type=numeric(),
+#	bounds=c(-1,1),
+#	foo=function(graph) 
+#	{	process.local.transitivity(graph)
+#		assortativity(graph=graph, types1=cache$localtransitivity, types2=NULL, directed=FALSE)
+#	}
+#)
