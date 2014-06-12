@@ -21,7 +21,7 @@ measures[["degree-all-centralization"]] <- list(
 	{	process.degree(graph)
 		# formula taken from Freeman L. C., "Centrality in Social Networks I: Conceptual Clarification", Social Networks, 1(3):215-239, 1978.
 		n <- vcount(graph)
-		(max(cache$degree)*n - sum(cache$degree)) / (n^2 - 3*n +2)
+		(max(cache$degree)*n - sum(cache$degree)) / (n^2 - 3*n +2) #TODO this can overflow
 	}
 )
 measures[["degree-all-average"]] <- list(

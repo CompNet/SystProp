@@ -61,19 +61,22 @@ if(os=="windows")
 #		380,218,413,324,186,366,322,193,184,457,484,221,342,41,
 #		224,284,223,292,
 #		294,291,67,68,377,
-#		36,275,71,185,290,16,367,17,431,27,369,370,371,304,334,391,
-#		318,611,65,66,311,312,315,479,313,390,372,482,301,192,299,
+#		36,275,71,185,290,16,367,17,431,27,369,370,371,
+#		304,334,391,318,611,65,66,
+#		311,312,315,
+#		479,313,390,372,482,301,192,299,
 #		373,478,321,343,317,109,314,344,345,293,385,220,428,412,59,
-#		462,355,453,472,323,333,302,480,341,149,320,376,190,466,307,
-#		365,295,425,72,450,455,150,438,439,298,427,447,407,274,359,
-#		398,399,400,401,395,421,468,422,406,405,303,434,454,300,397,
-#		394,429,430,393,388,335,435,396,469,470,389,297,18,58,420,55,
-#		392,458,99,309,449,375,219,444,374,445,316,418,424,443,446,
-#		54,408,441,308,471,409,305,386,419,306,442,387,461,329,456,
-#		440,191,330,448,327,474,328,310
+#		462,355,453,472,323,
+		333,302,480,341,149,320,376,190,466,307,
+		365,295,425,72,450,455,150,438,439,298,427,447,407,274,359,
+		398,399,400,401,395,421,468,422,406,405,303,434,454,300,397,
+		394,429,430,393,388,335,435,396,469,470,389,297,18,58,420,55,
+		392,458,99,309,449,375,219,444,374,445,316,418,424,443,446,
+		54,408,441,308,471,409,305,386,419,306,442,387,461,329,456,
+		440,191,330,448,327,474,328,310
 	)
 }
-folders <- folders[!(folders %in% c(308,310,330,418,474))] #remove missing multipartite projections
+folders <- folders[!(folders %in% c(58,308,310,330,418,474))] #remove missing multipartite projections
 plot.folder <- paste(data.folder,"plots/",sep="")
 missing.folders <- c(182,312,326,399,400,401,439,464,465)
 size.limit <- 10^36#1000000000 # only process files whose size is below this limit
@@ -100,7 +103,7 @@ source("SystProp/measures-element.R")
 #	source("SystProp/measures-component.R")
 source("SystProp/measures-degree.R")
 source("SystProp/measures-distance.R")
-source("SystProp/measures-transitivity.R")
+#source("SystProp/measures-transitivity.R")
 #source("SystProp/measures-betweenness.R")
 #source("SystProp/measures-closeness.R")
 #source("SystProp/measures-edgebetweenness.R")
@@ -113,7 +116,7 @@ source("SystProp/measures-transitivity.R")
 #################################
 # init/load data frame
 #################################
-table.file <- paste(data.folder,"/global.measures.distances.txt",sep="")
+table.file <- paste(data.folder,"/global.measures.txt",sep="")
 prop.names <- names(measures)
 if(file.exists(table.file))
 {	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Load existing data frame\n",sep="")
