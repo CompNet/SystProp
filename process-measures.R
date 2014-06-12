@@ -76,7 +76,8 @@ if(os=="windows")
 		440,191,330,448,327,474,328,310
 	)
 }
-folders <- folders[!(folders %in% c(58,308,310,330,418,474))] #remove missing multipartite projections
+folders <- folders[!(folders %in% c(58,308,310,330,418,474))] 				#remove missing multipartite projections
+#folders <- folders[!(folders %in% c(4,9,116,163,386,388,420,421,422,469))]	# remove networks with a full density
 plot.folder <- paste(data.folder,"plots/",sep="")
 missing.folders <- c(182,312,326,399,400,401,439,464,465)
 size.limit <- 10^36#1000000000 # only process files whose size is below this limit
