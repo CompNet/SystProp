@@ -46,6 +46,7 @@ if(os=="windows")
 			
 		# none at all
 #		308,310,330,418,474
+		58
 	)
 	# remove missing files (not converted yet)
 	folders <- folders[!(folders %in% c(182,312,326,399,400,401,439,464,465))]
