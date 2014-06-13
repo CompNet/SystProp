@@ -12,7 +12,7 @@
 ########################################################
 library("poweRlaw")	# implements partially the functions of Clauset et al.
 
-source("SystProp/pli/discexp.R.R")
+source("SystProp/pli/discexp.R")
 source("SystProp/pli/disclnorm.R")
 source("SystProp/pli/discpowerexp.R")
 source("SystProp/pli/discweib.R")
@@ -31,11 +31,13 @@ source("SystProp/pli/zeta.R")
 ########################################################
 # retrieving data
 ########################################################
-folder <- "temp/"
+folder <- "SystProp/pli/temp/"
 file.name <- "degree-all"
 file.ext <- ".txt"
 in.file <- paste(folder,file.name,file.ext,sep="") 
-data <- read.table(in.file)
+#data <- read.table(in.file)
+			data("moby")
+			data <- moby
 
 ########################################################
 # estimating the power law and lower cut-off value
@@ -49,7 +51,7 @@ data <- read.table(in.file)
 # estimate the power law exponent
 # evaluate the estimated law
 	nb.cores <- parallel::detectCores()
-	sig <- bootstrap_p(m, no_of_sims=1000, threads=nb.cores)
+	#sig <- bootstrap_p(m, no_of_sims=1000, threads=nb.cores)
 # init result matrix
 	r.names <- c("n","<x>","sd","x_max","^x_min^","^alpha^","n_tail","p")
 	pl.results <- matrix(NA, nrow=length(r.names), ncol=1)
@@ -64,19 +66,22 @@ data <- read.table(in.file)
 	pl.results["p",1] <- sig$p
 # record those results
 	out.file <- paste(folder,file.name,".powerlaw",file.ext,sep="") 
-	write.table(x=comp.results, file=out.file, row.names=TRUE, col.names=FALSE)
+	write.table(x=pl.results, file=out.file, row.names=TRUE, col.names=FALSE)
 	
 
 ########################################################
 # fitting distributions
 ########################################################
 # pure discrete Power law a.k.a. Zipf or Zeta (zeta)
+	cat("Fitting discrete power law\n")
 	power.d <- zeta.fit(x=data, threshold=x.min, method="ml.direct") # ml.approx
 	# out: type, exponent, method, loglike, threshold, samples.over.threshold
 # discrete Power law with exponential cutoff (discpowerexp)
+	cat("Fitting discrete power law with exponential cut-off\n")
 	powerexp.d <- discpowerexp.fit(x=data,threshold=x.min)
 	# out: type, exponent, rate, loglike, threshold, samples.over.threshold
 # discrete Log-normal distribution (disclnorm)
+	cat("Fitting log-normal distribution\n")
 	lnorm.d <- fit.lnorm.disc(x=data, threshold=x.min)
 	# out: type, meanlog, sdlog, loglike, threshold, datapoints.over.threshold
 # discrete Exponential distribution (discexp)
