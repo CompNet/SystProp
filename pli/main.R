@@ -35,7 +35,7 @@ folder <- "SystProp/pli/temp/"
 file.name <- "degree-all"
 file.ext <- ".txt"
 in.file <- paste(folder,file.name,file.ext,sep="") 
-#data <- read.table(in.file)
+#data <- read.table(in.file) TODO
 			data("moby")
 			data <- moby
 
@@ -51,7 +51,7 @@ in.file <- paste(folder,file.name,file.ext,sep="")
 # estimate the power law exponent
 # evaluate the estimated law
 	nb.cores <- parallel::detectCores()
-	#sig <- bootstrap_p(m, no_of_sims=1000, threads=nb.cores)
+	#sig <- bootstrap_p(m, no_of_sims=1000, threads=nb.cores) TODO
 # init result matrix
 	r.names <- c("n","<x>","sd","x_max","^x_min^","^alpha^","n_tail","p")
 	pl.results <- matrix(NA, nrow=length(r.names), ncol=1)
@@ -85,15 +85,19 @@ in.file <- paste(folder,file.name,file.ext,sep="")
 	lnorm.d <- fit.lnorm.disc(x=data, threshold=x.min)
 	# out: type, meanlog, sdlog, loglike, threshold, datapoints.over.threshold
 # discrete Exponential distribution (discexp)
+	cat("Fitting exponential distribution\n")
 	exp.d <- discexp.fit(x=data, threshold=x.min)
 	# out: type, lambda, method, loglike, samples.over.threshold, threshold
 # discrete Stretched exponential or Weibull distribution (discweib)
+	cat("Fitting stretched exponential distribution\n")
 	weib.d <- discweib.fit(x=data, threshold=x.min)
 	# out: type, shape, scale, loglike, threshold, samples.over.threshold
 # Poisson distribution
+	cat("Fitting poisson distribution\n")
 	pois.d <- pois.tail.fit(x=data, threshold=x.min)
 	# out: type, rate, loglike, threshold, samples.over.threshold, full.mean, mean.over.threshold
 # Yule-Simon distribution (yule)
+	cat("Fitting yule-simon distribution\n")
 	yule.d <- yule.fit(x=data, threshold=x.min)
 	# out: type, exponent, loglike, threshold, samples.over.threshold
 
