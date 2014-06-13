@@ -8,7 +8,7 @@
 # setwd("~/eclipse/workspaces/Networks")
 # setwd("c:/eclipse/workspaces/Networks")
 #
-# source("SystProp/pli/process-powerlawtests.R")
+# source("SystProp/process-powerlawtests.R")
 ########################################################
 
 #################################
@@ -144,7 +144,7 @@ for(f in folders)
 		}else
 		{	# load network
 			cat("[",format(start.time,"%a %d %b %Y %X"),"] Loading data file #",f,": '",data.file,"'\n",sep="")
-			data <- read.table(data.file)
+			data <- as.vector(read.table(data.file)[,1])
 			end.time <- Sys.time();
 			total.time <- end.time - start.time;
 			cat("[",format(end.time,"%a %d %b %Y %X"),"] Loading completed in ",format(total.time),"\n",sep="")
@@ -156,13 +156,16 @@ for(f in folders)
 			# estimating the power law and lower cut-off value
 			########################################################
 			# estimate the lower cut-off value
+				cat("Estimating lower cut-off value\n")
 				m <- displ$new(data)
 				x.min <- estimate_xmin(m)$xmin
 				m$setXmin(x.min)
 			# estimate the power law exponent
+				cat("Estimating power law exponent\n")
 				alpha = estimate_pars(m)$pars
 				m$setPars(alpha)
 			# evaluate the estimated law
+				cat("Evaluating the estimated law\n")
 				nb.cores <- parallel::detectCores()
 				sig <- bootstrap_p(m, no_of_sims=10, threads=nb.cores) #TODO
 			# init result matrix
