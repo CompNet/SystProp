@@ -51,7 +51,7 @@ in.file <- paste(folder,file.name,file.ext,sep="")
 # estimate the power law exponent
 # evaluate the estimated law
 	nb.cores <- parallel::detectCores()
-	#sig <- bootstrap_p(m, no_of_sims=1000, threads=nb.cores) TODO
+	sig <- bootstrap_p(m, no_of_sims=10, threads=nb.cores) TODO
 # init result matrix
 	r.names <- c("n","<x>","sd","x_max","^x_min^","^alpha^","n_tail","p")
 	pl.results <- matrix(NA, nrow=length(r.names), ncol=1)
@@ -108,39 +108,45 @@ in.file <- paste(folder,file.name,file.ext,sep="")
 # init result matrix
 	r.names <- c("PowerExp","LogNorm","Exp","StrtExp","Poisson","YuleSimon")
 	c.names <- c("LLRatio","pVal")
-	comp.results <- matrix(NA,ncollength(c.names),nrow=length(r.names))
+	comp.results <- matrix(NA,ncol=length(c.names),nrow=length(r.names))
 	rownames(comp.results) <- r.names
 	colnames(comp.results) <- c.names
 # pure power law vs. power law with exponential cutoff
+	cat("Comparing power law vs. power law with exponential cutoff\n")
 	powerexp.res <- power.powerexp.lrt(power.d=power.d, powerexp.d=powerexp.d)
-	comp.results["PowerExp","LLRatio"] <- powerexp.res$loglike.ratio
-	comp.results["PowerExp","pVal"] <- powerexp.res$p.two.sided
+	comp.results["PowerExp","LLRatio"] <- powerexp.res$log.like.ratio
+	comp.results["PowerExp","pVal"] <- powerexp.res$p_value
 # power law vs. log-normal
+	cat("Comparing power law vs. log-normal distribution\n")
 	lnorm.res <- vuong(zeta.lnorm.llr(x=data, zeta.d=power.d, lnorm.d=lnorm.d))
 	comp.results["LogNorm","LLRatio"] <- lnorm.res$loglike.ratio
 	comp.results["LogNorm","pVal"] <- lnorm.res$p.two.sided
 # power law vs. exponential
+	cat("Comparing power law vs. exponential distribution\n")
 	exp.res <- vuong(zeta.exp.llr(x=data, zeta.d=power.d, exp.d=exp.d))
 	comp.results["Exp","LLRatio"] <- exp.res$loglike.ratio
 	comp.results["Exp","pVal"] <- exp.res$p.two.sided
 # power law vs. stretched exponential
+	cat("Comparing power law vs. stretched exponential distribution\n")
 	weib.res <- vuong(zeta.weib.llr(x=data, zeta.d=power.d, weib.d=weib.d))
 	comp.results["StrtExp","LLRatio"] <- weib.res$loglike.ratio
 	comp.results["StrtExp","pVal"] <- weib.res$p.two.sided
 # power law vs. poisson
+	cat("Comparing power law vs. poisson distribution\n")
 	pois.res <- vuong(zeta.poisson.llr(x=data, zeta.d=power.d, pois.d=pois.d))
 	comp.results["Poisson","LLRatio"] <- pois.res$loglike.ratio
 	comp.results["Poisson","pVal"] <- pois.res$p.two.sided
 # power law vs. yule
+	cat("Comparing power law vs. yule-simon distribution\n")
 	yule.res <- vuong(zeta.yule.llr(x=data, zeta.d=power.d, yule.d=yule.d))
 	comp.results["YuleSimon","LLRatio"] <- yule.res$loglike.ratio
 	comp.results["YuleSimon","pVal"] <- yule.res$p.two.sided
 # record comparison results
+	cat("Recording results\n")
 	out.file <- paste(folder,file.name,".comparisons",file.ext,sep="") 
 	write.table(x=comp.results, file=out.file, row.names=TRUE, col.names=TRUE)
 	
 	
+cat("All done\n")
 ########################################################
 ########################################################
-	
-
