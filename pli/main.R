@@ -46,9 +46,9 @@ in.file <- paste(folder,file.name,file.ext,sep="")
 	m <- displ$new(data)
 	x.min <- estimate_xmin(m)$xmin
 	m$setXmin(x.min)
+# estimate the power law exponent
 	alpha = estimate_pars(m)$pars
 	m$setPars(alpha)
-# estimate the power law exponent
 # evaluate the estimated law
 	nb.cores <- parallel::detectCores()
 	sig <- bootstrap_p(m, no_of_sims=10, threads=nb.cores) #TODO

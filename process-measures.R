@@ -136,6 +136,8 @@ if(file.exists(table.file))
 	}
 }
 print(data)
+
+
 #################################
 # get existing folder list
 #################################
@@ -147,7 +149,7 @@ paths <- sort(paths)
 #################################
 j <- 1
 for(f in folders)
-{	unvailable <- FALSE
+{	unavailable <- FALSE
 	gc()
 	
 	# check for file name existence
@@ -164,7 +166,7 @@ for(f in folders)
 	# no network available
 	if(is.na(filename))
 	{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] WARNING: No network folder could be found for ",filename,"\n",sep="")
-		unvailable <- TRUE
+		unavailable <- TRUE
 	
 	# network available
 	}else
@@ -184,17 +186,17 @@ for(f in folders)
 		# network should be ignored
 		if(f %in% missing.folders)
 		{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] WARNING: Network folder ",filename," is in the list of missing folders >> ignored \n",sep="")
-			unvailable <- TRUE
+			unavailable <- TRUE
 		# file not found
 		}else if(!file.exists(data.file))
 		{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] WARNING: No network file could be found for ",filename,"\n",sep="")
 			file.format <- NULL
-			unvailable <- TRUE
+			unavailable <- TRUE
 		# file too large
 		}else if(file.info(data.file)$size>size.limit)
 		{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] WARNING: file ",filename," too large, we ignore it for now\n",sep="")
 			file.format <- NULL
-			unvailable <- TRUE
+			unavailable <- TRUE
 			
 		# normal processing
 		}else
@@ -235,7 +237,7 @@ for(f in folders)
 	}
 	
 	# add minimal information for unavailable networks
-	if(unvailable)
+	if(unavailable)
 	{	# update file name and size
 		pn <- c("file-name","file-size")
 		for(propn in pn)
