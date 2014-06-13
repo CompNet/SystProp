@@ -46,9 +46,10 @@ if(os=="windows")
 {	#data.folder <- "/var/data/networks/"
 	data.folder <- "/media/Samsung/networks/_cleaned/"
 	folders <- c(
-		107,34,160,108,571,166,159,568,111,113,569,112,570,
-		585,168,164,491,167,152,586,538,177,539,581,580,178,
-		583,582,584,576,604,599,531,502,595,530,598,605,606,
+#		107,34,160,108,571,166,159,568,111,113,569,112,570,
+#		585,168,164,491,167,152,586,538,177,539,581,580,178,
+#		583,
+		582,584,576,604,599,531,502,595,530,598,605,606,
 		100,601,557,559,558,607,603,602,536,535,546,600,610,
 		537,562,596,563,597,609,578,593,93,589,591,567,50,564,
 		560,579,608,532,533,561,594,524,556,96,503,588,522,
@@ -189,31 +190,31 @@ for(f in folders)
 			########################################################
 			# pure discrete Power law a.k.a. Zipf or Zeta (zeta)
 				cat("Fitting discrete power law\n")
-				power.d <- zeta.fit(x=data, threshold=x.min, method="ml.direct") # ml.approx
+				power.d <- tryCatch(expr=zeta.fit(x=data, threshold=x.min, method="ml.direct"), error=function(e) NA) # ml.approx
 				# out: type, exponent, method, loglike, threshold, samples.over.threshold
 			# discrete Power law with exponential cutoff (discpowerexp)
 				cat("Fitting discrete power law with exponential cut-off\n")
-				powerexp.d <- discpowerexp.fit(x=data,threshold=x.min)
+				powerexp.d <- tryCatch(expr=discpowerexp.fit(x=data,threshold=x.min), error=function(e) NA)
 				# out: type, exponent, rate, loglike, threshold, samples.over.threshold
 			# discrete Log-normal distribution (disclnorm)
 				cat("Fitting log-normal distribution\n")
-				lnorm.d <- fit.lnorm.disc(x=data, threshold=x.min)
+				lnorm.d <- tryCatch(expr=fit.lnorm.disc(x=data, threshold=x.min), error=function(e) NA)
 				# out: type, meanlog, sdlog, loglike, threshold, datapoints.over.threshold
 			# discrete Exponential distribution (discexp)
 				cat("Fitting exponential distribution\n")
-				exp.d <- discexp.fit(x=data, threshold=x.min)
+				exp.d <- tryCatch(expr=discexp.fit(x=data, threshold=x.min), error=function(e) NA)
 				# out: type, lambda, method, loglike, samples.over.threshold, threshold
 			# discrete Stretched exponential or Weibull distribution (discweib)
 				cat("Fitting stretched exponential distribution\n")
-				weib.d <- discweib.fit(x=data, threshold=x.min)
+				weib.d <- tryCatch(expr=discweib.fit(x=data, threshold=x.min), error=function(e) NA)
 				# out: type, shape, scale, loglike, threshold, samples.over.threshold
 			# Poisson distribution
 				cat("Fitting poisson distribution\n")
-				pois.d <- pois.tail.fit(x=data, threshold=x.min)
+				pois.d <- tryCatch(expr=pois.tail.fit(x=data, threshold=x.min), error=function(e) NA)
 				# out: type, rate, loglike, threshold, samples.over.threshold, full.mean, mean.over.threshold
 			# Yule-Simon distribution (yule)
 				cat("Fitting yule-simon distribution\n")
-				yule.d <- yule.fit(x=data, threshold=x.min)
+				yule.d <- tryCatch(expr=yule.fit(x=data, threshold=x.min), error=function(e) NA)
 				# out: type, exponent, loglike, threshold, samples.over.threshold
 			
 			########################################################
@@ -225,47 +226,61 @@ for(f in folders)
 				comp.results <- matrix(NA,ncol=length(c.names),nrow=length(r.names))
 				rownames(comp.results) <- r.names
 				colnames(comp.results) <- c.names
-			# pure power law vs. power law with exponential cutoff
-				cat("Comparing power law vs. power law with exponential cutoff\n")
-				powerexp.res <- power.powerexp.lrt(power.d=power.d, powerexp.d=powerexp.d)
-				comp.results["PowerExp","LLRatio"] <- powerexp.res$log.like.ratio
-				comp.results["PowerExp","p1Val"] <- powerexp.res$p_value
-				comp.results["PowerExp","p2Val"] <- NA
-			# power law vs. log-normal
-				cat("Comparing power law vs. log-normal distribution\n")
-				lnorm.res <- vuong(zeta.lnorm.llr(x=data, zeta.d=power.d, lnorm.d=lnorm.d))
-				comp.results["LogNorm","LLRatio"] <- lnorm.res$loglike.ratio
-				comp.results["LogNorm","p1Val"] <- lnorm.res$p.one.sided
-				comp.results["LogNorm","p2Val"] <- lnorm.res$p.two.sided
-			# power law vs. exponential
-				cat("Comparing power law vs. exponential distribution\n")
-				exp.res <- vuong(zeta.exp.llr(x=data, zeta.d=power.d, exp.d=exp.d))
-				comp.results["Exp","LLRatio"] <- exp.res$loglike.ratio
-				comp.results["Exp","p1Val"] <- exp.res$p.one.sided
-				comp.results["Exp","p2Val"] <- exp.res$p.two.sided
-			# power law vs. stretched exponential
-				cat("Comparing power law vs. stretched exponential distribution\n")
-				weib.res <- vuong(zeta.weib.llr(x=data, zeta.d=power.d, weib.d=weib.d))
-				comp.results["StrtExp","LLRatio"] <- weib.res$loglike.ratio
-				comp.results["StrtExp","p1Val"] <- weib.res$p.one.sided
-				comp.results["StrtExp","p2Val"] <- weib.res$p.two.sided
-			# power law vs. poisson
-				cat("Comparing power law vs. poisson distribution\n")
-				pois.res <- vuong(zeta.poisson.llr(x=data, zeta.d=power.d, pois.d=pois.d))
-				comp.results["Poisson","LLRatio"] <- pois.res$loglike.ratio
-				comp.results["Poisson","p1Val"] <- pois.res$p.one.sided
-				comp.results["Poisson","p2Val"] <- pois.res$p.two.sided
-			# power law vs. yule
-				cat("Comparing power law vs. yule-simon distribution\n")
-				yule.res <- vuong(zeta.yule.llr(x=data, zeta.d=power.d, yule.d=yule.d))
-				comp.results["YuleSimon","LLRatio"] <- yule.res$loglike.ratio
-				comp.results["YuleSimon","p1Val"] <- yule.res$p.one.sided
-				comp.results["YuleSimon","p2Val"] <- yule.res$p.two.sided
+				if(!is.na(power.d))
+				{	# pure power law vs. power law with exponential cutoff
+					if(!is.na(powerexp.d))
+					{	cat("Comparing power law vs. power law with exponential cutoff\n")
+						powerexp.res <- power.powerexp.lrt(power.d=power.d, powerexp.d=powerexp.d)
+						comp.results["PowerExp","LLRatio"] <- powerexp.res$log.like.ratio
+						comp.results["PowerExp","p1Val"] <- powerexp.res$p_value
+						comp.results["PowerExp","p2Val"] <- NA
+					}
+					# power law vs. log-normal
+					if(!is.na(lnorm.d))
+					{	cat("Comparing power law vs. log-normal distribution\n")
+						lnorm.res <- vuong(zeta.lnorm.llr(x=data, zeta.d=power.d, lnorm.d=lnorm.d))
+						comp.results["LogNorm","LLRatio"] <- lnorm.res$loglike.ratio
+						comp.results["LogNorm","p1Val"] <- lnorm.res$p.one.sided
+						comp.results["LogNorm","p2Val"] <- lnorm.res$p.two.sided
+					}
+					# power law vs. exponential
+					if(!is.na(exp.d))
+					{	cat("Comparing power law vs. exponential distribution\n")
+						exp.res <- vuong(zeta.exp.llr(x=data, zeta.d=power.d, exp.d=exp.d))
+						comp.results["Exp","LLRatio"] <- exp.res$loglike.ratio
+						comp.results["Exp","p1Val"] <- exp.res$p.one.sided
+						comp.results["Exp","p2Val"] <- exp.res$p.two.sided
+					}
+					# power law vs. stretched exponential
+					if(!is.na(weib.d))
+					{	cat("Comparing power law vs. stretched exponential distribution\n")
+						weib.res <- vuong(zeta.weib.llr(x=data, zeta.d=power.d, weib.d=weib.d))
+						comp.results["StrtExp","LLRatio"] <- weib.res$loglike.ratio
+						comp.results["StrtExp","p1Val"] <- weib.res$p.one.sided
+						comp.results["StrtExp","p2Val"] <- weib.res$p.two.sided
+					}
+					# power law vs. poisson
+					if(!is.na(pois.d))
+					{	cat("Comparing power law vs. poisson distribution\n")
+						pois.res <- vuong(zeta.poisson.llr(x=data, zeta.d=power.d, pois.d=pois.d))
+						comp.results["Poisson","LLRatio"] <- pois.res$loglike.ratio
+						comp.results["Poisson","p1Val"] <- pois.res$p.one.sided
+						comp.results["Poisson","p2Val"] <- pois.res$p.two.sided
+					}
+					# power law vs. yule
+					if(!is.na(yule.d))
+					{	cat("Comparing power law vs. yule-simon distribution\n")
+						yule.res <- vuong(zeta.yule.llr(x=data, zeta.d=power.d, yule.d=yule.d))
+						comp.results["YuleSimon","LLRatio"] <- yule.res$loglike.ratio
+						comp.results["YuleSimon","p1Val"] <- yule.res$p.one.sided
+						comp.results["YuleSimon","p2Val"] <- yule.res$p.two.sided
+					}
+				}	
 			# record comparison results
 				cat("Recording results\n")
 				out.file <- paste(net.folder,file.name,".comparisons",file.ext,sep="") 
 				write.table(x=comp.results, file=out.file, row.names=TRUE, col.names=TRUE)
-			
+				
 			end.time <- Sys.time();
 			total.time <- end.time - start.time;
 			cat("[",format(end.time,"%a %d %b %Y %X"),"] Processing completed in ",format(total.time),"\n",sep="")
