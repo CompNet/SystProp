@@ -46,10 +46,9 @@ if(os=="windows")
 {	#data.folder <- "/var/data/networks/"
 	data.folder <- "/media/Samsung/networks/_cleaned/"
 	folders <- c(
-#		107,34,160,108,571,166,159,568,111,113,569,112,570,
-#		585,168,164,491,167,152,586,538,177,539,581,580,178,
-#		583,
-		582,584,576,604,599,531,502,595,530,598,605,606,
+		107,34,160,108,571,166,159,568,111,113,569,112,570,
+		585,168,164,491,167,152,586,538,177,539,581,580,178,
+		583,582,584,576,604,599,531,502,595,530,598,605,606,
 		100,601,557,559,558,607,603,602,536,535,546,600,610,
 		537,562,596,563,597,609,578,593,93,589,591,567,50,564,
 		560,579,608,532,533,561,594,524,556,96,503,588,522,
@@ -168,7 +167,7 @@ for(f in folders)
 			# evaluate the estimated law
 				cat("Evaluating the estimated law\n")
 				nb.cores <- parallel::detectCores()
-				sig <- bootstrap_p(m, no_of_sims=10, threads=nb.cores) #TODO
+				p.val <- tryCatch(expr=bootstrap_p(m, no_of_sims=1000, threads=nb.cores)$p, error=function(e) NA)
 			# init result matrix
 				r.names <- c("n","<x>","sd","x_max","^x_min^","^alpha^","n_tail","p")
 				pl.results <- matrix(NA, nrow=length(r.names), ncol=1)
@@ -180,7 +179,7 @@ for(f in folders)
 				pl.results["^x_min^",1] <- x.min
 				pl.results["^alpha^",1] <- alpha
 				pl.results["n_tail",1] <- length(which(data>=x.min))
-				pl.results["p",1] <- sig$p
+				pl.results["p",1] <- p.val
 			# record those results
 				out.file <- paste(net.folder,file.name,".powerlaw",file.ext,sep="") 
 				write.table(x=pl.results, file=out.file, row.names=TRUE, col.names=FALSE)
