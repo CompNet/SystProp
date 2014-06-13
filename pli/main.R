@@ -12,26 +12,26 @@
 ########################################################
 library("poweRlaw")	# implements partially the functions of Clauset et al.
 
-source("discexp.R.R")
-source("disclnorm.R")
-source("discpowerexp.R")
-source("discweib.R")
-source("exp.R")								# continuous distribution >> not needed
-source("lnorm.R")							# continuous distribution >> not needed
-source("pareto.R")							# continuous distribution >> not needed
-source("poisson.R")
-source("powerexp.R")						# continuous distribution >> not needed
-source("powerexp-exponential-integral.R")	# continuous distribution >> not needed
-source("power-law-test.R")
-source("weibull.R")							# continuous distribution >> not needed
-source("yule.R")
-source("zeta.R")
+source("SystProp/pli/discexp.R.R")
+source("SystProp/pli/disclnorm.R")
+source("SystProp/pli/discpowerexp.R")
+source("SystProp/pli/discweib.R")
+source("SystProp/pli/exp.R")							# continuous distribution >> not needed
+source("SystProp/pli/lnorm.R")							# continuous distribution >> not needed
+source("SystProp/pli/pareto.R")							# continuous distribution >> not needed
+source("SystProp/pli/poisson.R")
+source("SystProp/pli/powerexp.R")						# continuous distribution >> not needed
+source("SystProp/pli/powerexp-exponential-integral.R")	# continuous distribution >> not needed
+source("SystProp/pli/power-law-test.R")
+source("SystProp/pli/weibull.R")						# continuous distribution >> not needed
+source("SystProp/pli/yule.R")
+source("SystProp/pli/zeta.R")
 
 
 ########################################################
 # retrieving data
 ########################################################
-folder <- "...../"
+folder <- "temp/"
 file.name <- "degree-all"
 file.ext <- ".txt"
 in.file <- paste(folder,file.name,file.ext,sep="") 
@@ -41,7 +41,7 @@ data <- read.table(in.file)
 # estimating the power law and lower cut-off value
 ########################################################
 # estimate the lower cut-off value
-	m = displ$new(x)
+	m <- displ$new(data)
 	x.min <- estimate_xmin(m)$xmin
 	m$setXmin(x.min)
 	alpha = estimate_pars(m)$pars
