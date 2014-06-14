@@ -8,7 +8,7 @@
 # setwd("~/eclipse/workspaces/Networks")
 # setwd("c:/eclipse/workspaces/Networks")
 #
-# source("SystProp/pli/main.R")
+# source("SystProp/pli/_main.R")
 ########################################################
 library("poweRlaw")	# implements partially the functions of Clauset et al.
 
