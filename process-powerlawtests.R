@@ -146,6 +146,7 @@ for(f in folders)
 		{	# load network
 			cat("[",format(start.time,"%a %d %b %Y %X"),"] Loading data file #",f,": '",data.file,"'\n",sep="")
 			data <- as.vector(read.table(data.file)[,1])
+			data <- data[which(data!=0)] # this should not happen
 			end.time <- Sys.time();
 			total.time <- end.time - start.time;
 			cat("[",format(end.time,"%a %d %b %Y %X"),"] Loading completed in ",format(total.time),"\n",sep="")
