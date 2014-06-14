@@ -158,16 +158,22 @@ for(f in folders)
 			# estimate the lower cut-off value
 				cat("Estimating lower cut-off value\n")
 				m <- displ$new(data)
-				x.min <- estimate_xmin(m)$xmin
-				m$setXmin(x.min)
-			# estimate the power law exponent
-				cat("Estimating power law exponent\n")
-				alpha = estimate_pars(m)$pars
-				m$setPars(alpha)
-			# evaluate the estimated law
-				cat("Evaluating the estimated law\n")
-				nb.cores <- parallel::detectCores()
-				p.val <- tryCatch(expr=bootstrap_p(m, no_of_sims=1000, threads=nb.cores)$p, error=function(e) NA)
+				x.min <- tryCatch(expr=estimate_xmin(m)$xmin, error=function(e) NA)
+				alpha <- NA
+				p.val <- NA
+				if(!is.na(x.min))
+				{	m$setXmin(x.min)
+					# estimate the power law exponent
+					cat("Estimating power law exponent\n")
+					alpha = tryCatch(expr=estimate_pars(m)$pars, error=function(e) NA)
+					if(!is.na(alpha))
+					{	m$setPars(alpha)
+						# evaluate the estimated law
+						cat("Evaluating the estimated law\n")
+						nb.cores <- parallel::detectCores()
+						p.val <- tryCatch(expr=bootstrap_p(m, no_of_sims=1000, threads=nb.cores)$p, error=function(e) NA)
+					}
+				}
 			# init result matrix
 				r.names <- c("n","<x>","sd","x_max","^x_min^","^alpha^","n_tail","p")
 				pl.results <- matrix(NA, nrow=length(r.names), ncol=1)
@@ -187,98 +193,106 @@ for(f in folders)
 			########################################################
 			# fitting distributions
 			########################################################
-			# pure discrete Power law a.k.a. Zipf or Zeta (zeta)
+			if(!is.na(x.min))
+			{	# pure discrete Power law a.k.a. Zipf or Zeta (zeta)
 				cat("Fitting discrete power law\n")
 				power.d <- tryCatch(expr=zeta.fit(x=data, threshold=x.min, method="ml.direct"), error=function(e) NA) # ml.approx
 				# out: type, exponent, method, loglike, threshold, samples.over.threshold
-			# discrete Power law with exponential cutoff (discpowerexp)
+				
+				# discrete Power law with exponential cutoff (discpowerexp)
 				cat("Fitting discrete power law with exponential cut-off\n")
 				powerexp.d <- tryCatch(expr=discpowerexp.fit(x=data,threshold=x.min), error=function(e) NA)
 				# out: type, exponent, rate, loglike, threshold, samples.over.threshold
-			# discrete Log-normal distribution (disclnorm)
+			
+				# discrete Log-normal distribution (disclnorm)
 				cat("Fitting log-normal distribution\n")
 				lnorm.d <- tryCatch(expr=fit.lnorm.disc(x=data, threshold=x.min), error=function(e) NA)
 				# out: type, meanlog, sdlog, loglike, threshold, datapoints.over.threshold
-			# discrete Exponential distribution (discexp)
+			
+				# discrete Exponential distribution (discexp)
 				cat("Fitting exponential distribution\n")
 				exp.d <- tryCatch(expr=discexp.fit(x=data, threshold=x.min), error=function(e) NA)
 				# out: type, lambda, method, loglike, samples.over.threshold, threshold
-			# discrete Stretched exponential or Weibull distribution (discweib)
+			
+				# discrete Stretched exponential or Weibull distribution (discweib)
 				cat("Fitting stretched exponential distribution\n")
 				weib.d <- tryCatch(expr=discweib.fit(x=data, threshold=x.min), error=function(e) NA)
 				# out: type, shape, scale, loglike, threshold, samples.over.threshold
-			# Poisson distribution
+			
+				# Poisson distribution
 				cat("Fitting poisson distribution\n")
 				pois.d <- tryCatch(expr=pois.tail.fit(x=data, threshold=x.min), error=function(e) NA)
 				# out: type, rate, loglike, threshold, samples.over.threshold, full.mean, mean.over.threshold
-			# Yule-Simon distribution (yule)
+				
+				# Yule-Simon distribution (yule)
 				cat("Fitting yule-simon distribution\n")
 				yule.d <- tryCatch(expr=yule.fit(x=data, threshold=x.min), error=function(e) NA)
 				# out: type, exponent, loglike, threshold, samples.over.threshold
+			}
 			
 			########################################################
 			# comparing distributions
 			########################################################
 			# init result matrix
-				r.names <- c("PowerExp","LogNorm","Exp","StrtExp","Poisson","YuleSimon")
-				c.names <- c("LLRatio","p1Val","p2Val")
-				comp.results <- matrix(NA,ncol=length(c.names),nrow=length(r.names))
-				rownames(comp.results) <- r.names
-				colnames(comp.results) <- c.names
-				if(!is.na(power.d))
-				{	# pure power law vs. power law with exponential cutoff
-					if(!is.na(powerexp.d))
-					{	cat("Comparing power law vs. power law with exponential cutoff\n")
-						powerexp.res <- power.powerexp.lrt(power.d=power.d, powerexp.d=powerexp.d)
-						comp.results["PowerExp","LLRatio"] <- powerexp.res$log.like.ratio
-						comp.results["PowerExp","p1Val"] <- powerexp.res$p_value
-						comp.results["PowerExp","p2Val"] <- NA
-					}
-					# power law vs. log-normal
-					if(!is.na(lnorm.d))
-					{	cat("Comparing power law vs. log-normal distribution\n")
-						lnorm.res <- vuong(zeta.lnorm.llr(x=data, zeta.d=power.d, lnorm.d=lnorm.d))
-						comp.results["LogNorm","LLRatio"] <- lnorm.res$loglike.ratio
-						comp.results["LogNorm","p1Val"] <- lnorm.res$p.one.sided
-						comp.results["LogNorm","p2Val"] <- lnorm.res$p.two.sided
-					}
-					# power law vs. exponential
-					if(!is.na(exp.d))
-					{	cat("Comparing power law vs. exponential distribution\n")
-						exp.res <- vuong(zeta.exp.llr(x=data, zeta.d=power.d, exp.d=exp.d))
-						comp.results["Exp","LLRatio"] <- exp.res$loglike.ratio
-						comp.results["Exp","p1Val"] <- exp.res$p.one.sided
-						comp.results["Exp","p2Val"] <- exp.res$p.two.sided
-					}
-					# power law vs. stretched exponential
-					if(!is.na(weib.d))
-					{	cat("Comparing power law vs. stretched exponential distribution\n")
-						weib.res <- vuong(zeta.weib.llr(x=data, zeta.d=power.d, weib.d=weib.d))
-						comp.results["StrtExp","LLRatio"] <- weib.res$loglike.ratio
-						comp.results["StrtExp","p1Val"] <- weib.res$p.one.sided
-						comp.results["StrtExp","p2Val"] <- weib.res$p.two.sided
-					}
-					# power law vs. poisson
-					if(!is.na(pois.d))
-					{	cat("Comparing power law vs. poisson distribution\n")
-						pois.res <- vuong(zeta.poisson.llr(x=data, zeta.d=power.d, pois.d=pois.d))
-						comp.results["Poisson","LLRatio"] <- pois.res$loglike.ratio
-						comp.results["Poisson","p1Val"] <- pois.res$p.one.sided
-						comp.results["Poisson","p2Val"] <- pois.res$p.two.sided
-					}
-					# power law vs. yule
-					if(!is.na(yule.d))
-					{	cat("Comparing power law vs. yule-simon distribution\n")
-						yule.res <- vuong(zeta.yule.llr(x=data, zeta.d=power.d, yule.d=yule.d))
-						comp.results["YuleSimon","LLRatio"] <- yule.res$loglike.ratio
-						comp.results["YuleSimon","p1Val"] <- yule.res$p.one.sided
-						comp.results["YuleSimon","p2Val"] <- yule.res$p.two.sided
-					}
-				}	
+			r.names <- c("PowerExp","LogNorm","Exp","StrtExp","Poisson","YuleSimon")
+			c.names <- c("LLRatio","p1Val","p2Val")
+			comp.results <- matrix(NA,ncol=length(c.names),nrow=length(r.names))
+			rownames(comp.results) <- r.names
+			colnames(comp.results) <- c.names
+			if(all(!is.na(power.d)))
+			{	# pure power law vs. power law with exponential cutoff
+				if(!is.na(powerexp.d))
+				{	cat("Comparing power law vs. power law with exponential cutoff\n")
+					powerexp.res <- power.powerexp.lrt(power.d=power.d, powerexp.d=powerexp.d)
+					comp.results["PowerExp","LLRatio"] <- powerexp.res$log.like.ratio
+					comp.results["PowerExp","p1Val"] <- powerexp.res$p_value
+					comp.results["PowerExp","p2Val"] <- NA
+				}
+				# power law vs. log-normal
+				if(all(!is.na(lnorm.d)))
+				{	cat("Comparing power law vs. log-normal distribution\n")
+					lnorm.res <- vuong(zeta.lnorm.llr(x=data, zeta.d=power.d, lnorm.d=lnorm.d))
+					comp.results["LogNorm","LLRatio"] <- lnorm.res$loglike.ratio
+					comp.results["LogNorm","p1Val"] <- lnorm.res$p.one.sided
+					comp.results["LogNorm","p2Val"] <- lnorm.res$p.two.sided
+				}
+				# power law vs. exponential
+				if(all(!is.na(exp.d)))
+				{	cat("Comparing power law vs. exponential distribution\n")
+					exp.res <- vuong(zeta.exp.llr(x=data, zeta.d=power.d, exp.d=exp.d))
+					comp.results["Exp","LLRatio"] <- exp.res$loglike.ratio
+					comp.results["Exp","p1Val"] <- exp.res$p.one.sided
+					comp.results["Exp","p2Val"] <- exp.res$p.two.sided
+				}
+				# power law vs. stretched exponential
+				if(all(!is.na(weib.d)))
+				{	cat("Comparing power law vs. stretched exponential distribution\n")
+					weib.res <- vuong(zeta.weib.llr(x=data, zeta.d=power.d, weib.d=weib.d))
+					comp.results["StrtExp","LLRatio"] <- weib.res$loglike.ratio
+					comp.results["StrtExp","p1Val"] <- weib.res$p.one.sided
+					comp.results["StrtExp","p2Val"] <- weib.res$p.two.sided
+				}
+				# power law vs. poisson
+				if(all(!is.na(pois.d)))
+				{	cat("Comparing power law vs. poisson distribution\n")
+					pois.res <- vuong(zeta.poisson.llr(x=data, zeta.d=power.d, pois.d=pois.d))
+					comp.results["Poisson","LLRatio"] <- pois.res$loglike.ratio
+					comp.results["Poisson","p1Val"] <- pois.res$p.one.sided
+					comp.results["Poisson","p2Val"] <- pois.res$p.two.sided
+				}
+				# power law vs. yule
+				if(all(!is.na(yule.d)))
+				{	cat("Comparing power law vs. yule-simon distribution\n")
+					yule.res <- vuong(zeta.yule.llr(x=data, zeta.d=power.d, yule.d=yule.d))
+					comp.results["YuleSimon","LLRatio"] <- yule.res$loglike.ratio
+					comp.results["YuleSimon","p1Val"] <- yule.res$p.one.sided
+					comp.results["YuleSimon","p2Val"] <- yule.res$p.two.sided
+				}
+			}	
 			# record comparison results
-				cat("Recording results\n")
-				out.file <- paste(net.folder,file.name,".comparisons",file.ext,sep="") 
-				write.table(x=comp.results, file=out.file, row.names=TRUE, col.names=TRUE)
+			cat("Recording results\n")
+			out.file <- paste(net.folder,file.name,".comparisons",file.ext,sep="") 
+			write.table(x=comp.results, file=out.file, row.names=TRUE, col.names=TRUE)
 				
 			end.time <- Sys.time();
 			total.time <- end.time - start.time;
