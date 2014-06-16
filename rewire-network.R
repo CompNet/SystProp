@@ -28,13 +28,60 @@ library(igraph)
 #################################
 get.partial.matrix <- function(g, nodes)
 {	result <- matrix(data=FALSE,ncol=vcount(g),nrow=length(nodes))
-	cat("!!!!!!!!!!!!!!\n")
-	print(nodes)
-	for(i in 1:length(nodes))
-	{	neigh <- neighbors(graph=g,v=nodes[i],mode="all")
-		print(neigh)
-		neigh <- sort(unique(neigh))
-		result[i,neigh] <- TRUE
+	#cat("!!!!!!!!!!!!!!\n")
+	#print(nodes)
+	if(length(nodes)>0)
+	{	for(i in 1:length(nodes))
+		{	neigh <- neighbors(graph=g,v=nodes[i],mode="all")
+			if(length(neigh)>0)
+				result[i,neigh] <- TRUE
+		}
+	}
+	return(result)
+}
+
+
+#################################
+# Checks if the specified rewiring is
+# going to split the network, i.e.
+# lead to the apparition of two components.
+# Before the rewiring the existing links
+# are (a,b) and (c,d). After the rewiring,
+# they are (a,d) and (b,c).
+#
+# g: network
+# a,b,c,d: nodes concerned by the rewiring 
+#################################
+is.splitting.network <- function(g, a, b, c, d)
+{	result <- FALSE
+	
+	if(!are.connected(g, a, c) & !are.connected(g, b, d))
+	{	# original method
+#		# we take both adjacency matrix rows for a and d
+#		p0 <- get.partial.matrix(g,c(a,d))
+#		# remove their respective links to b and c
+#		p0[1,b] <- FALSE
+#		p0[2,c] <- FALSE
+#		# copy as p1, add the new respective links to d and a
+#		p1 <- p0
+#		p1[,d] <- TRUE
+#		p1[,a] <- TRUE
+#		
+#		while(!result & !any(p0[,c(b,c)]))
+#		{	# get the neighborhood of the reachable nodes in p0 
+#			p0[1,] <- apply(get.partial.matrix(g,which(p0[1,])),2,any)
+#			p0[2,] <- apply(get.partial.matrix(g,which(p0[2,])),2,any)
+#			p0 <- p0 & (!p1)
+#			if(!all(apply(p0,1,any)))
+#				result <- TRUE
+#			p1 <- p1 | p0
+#		}
+		
+		# igraph-based method
+		# modify and check the graph
+		g <- delete.edges(graph=g, edges=c(E(g)[a %--% b],E(g)[c %--% d]))
+		g <- add.edges(graph=g, edges=c(a,d,b,c))
+		result <- !is.connected(graph=g)
 	}
 	
 	return(result)
@@ -66,7 +113,7 @@ randomize.network <- function(g, iterations)
 		
 		# while not rewired
 		while(!rewire & att<=max.attempts)
-		{	rewire <- TRUE
+		{	rewire <- FALSE
 			
 			# randomly draw 2 links
 			es <- igraph.sample(1,m,2)
@@ -86,28 +133,10 @@ randomize.network <- function(g, iterations)
 				}
 				
 				# check if some of the 2 new links already exist
-				if(length(E(g)[a %--% d])==0 & length(E(g)[c %--% b])==0)
+				if(!are.connected(g,a,d) & !are.connected(g,c,b))
 				{	
 					# check if the rewiring is going to split the network
-					if(length(E(g)[a %--% c])==0 & length(E(g)[b %--% d])==0)
-					{	p0 <- get.partial.matrix(g,c(a,d))
-						p0[1,b] <- FALSE
-						p0[2,c] <- FALSE
-						p1 <- p0
-						p1[,a] <- TRUE
-						p1[,d] <- TRUE
-						
-						while(rewire & !any(p0[,c(b,c)]))
-						{	p0[1,] <- apply(get.partial.matrix(g,which(p0[1,])),2,any)
-							p0[2,] <- apply(get.partial.matrix(g,which(p0[2,])),2,any)
-							p0 <- p0 & (!p1)
-							if(!all(apply(p0,1,any)))
-								rewire <- FALSE
-							p1 <- p1 + p0
-						}
-					}
-				
-					# possibly rewire the links
+					rewire <- !is.splitting.network(g,a,b,c,d)
 					if(rewire)
 					{	g <- delete.edges(graph=g, edges=es)
 						g <- add.edges(graph=g, edges=c(a,d,b,c))
@@ -123,3 +152,4 @@ randomize.network <- function(g, iterations)
 	
 	return(g)
 }
+
