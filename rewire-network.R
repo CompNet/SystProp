@@ -153,3 +153,115 @@ randomize.network <- function(g, iterations)
 	return(g)
 }
 
+#################################
+# Randomly rewires the specified
+# network, so that it becomes more
+# similar to a lattice.
+# Adapted from function latmio_und_connected from BCT
+# https://sites.google.com/site/bctnet
+#
+# g: network
+# iterations: number of times a link is rewired (approximately)
+#################################
+latticize.network <- function(g, iterations)
+{	# init
+	n <- vcount(g)
+	# randomize node order
+	ind_rp <- sample(1:n)
+	
+	# create distance-to-diagonal matrix
+	if(nargin<3) #if D is not specified by user
+	{	D <- zeros(n)
+		u <- [0 min([mod(1:n-1,n);mod(n-1:-1:1,n)])]
+		for(v in 1:ceil(n/2))
+		{	D(n-v+1,:) <- u([v+1:n 1:v])
+			D(v,:) <- D(n-v+1,n:-1:1)
+		}
+	}
+		
+	[i j] <- find(tril(R))
+	K <- length(i)
+	ITER <- K*ITER
+
+	# maximal number of rewiring attempts per iteration
+	maxAttempts <- round(n*K/(n*(n-1)/2))
+	# actual number of successful rewirings
+	eff = 0
+
+	for(iter=1:ITER)
+	{	att=0
+		# while not rewired
+		while (att<=maxAttempts)    
+		{	rewire <- 1
+			while(TRUE)
+			{	e1 <- ceil(K*rand)
+				e2 <- ceil(K*rand)
+				while(e2==e1)
+					e2=ceil(K*rand)
+				a=i(e1); b=j(e1)
+				c=i(e2); d=j(e2)
+				
+				# all four vertices must be different
+				if(all(a~=[c d]) && all(b~=[c d]))
+					break
+			}
+
+			if(rand>0.5)
+			{	# flip edge c-d with 50% probability
+				i(e2) <- d
+				j(e2) <- c
+				c <- i(e2)
+				d <- j(e2)
+			}
+
+			# rewiring condition
+			if(~(R(a,d) || R(c,b)))
+			{	# lattice condition
+				if((D(a,b)*R(a,b)+D(c,d)*R(c,d))>=(D(a,d)*R(a,b)+D(c,b)*R(c,d)))
+				{	# connectedness condition
+					if(~(R(a,c) || R(b,d)))
+					{	P <- R([a d],:)
+						P(1,b) <- 0
+						P(2,c) <- 0
+						PN <- P
+						PN(:,d) <- 1
+						PN(:,a) <- 1
+						while(TRUE)
+						{	P(1,:) <- any(R(P(1,:)~=0,:),1)
+							P(2,:) <- any(R(P(2,:)~=0,:),1)
+							P <- P.*(~PN)
+							if(~all(any(P,2)))
+							{	rewire <- 0
+								break
+							}
+							else if(any(any(P(:,[b c]))))
+								break
+							PN <- PN+P
+						}
+					}
+		
+					# reassign edges
+					if(rewire)
+					{	R(a,d)=R(a,b); R(a,b)=0;
+						R(d,a)=R(b,a); R(b,a)=0;
+						R(c,b)=R(c,d); R(c,d)=0;
+						R(b,c)=R(d,c); R(d,c)=0;
+
+						# reassign edge indices
+						j(e1) = d;
+						j(e2) = b;
+						eff = eff+1;
+						break;
+					}
+				}
+			}
+			att <- att + 1
+		}
+	}
+		
+	# lattice in node order used for latticization
+	Rrp <- R
+	# reverse random permutation of nodes
+	[~,ind_rp_reverse] <- sort(ind_rp)
+	Rlatt <- Rrp(ind_rp_reverse,ind_rp_reverse)
+}
