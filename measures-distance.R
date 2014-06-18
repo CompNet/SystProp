@@ -48,7 +48,7 @@ measures[["distance-average-rand"]] <- list(	# average distance in the randomize
 	bounds=c(1,NA),
 	foo=function(graph) 
 	{	# randomize the network (the more iterations, the closer to an Erdos-Renyi graph)
-		g2 <- randomize.network(graph=graph, iterations=10)
+		g2 <- randomize.network(g=graph, iterations=10)
 		
 		# exact method from igraph
 #		average.path.length(graph=g2, directed=FALSE, unconnected=TRUE)
