@@ -90,6 +90,7 @@ is.splitting.network <- function(g, a, b, c, d)
 #################################
 # Randomly rewires the network,
 # while preserving the degree distribution.
+#
 # Adapted from function randmio_und_connected from BCT
 # https://sites.google.com/site/bctnet
 #
@@ -157,6 +158,7 @@ randomize.network <- function(g, iterations)
 # Randomly rewires the specified
 # network, so that it becomes more
 # similar to a lattice.
+#
 # Adapted from function latmio_und_connected from BCT
 # https://sites.google.com/site/bctnet
 #
@@ -166,102 +168,72 @@ randomize.network <- function(g, iterations)
 latticize.network <- function(g, iterations)
 {	# init
 	n <- vcount(g)
+	m <- ecount(g)
+	iter <- m*iterations
 	# randomize node order
 	ind_rp <- sample(1:n)
-	
-	# create distance-to-diagonal matrix
-	if(nargin<3) #if D is not specified by user
-	{	D <- zeros(n)
-		u <- [0 min([mod(1:n-1,n);mod(n-1:-1:1,n)])]
-		for(v in 1:ceil(n/2))
-		{	D(n-v+1,:) <- u([v+1:n 1:v])
-			D(v,:) <- D(n-v+1,n:-1:1)
-		}
-	}
-		
-	[i j] <- find(tril(R))
-	K <- length(i)
-	ITER <- K*ITER
-
 	# maximal number of rewiring attempts per iteration
-	maxAttempts <- round(n*K/(n*(n-1)/2))
+	max.attempts <- round(n*m/(n*(n-1.0)/2))
 	# actual number of successful rewirings
-	eff = 0
-
-	for(iter=1:ITER)
-	{	att=0
-		# while not rewired
-		while (att<=maxAttempts)    
-		{	rewire <- 1
-			while(TRUE)
-			{	e1 <- ceil(K*rand)
-				e2 <- ceil(K*rand)
-				while(e2==e1)
-					e2=ceil(K*rand)
-				a=i(e1); b=j(e1)
-				c=i(e2); d=j(e2)
-				
-				# all four vertices must be different
-				if(all(a~=[c d]) && all(b~=[c d]))
-					break
-			}
-
-			if(rand>0.5)
-			{	# flip edge c-d with 50% probability
-				i(e2) <- d
-				j(e2) <- c
-				c <- i(e2)
-				d <- j(e2)
-			}
-
-			# rewiring condition
-			if(~(R(a,d) || R(c,b)))
-			{	# lattice condition
-				if((D(a,b)*R(a,b)+D(c,d)*R(c,d))>=(D(a,d)*R(a,b)+D(c,b)*R(c,d)))
-				{	# connectedness condition
-					if(~(R(a,c) || R(b,d)))
-					{	P <- R([a d],:)
-						P(1,b) <- 0
-						P(2,c) <- 0
-						PN <- P
-						PN(:,d) <- 1
-						PN(:,a) <- 1
-						while(TRUE)
-						{	P(1,:) <- any(R(P(1,:)~=0,:),1)
-							P(2,:) <- any(R(P(2,:)~=0,:),1)
-							P <- P.*(~PN)
-							if(~all(any(P,2)))
-							{	rewire <- 0
-								break
-							}
-							else if(any(any(P(:,[b c]))))
-								break
-							PN <- PN+P
-						}
-					}
+	eff <- 0
+	
+	for(it in 1:iter)
+	{	att <- 0
+		rewire <- FALSE
 		
-					# reassign edges
-					if(rewire)
-					{	R(a,d)=R(a,b); R(a,b)=0;
-						R(d,a)=R(b,a); R(b,a)=0;
-						R(c,b)=R(c,d); R(c,d)=0;
-						R(b,c)=R(d,c); R(d,c)=0;
-
-						# reassign edge indices
-						j(e1) = d;
-						j(e2) = b;
-						eff = eff+1;
-						break;
+		# while not rewired
+		while(!rewire & att<=max.attempts)
+		{	rewire <- FALSE
+			
+			# randomly draw 2 links
+			es <- igraph.sample(1,m,2)
+			temp <- get.edges(graph=g,es=es)
+			a <- temp[1,1]
+			b <- temp[1,2]
+			c <- temp[2,1]
+			d <- temp[2,2]
+			
+			# check if they involve different nodes
+			if(length(intersect(c(a,b),c(c,d)))==0)
+			{	# possibly flip the first link
+				p <- runif(1)
+				if(p>0.5)
+				{	a <- temp[1,2]
+					b <- temp[1,1]
+				}
+				
+				# check if some of the 2 new links already exist
+				if(!are.connected(g,a,d) & !are.connected(g,c,b))
+				{	
+					# lattice condition
+					if((abs(a-b)+abs(c-d))>=(abs(a-d)+abs(c-b)))
+					{	
+						# check if the rewiring is going to split the network
+						rewire <- !is.splitting.network(g,a,b,c,d)
+						if(rewire)
+						{	g <- delete.edges(graph=g, edges=es)
+							g <- add.edges(graph=g, edges=c(a,d,b,c))
+							eff <- eff + 1
+						}
 					}
 				}
 			}
+			
+			# increment the number of attempts
 			att <- att + 1
 		}
 	}
 		
-	# lattice in node order used for latticization
-	Rrp <- R
-	# reverse random permutation of nodes
-	[~,ind_rp_reverse] <- sort(ind_rp)
-	Rlatt <- Rrp(ind_rp_reverse,ind_rp_reverse)
+	return(g)
 }
+
+
+#################################
+# a few tests
+#g <- barabasi.game(n=1000,directed=FALSE,m=3)
+#t <- system.time(g2 <- randomize.network(g2,10))
+#	print(t)
+#t <- system.time(g3 <- latticize.network(g3,10))
+#	print(t)
+#print(sapply(list(g,g2,g3), function(x) average.path.length(graph=x,directed=FALSE,unconnected=TRUE)))
+#print(sapply(list(g,g2,g3), function(x) transitivity(graph=x,type="globalundirected",isolates="zero")))
