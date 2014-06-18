@@ -46,40 +46,40 @@ if(os=="windows")
 {	#data.folder <- "/var/data/networks/"
 	data.folder <- "/media/Samsung/networks/_cleaned/"
 	folders <- c(
-#		107,34,160,108,571,166,159,568,111,113,569,112,570,
-#		585,168,164,491,167,152,586,538,177,539,581,580,178,
-#		583,582,584,576,604,599,531,502,595,530,598,605,606,
-#		100,601,557,559,558,607,603,602,536,535,546,600,610,
-#		537,562,596,563,597,609,578,593,93,589,591,567,50,564,
-#		560,579,608,532,533,561,594,524,556,96,503,588,522,
-#		555,574,29,566,114,286,565,90,590,554,115,39,86,523,
-#		592,511,575,501,500,52,552,551,553,81,508,587,101,545,
-#		529,547,506,573,507,572,509,550,526,525,549,527,510,
-#		505,520,162,528,57,95,577,548,118,516,519,542,543,131,
-#		544,534,521,517,540,514,91,515,518,4,5,541,513,145,
-#		512,142,92,490,51,110,169,30,94,504,31,20,127,106,414,
-#		283,3,117,124,499,282,44,123,10,9,8,85,33,84,40,83,97,
-#		204,2,73,120,119,496,116,165,121,130,122,128,451,35,46,
-#		498,42,89,279,141,87,153,47,179,228,230,132,129,495,180,
-#		170,45,37,26,497,88,103,242,136,135,236,38,488,255,415,
-#		243,494,49,266,56,174,276,252,271,489,234,137,138,125,
-#		161,194,82,12,460,196,226,198,289,48,61,259,356,9,235,
-#		156,383,384,477,261,263,459,357,75,139,140,144,270,241,
-#		248,105,240,250,60,232,262,258,247,486,251,254,231,349,
-#		158,257,268,253,8,264,492,269,32,215,481,134,126,133,171,
-#		287,239,181,182,358,475,175,217,233,143,227,238,350,277,
-#		212,273,157,249,244,338,493,256,325,326,267,148,7,348,364,
-#		347,19,176,208,265,416,15,173,319,260,6,216,346,188,237,
-#		245,76,246,272,163,411,433,340,104,378,331,476,352,487,
-#		202,147,210,151,155,351,278,1,102,214,229,207,285,77,432,
-#		146,13,410,379,353,473,382,354,225,368,195,206,21,288,23,
-#		197,199,203,154,78,14,25,213,337,24,339,187,201,11,43,
-#		205,80,417,336,79,22,332,189,452,62,63,64,53,280,211,74,
-#		403,426,172,485,404,183,69,70,200,402,296,437,360,209,
-#		436,361,423,381,467,362,222,463,464,465,281,28,483,363,
-#		380,218,413,324,186,366,322,193,184,457,484,221,342,41,
-#		224,284,223,292,294,291,67,68,377,36,275,71,185,290,16,
-#		367,17,431,27,369,370,371,304,334,391,318,611,65,66,311,
+		107,34,160,108,571,166,159,568,111,113,569,112,570,
+		585,168,164,491,167,152,586,538,177,539,581,580,178,
+		583,582,584,576,604,599,531,502,595,530,598,605,606,
+		100,601,557,559,558,607,603,602,536,535,546,600,610,
+		537,562,596,563,597,609,578,593,93,589,591,567,50,564,
+		560,579,608,532,533,561,594,524,556,96,503,588,522,
+		555,574,29,566,114,286,565,90,590,554,115,39,86,523,
+		592,511,575,501,500,52,552,551,553,81,508,587,101,545,
+		529,547,506,573,507,572,509,550,526,525,549,527,510,
+		505,520,162,528,57,95,577,548,118,516,519,542,543,131,
+		544,534,521,517,540,514,91,515,518,4,5,541,513,145,
+		512,142,92,490,51,110,169,30,94,504,31,20,127,106,414,
+		283,3,117,124,499,282,44,123,10,9,8,85,33,84,40,83,97,
+		204,2,73,120,119,496,116,165,121,130,122,128,451,35,46,
+		498,42,89,279,141,87,153,47,179,228,230,132,129,495,180,
+		170,45,37,26,497,88,103,242,136,135,236,38,488,255,415,
+		243,494,49,266,56,174,276,252,271,489,234,137,138,125,
+		161,194,82,12,460,196,226,198,289,48,61,259,356,9,235,
+		156,383,384,477,261,263,459,357,75,139,140,144,270,241,
+		248,105,240,250,60,232,262,258,247,486,251,254,231,349,
+		158,257,268,253,8,264,492,269,32,215,481,134,126,133,171,
+		287,239,181,182,358,475,175,217,233,143,227,238,350,277,
+		212,273,157,249,244,338,493,256,325,326,267,148,7,348,364,
+		347,19,176,208,265,416,15,173,319,260,6,216,346,188,237,
+		245,76,246,272,163,411,433,340,104,378,331,476,352,487,
+		202,147,210,151,155,351,278,1,102,214,229,207,285,77,432,
+		146,13,410,379,353,473,382,354,225,368,195,206,21,288,23,
+		197,199,203,154,78,14,25,213,337,24,339,187,201,11,43,
+		205,80,417,336,79,22,332,189,452,62,63,64,53,280,211,74,
+		403,426,172,485,404,183,69,70,200,402,296,437,360,209,
+		436,361,423,381,467,362,222,463,464,465,281,28,483,363,
+		380,218,413,324,186,366,322,193,184,457,484,221,342,41,
+		224,284,223,292,294,291,67,68,377,36,275,71,185,290,16,
+		367,17,431,27,369,370,371,304,334,391,318,611,65,66,311,
 		312,315,479,313,390,372,482,301,192,299,373,478,321,343,
 		317,109,314,344,345,293,385,220,428,412,59,462,355,453,
 		472,323,333,302,480,341,149,320,376,190,466,307,365,
@@ -94,15 +94,21 @@ if(os=="windows")
 folders <- folders[!(folders %in% c(308,310,330,418,474))] 				#remove missing multipartite projections
 file.name <- "degree-all"
 file.ext <- ".txt"
+degree.file <- paste(file.name,file.ext,sep="")
+powerlaw.file <- paste(file.name,".powerlaw",file.ext,sep="") 
+comparison.file <- paste(file.name,".comparisons",file.ext,sep="") 
+do.process <- FALSE
+do.extract <- TRUE
 
 
+#################################
+# process statistical tests
 #################################
 # get existing folder list
-#################################
 paths <- list.files(path=data.folder, pattern="\\d{4}\\..*", all.files=TRUE, full.names=FALSE, recursive=FALSE, ignore.case = FALSE)
 paths <- sort(paths)
 
-
+if(do.process)
 for(f in folders)
 {	gc()
 	
@@ -127,7 +133,7 @@ for(f in folders)
 	{	# setup file name
 		start.time <- Sys.time();
 		net.folder <- paste(data.folder,filename,"/",sep="")
-		data.file <- paste(net.folder,file.name,file.ext,sep="")
+		data.file <- paste(net.folder,degree.file,sep="")
 		
 		# file not found
 		if(!file.exists(data.file))
@@ -170,9 +176,9 @@ for(f in folders)
 					}
 				}
 			# init result matrix
-				r.names <- c("n","<x>","sd","x_max","^x_min^","^alpha^","n_tail","p")
-				pl.results <- matrix(NA, nrow=length(r.names), ncol=1)
-				rownames(pl.results) <- r.names
+				pl.r.names <- c("n","<x>","sd","x_max","^x_min^","^alpha^","n_tail","p")
+				pl.results <- matrix(NA, nrow=length(pl.r.names), ncol=1)
+				rownames(pl.results) <- pl.r.names
 				pl.results["n",1] <- length(data)
 				pl.results["<x>",1] <- mean(data)
 				pl.results["sd",1] <- sd(data)
@@ -182,7 +188,7 @@ for(f in folders)
 				pl.results["n_tail",1] <- length(which(data>=x.min))
 				pl.results["p",1] <- p.val
 			# record those results
-				out.file <- paste(net.folder,file.name,".powerlaw",file.ext,sep="") 
+				out.file <- paste(net.folder,powerlaw.file,sep="") 
 				write.table(x=pl.results, file=out.file, row.names=TRUE, col.names=FALSE)
 			
 			########################################################
@@ -229,11 +235,11 @@ for(f in folders)
 			# comparing distributions
 			########################################################
 			# init result matrix
-			r.names <- c("PowerExp","LogNorm","Exp","StrtExp","Poisson","YuleSimon")
-			c.names <- c("LLRatio","p1Val","p2Val")
-			comp.results <- matrix(NA,ncol=length(c.names),nrow=length(r.names))
-			rownames(comp.results) <- r.names
-			colnames(comp.results) <- c.names
+			comp.r.names <- c("PowerExp","LogNorm","Exp","StrtExp","Poisson","YuleSimon")
+			comp.c.names <- c("LLRatio","p1Val","p2Val")
+			comp.results <- matrix(NA,ncol=length(comp.c.names),nrow=length(comp.r.names))
+			rownames(comp.results) <- comp.r.names
+			colnames(comp.results) <- comp.c.names
 			if(all(!is.na(power.d)))
 			{	# pure power law vs. power law with exponential cutoff
 				if(!is.na(powerexp.d))
@@ -286,7 +292,7 @@ for(f in folders)
 			}	
 			# record comparison results
 			cat("Recording results\n")
-			out.file <- paste(net.folder,file.name,".comparisons",file.ext,sep="") 
+			out.file <- paste(net.folder,comparison.name,sep="") 
 			write.table(x=comp.results, file=out.file, row.names=TRUE, col.names=TRUE)
 				
 			end.time <- Sys.time();
@@ -295,6 +301,84 @@ for(f in folders)
 		}
 	}
 }
+
+
+#################################
+# extract all results in a single file
+#################################
+c.names <- c(pl.r.names,cl.as.vector(comp.r.names,comp.c.names, paste, sep="-"))
+all.res <- matrix(NA,ncol=length(c.names),nrow=length(folders))
+colnames(all.res) <- c.names
+rownames(all.res) <- as.character(folders)
+if(do.extract)
+for(f in folders)
+{	# check for file name existence
+	filename <- NA
+	prefix0 <- sprintf("%04d",f)
+	i <- 1
+	while(is.na(filename) && i<=length(paths))
+	{	prefix1 <- substr(paths[i], 1, 4)
+		if(prefix0==prefix1)
+			filename <- paths[i]
+		i <- i + 1
+	}
+	
+	# no network folder available
+	if(is.na(filename))
+	{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] WARNING: No network folder could be found for ",filename,"\n",sep="")
+		unavailable <- TRUE
+		
+	# network folder available
+	}else
+	{	# setup file name
+		start.time <- Sys.time();
+		net.folder <- paste(data.folder,filename,"/",sep="")
+		data.file <- paste(net.folder,powerlaw.file,sep="")
+		
+		# file not found
+		if(!file.exists(data.file))
+		{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] WARNING: No power-law file could be found for ",filename,"\n",sep="")
+			unavailable <- TRUE
+			
+		# normal processing
+		}else
+		{	# load data
+			cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Loading power-law file #",f,": '",data.file,"'\n",sep="")
+			temp <- read.table(data.file, header=TRUE)
+			# add to global table
+			for(c in pl.r.names)
+				all.res[as.character(f),c] <- temp[c,1]
+		}
+		
+		# setup file name
+		start.time <- Sys.time();
+		net.folder <- paste(data.folder,filename,"/",sep="")
+		data.file <- paste(net.folder,comarison.file,sep="")
+		
+		# file not found
+		if(!file.exists(data.file))
+		{	cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] WARNING: No comparison file could be found for ",filename,"\n",sep="")
+			unavailable <- TRUE
+			
+		# normal processing
+		}else
+		{	# load data
+			cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Loading comparison file #",f,": '",data.file,"'\n",sep="")
+			temp <- read.table(data.file, header=TRUE)
+			# add to global table
+			for(r in comp.r.names)
+			{	for(c in comp.c.names)
+					all.res[as.character(f),paste(r,c,sep="-")] <- temp[r,c]
+			}
+		}
+	}
+}
+
+# record all results
+cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Recording all results\n",sep="")
+out.file <- paste(data.folder,comparison.file,sep="") 
+write.table(x=all.results, file=out.file, row.names=TRUE, col.names=TRUE)
+
 
 
 cat("All done\n")
