@@ -1,7 +1,9 @@
 #################################
 # Processes transitivity-related measures.
 #################################
-# processes local transitivies
+source("SystProp/rewire-network.R")
+
+# processes local transitivities
 process.local.transitivity <- function(graph)
 {	if(length(cache$localtransitivity)==0)
 	{	prop.file <- paste(net.folder,"transitivity-local.txt",sep="")
@@ -14,11 +16,36 @@ process.local.transitivity <- function(graph)
 	}
 }
 
-measures[["transitivity-global"]] <- list(
+#measures[["transitivity-global"]] <- list(
+#	type=numeric(),
+#	bounds=c(0,1),
+#	foo=function(graph) 
+#	{	transitivity(graph, type="globalundirected", weights=NULL, isolates="zero")
+#	}
+#)
+measures[["transitivity-global-latt"]] <- list(	# global transitivity in the latticized version of the network
 	type=numeric(),
-	bounds=c(0,1),
+	bounds=c(1,NA),
 	foo=function(graph) 
-	{	transitivity(graph, type="globalundirected",weights=NULL,isolates="zero")
+	{	# init
+		i <- 0
+		best.res <- 0
+		cur.res <- 0
+		g2 <- graph
+		
+		# we may perform several rewirings to improve transitivity
+		while(i<5 & cur.res==best.res)
+		{	# latticize the network (the more iterations, the closer to a lattice)
+			g2 <- latticize.network(graph=g2, iterations=10)
+			
+			# process its global transitivity
+			cur.res <- transitivity(g2, type="globalundirected", weights=NULL, isolates="zero")
+			
+			# compare with current best 
+			if(cur.res>best.res)
+				best.res <- cur.res
+		}
+		return(best.res)
 	}
 )
 #measures[["transitivity-local-average"]] <- list(

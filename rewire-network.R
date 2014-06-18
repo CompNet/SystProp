@@ -171,7 +171,7 @@ latticize.network <- function(g, iterations)
 	m <- ecount(g)
 	iter <- m*iterations
 	# randomize node order
-	ind_rp <- sample(1:n)
+	rdmz <- sample(1:n)
 	# maximal number of rewiring attempts per iteration
 	max.attempts <- round(n*m/(n*(n-1.0)/2))
 	# actual number of successful rewirings
@@ -206,7 +206,8 @@ latticize.network <- function(g, iterations)
 				if(!are.connected(g,a,d) & !are.connected(g,c,b))
 				{	
 					# lattice condition
-					if((abs(a-b)+abs(c-d))>=(abs(a-d)+abs(c-b)))
+					if((abs(rdmz[a]-rdmz[b])+abs(rdmz[c]-rdmz[d]))
+						>=(abs(rdmz[a]-rdmz[d])+abs(rdmz[c]-rdmz[b])))
 					{	
 						# check if the rewiring is going to split the network
 						rewire <- !is.splitting.network(g,a,b,c,d)

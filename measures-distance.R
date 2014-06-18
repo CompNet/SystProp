@@ -1,6 +1,8 @@
 #################################
 # Processes distance-related measures.
 #################################
+source("SystProp/rewire-network.R")
+
 # processes distances
 process.distance <- function(graph)
 {	if(length(cache$distance)==0)
@@ -16,27 +18,55 @@ process.distance <- function(graph)
 	}
 }
 
-measures[["distance-average"]] <- list(
+#measures[["distance-average"]] <- list(
+#	type=numeric(),
+#	bounds=c(1,NA),
+#	foo=function(graph) 
+#	{	# exact process
+##		average.path.length(graph=graph, directed=FALSE, unconnected=TRUE)
+##		mean(cache$distance[!is.infinite(cache$distance)],na.rm=TRUE)
+#		
+#		# approximation 1 - node pairs
+##		sample.size <- 10^6 # number of distances to consider
+##		ss <- min(vcount(graph)/2,as.integer(sqrt(sample.size)))
+##		nodes <- sample(1:vcount(graph),ss*2)
+##		sp <- shortest.paths(graph=graph, v=nodes[1:ss], to=nodes[(ss+1):(ss*2)], mode="all", weights=NULL)
+##		sp <- sp[!is.infinite(sp)]
+##		mean(sp)
+#		
+#		# approximation 2 - nodes vs. rest
+#		sample.size <- 10^8 # number of distances to consider
+#		ss <- min(vcount(graph),max(1,as.integer(sample.size/vcount(graph))))
+#		nodes <- sample(1:vcount(graph),ss)
+#		sp <- shortest.paths(graph=graph, v=nodes, to=V(graph),mode="all", weights=NULL)
+#		sp <- sp[!is.infinite(sp)]
+#		mean(sp)
+#	}
+#)
+measures[["distance-average-rand"]] <- list(	# average distance in the randomized version of the network
 	type=numeric(),
 	bounds=c(1,NA),
 	foo=function(graph) 
-	{	# exact process
-		#average.path.length(graph=graph, directed=FALSE, unconnected=TRUE)
-		#mean(cache$distance[!is.infinite(cache$distance)],na.rm=TRUE)
+	{	# randomize the network (the more iterations, the closer to an Erdos-Renyi graph)
+		g2 <- randomize.network(graph=graph, iterations=10)
 		
-#		# approximation 1 - node pairs
+		# exact method from igraph
+#		average.path.length(graph=g2, directed=FALSE, unconnected=TRUE)
+#		#mean(cache$distance[!is.infinite(cache$distance)],na.rm=TRUE)
+			
+		# approximation 1 - node pairs
 #		sample.size <- 10^6 # number of distances to consider
-#		ss <- min(vcount(g)/2,as.integer(sqrt(sample.size)))
-#		nodes <- sample(1:vcount(g),ss*2)
-#		sp <- shortest.paths(graph=g, v=nodes[1:ss], to=nodes[(ss+1):(ss*2)], mode="all", weights=NULL)
+#		ss <- min(vcount(g2)/2,as.integer(sqrt(sample.size)))
+#		nodes <- sample(1:vcount(g2),ss*2)
+#		sp <- shortest.paths(graph=g2, v=nodes[1:ss], to=nodes[(ss+1):(ss*2)], mode="all", weights=NULL)
 #		sp <- sp[!is.infinite(sp)]
 #		mean(sp)
-		
+			
 		# approximation 2 - nodes vs. rest
 		sample.size <- 10^8 # number of distances to consider
-		ss <- min(vcount(g),max(1,as.integer(sample.size/vcount(g))))
-		nodes <- sample(1:vcount(g),ss)
-		sp <- shortest.paths(graph=g, v=nodes, to=V(g),mode="all", weights=NULL)
+		ss <- min(vcount(g2),max(1,as.integer(sample.size/vcount(g2))))
+		nodes <- sample(1:vcount(g2),ss)
+		sp <- shortest.paths(graph=g2, v=nodes, to=V(g2),mode="all", weights=NULL)
 		sp <- sp[!is.infinite(sp)]
 		mean(sp)
 	}
