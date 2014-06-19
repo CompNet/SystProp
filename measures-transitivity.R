@@ -44,6 +44,8 @@ measures[["transitivity-global-latt"]] <- list(	# global transitivity in the lat
 			# compare with current best 
 			if(cur.res>best.res)
 				best.res <- cur.res
+			
+			i <- i + 1
 		}
 		return(best.res)
 	}
