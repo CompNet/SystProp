@@ -184,7 +184,7 @@ latticize.network <- function(g, iterations)
 		# while not rewired
 		while(!rewire & att<=max.attempts)
 		{	rewire <- FALSE
-cat("it=",it," iter=",iter," att=",att," max.attempts=",max.attempts,"\n",sep="")			
+			#cat("it=",it," iter=",iter," att=",att," max.attempts=",max.attempts,"\n",sep="")			
 			# randomly draw 2 links
 			es <- igraph.sample(1,m,2)
 			temp <- get.edges(graph=g,es=es)
