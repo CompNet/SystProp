@@ -35,11 +35,11 @@ source("SystProp/pli/zeta.R")
 #################################
 # setup parameters
 #################################
-do.cache <- FALSE			# cache table results (series such as degree are always cached)
-do.plot <- FALSE			# plot measures
+do.process <- TRUE
+do.extract <- TRUE
 os <- .Platform$OS.type
 if(os=="windows")
-{	data.folder <- "M:/networks/_cleaned/"
+{	data.folder <- "D:/networks/_cleaned/"
 #	data.folder <- "c:/Temp/"
 	folders <- 1:611
 }else
@@ -98,8 +98,9 @@ file.ext <- ".txt"
 degree.file <- paste(file.name,file.ext,sep="")
 powerlaw.file <- paste(file.name,".powerlaw",file.ext,sep="") 
 comparison.file <- paste(file.name,".comparisons",file.ext,sep="") 
-do.process <- TRUE
-do.extract <- TRUE
+pl.r.names <- c("n","<x>","sd","x_max","^x_min^","^alpha^","n_tail","p")
+comp.r.names <- c("PowerExp","LogNorm","Exp","StrtExp","Poisson","YuleSimon")
+comp.c.names <- c("LLRatio","p1Val","p2Val")
 
 
 #################################
@@ -177,7 +178,6 @@ for(f in folders)
 					}
 				}
 			# init result matrix
-				pl.r.names <- c("n","<x>","sd","x_max","^x_min^","^alpha^","n_tail","p")
 				pl.results <- matrix(NA, nrow=length(pl.r.names), ncol=1)
 				rownames(pl.results) <- pl.r.names
 				pl.results["n",1] <- length(data)
@@ -236,8 +236,6 @@ for(f in folders)
 			# comparing distributions
 			########################################################
 			# init result matrix
-			comp.r.names <- c("PowerExp","LogNorm","Exp","StrtExp","Poisson","YuleSimon")
-			comp.c.names <- c("LLRatio","p1Val","p2Val")
 			comp.results <- matrix(NA,ncol=length(comp.c.names),nrow=length(comp.r.names))
 			rownames(comp.results) <- comp.r.names
 			colnames(comp.results) <- comp.c.names
@@ -307,7 +305,7 @@ for(f in folders)
 #################################
 # extract all results in a single file
 #################################
-c.names <- c(pl.r.names,cl.as.vector(comp.r.names,comp.c.names, paste, sep="-"))
+c.names <- c(pl.r.names,sort(as.vector(outer(comp.r.names,comp.c.names, paste, sep="-"))))
 all.res <- matrix(NA,ncol=length(c.names),nrow=length(folders))
 colnames(all.res) <- c.names
 rownames(all.res) <- as.character(folders)
@@ -345,7 +343,7 @@ for(f in folders)
 		}else
 		{	# load data
 			cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Loading power-law file #",f,": '",data.file,"'\n",sep="")
-			temp <- read.table(data.file, header=TRUE)
+			temp <- read.table(data.file, header=FALSE, row.names=1)
 			# add to global table
 			for(c in pl.r.names)
 				all.res[as.character(f),c] <- temp[c,1]
@@ -354,7 +352,7 @@ for(f in folders)
 		# setup file name
 		start.time <- Sys.time();
 		net.folder <- paste(data.folder,filename,"/",sep="")
-		data.file <- paste(net.folder,comarison.file,sep="")
+		data.file <- paste(net.folder,comparison.file,sep="")
 		
 		# file not found
 		if(!file.exists(data.file))
@@ -367,8 +365,8 @@ for(f in folders)
 			cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Loading comparison file #",f,": '",data.file,"'\n",sep="")
 			temp <- read.table(data.file, header=TRUE)
 			# add to global table
-			for(r in comp.r.names)
-			{	for(c in comp.c.names)
+			for(c in comp.c.names)
+			{	for(r in comp.r.names)
 					all.res[as.character(f),paste(r,c,sep="-")] <- temp[r,c]
 			}
 		}
@@ -378,7 +376,7 @@ for(f in folders)
 # record all results
 cat("[",format(Sys.time(),"%a %d %b %Y %X"),"] Recording all results\n",sep="")
 out.file <- paste(data.folder,comparison.file,sep="") 
-write.table(x=all.results, file=out.file, row.names=TRUE, col.names=TRUE)
+write.table(x=all.res, file=out.file, row.names=TRUE, col.names=TRUE)
 
 
 
