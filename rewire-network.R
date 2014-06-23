@@ -44,15 +44,16 @@ get.partial.matrix <- function(g, nodes)
 #################################
 # Checks if the specified rewiring is
 # going to split the network, i.e.
-# lead to the apparition of two components.
+# lead to the apparition of a new component.
 # Before the rewiring the existing links
 # are (a,b) and (c,d). After the rewiring,
 # they are (a,d) and (b,c).
 #
 # g: network
+# comp.nb: number of components in the network
 # a,b,c,d: nodes concerned by the rewiring 
 #################################
-is.splitting.network <- function(g, a, b, c, d)
+is.splitting.network <- function(g, comp.nb, a, b, c, d)
 {	result <- FALSE
 	
 	if(!are.connected(g, a, c) & !are.connected(g, b, d))
@@ -81,7 +82,12 @@ is.splitting.network <- function(g, a, b, c, d)
 		# modify and check the graph
 		g <- delete.edges(graph=g, edges=c(E(g)[a %--% b],E(g)[c %--% d]))
 		g <- add.edges(graph=g, edges=c(a,d,b,c))
-		result <- !is.connected(graph=g)
+		# single component
+		if(comp.nb==1)
+			result <- !is.connected(graph=g)
+		# disconnected network
+		else
+			result <- no.clusters(graph=g)!=comp.nb
 	}
 	
 	return(result)
@@ -102,6 +108,7 @@ randomize.network <- function(g, iterations)
 	n <- vcount(g)
 	m <- ecount(g)
 	iter <- m*iterations
+	comp.nb <- no.clusters(graph=g)
 	# maximal number of rewiring attempts per iter
 	max.attempts <- round(n*m/(n*(n-1.0)))
 	# actual number of successful rewirings
@@ -137,7 +144,7 @@ randomize.network <- function(g, iterations)
 				if(!are.connected(g,a,d) & !are.connected(g,c,b))
 				{	
 					# check if the rewiring is going to split the network
-					rewire <- !is.splitting.network(g,a,b,c,d)
+					rewire <- !is.splitting.network(g,comp.nb,a,b,c,d)
 					if(rewire)
 					{	g <- delete.edges(graph=g, edges=es)
 						g <- add.edges(graph=g, edges=c(a,d,b,c))
@@ -170,6 +177,7 @@ latticize.network <- function(g, iterations)
 	n <- vcount(g)
 	m <- ecount(g)
 	iter <- m*iterations
+	comp.nb <- no.clusters(graph=g)
 	# randomize node order
 	rdmz <- sample(1:n)
 	# maximal number of rewiring attempts per iteration
@@ -210,7 +218,7 @@ latticize.network <- function(g, iterations)
 						>=(abs(rdmz[a]-rdmz[d])+abs(rdmz[c]-rdmz[b])))
 					{	
 						# check if the rewiring is going to split the network
-						rewire <- !is.splitting.network(g,a,b,c,d)
+						rewire <- !is.splitting.network(g,comp.nb,a,b,c,d)
 						if(rewire)
 						{	g <- delete.edges(graph=g, edges=es)
 							g <- add.edges(graph=g, edges=c(a,d,b,c))
