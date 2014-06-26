@@ -28,28 +28,31 @@ measures[["transitivity-global-latt"]] <- list(	# global transitivity in the lat
 	bounds=c(1,NA),
 	foo=function(graph) 
 	{	# init
-		update.trans <- FALSE # whether or not to update transitivity for each iteration (TRUE=slower)
+		update.trans <- TRUE # whether or not to update transitivity for each iteration (TRUE=slower)
+		tolerance <- 0.005
 		i <- 0
 		best.res <- 0
-		cur.res <- 0
+		go.on <- TRUE
 		g2 <- graph
 		
 		# we may perform several rewirings to improve transitivity
-		while(i<5 & cur.res==best.res)
+		while(i<5 | (update.trans & go.on))
 		{	# latticize the network (the more iterations, the closer to a lattice)
 			g2 <- latticize.network(g=g2, iterations=10)
-
+			
 			if(update.trans)
 			{	# process its global transitivity
 				cur.res <- transitivity(g2, type="globalundirected", weights=NULL, isolates="zero")
 				# compare with current best 
+				go.on <- cur.res-best.res > tolerance
 				if(cur.res>best.res)
 					best.res <- cur.res
 			}
 			
-			#cat("i=",i,"/5\n")
+			cat("i=",i," cur.res=",cur.res," best.res=",best.res,"\n")
 			i <- i + 1
 		}
+		
 		if(!update.trans)
 			best.res <- transitivity(g2, type="globalundirected", weights=NULL, isolates="zero")
 		return(best.res)
