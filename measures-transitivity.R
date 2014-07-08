@@ -36,7 +36,7 @@ measures[["transitivity-global-latt"]] <- list(	# global transitivity in the lat
 		g2 <- graph
 		
 		# we may perform several rewirings to improve transitivity
-		while(i<5 | (update.trans & go.on))
+		while(i<3 | (update.trans & go.on))
 		{	# latticize the network (the more iterations, the closer to a lattice)
 			g2 <- latticize.network(g=g2, iterations=10)
 			
@@ -49,7 +49,7 @@ measures[["transitivity-global-latt"]] <- list(	# global transitivity in the lat
 					best.res <- cur.res
 			}
 			
-			cat("i=",i," cur.res=",cur.res," best.res=",best.res,"\n")
+			cat("i=",i," cur.res=",cur.res," best.res=",best.res,"\n",sep="")
 			i <- i + 1
 		}
 		
