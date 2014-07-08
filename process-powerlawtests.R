@@ -251,42 +251,57 @@ for(f in folders)
 				# power law vs. log-normal
 				if(all(!is.na(lnorm.d)))
 				{	cat("Comparing power law vs. log-normal distribution\n")
-					lnorm.res <- vuong(zeta.lnorm.llr(x=data, zeta.d=power.d, lnorm.d=lnorm.d))
-					comp.results["LogNorm","LLRatio"] <- lnorm.res$loglike.ratio
-					comp.results["LogNorm","p1Val"] <- lnorm.res$p.one.sided
-					comp.results["LogNorm","p2Val"] <- lnorm.res$p.two.sided
+					temp <- zeta.lnorm.llr(x=data, zeta.d=power.d, lnorm.d=lnorm.d)
+					if(all(!is.infinite(temp)))
+					{	lnorm.res <- vuong(temp)
+						comp.results["LogNorm","LLRatio"] <- lnorm.res$loglike.ratio
+						comp.results["LogNorm","p1Val"] <- lnorm.res$p.one.sided
+						comp.results["LogNorm","p2Val"] <- lnorm.res$p.two.sided
+					}
 				}
 				# power law vs. exponential
 				if(all(!is.na(exp.d)))
 				{	cat("Comparing power law vs. exponential distribution\n")
-					exp.res <- vuong(zeta.exp.llr(x=data, zeta.d=power.d, exp.d=exp.d))
-					comp.results["Exp","LLRatio"] <- exp.res$loglike.ratio
-					comp.results["Exp","p1Val"] <- exp.res$p.one.sided
-					comp.results["Exp","p2Val"] <- exp.res$p.two.sided
+					temp <- zeta.exp.llr(x=data, zeta.d=power.d, exp.d=exp.d)
+					if(all(!is.infinite(temp)))
+					{	exp.res <- vuong(temp)
+						comp.results["Exp","LLRatio"] <- exp.res$loglike.ratio
+						comp.results["Exp","p1Val"] <- exp.res$p.one.sided
+						comp.results["Exp","p2Val"] <- exp.res$p.two.sided
+					}
 				}
 				# power law vs. stretched exponential
 				if(all(!is.na(weib.d)))
 				{	cat("Comparing power law vs. stretched exponential distribution\n")
-					weib.res <- vuong(zeta.weib.llr(x=data, zeta.d=power.d, weib.d=weib.d))
-					comp.results["StrtExp","LLRatio"] <- weib.res$loglike.ratio
-					comp.results["StrtExp","p1Val"] <- weib.res$p.one.sided
-					comp.results["StrtExp","p2Val"] <- weib.res$p.two.sided
+					temp <- zeta.weib.llr(x=data, zeta.d=power.d, weib.d=weib.d)
+					if(all(!is.infinite(temp)))
+					{	weib.res <- vuong(temp)
+						comp.results["StrtExp","LLRatio"] <- weib.res$loglike.ratio
+						comp.results["StrtExp","p1Val"] <- weib.res$p.one.sided
+						comp.results["StrtExp","p2Val"] <- weib.res$p.two.sided
+					}
 				}
 				# power law vs. poisson
 				if(all(!is.na(pois.d)))
 				{	cat("Comparing power law vs. poisson distribution\n")
-					pois.res <- vuong(zeta.poisson.llr(x=data, zeta.d=power.d, pois.d=pois.d))
-					comp.results["Poisson","LLRatio"] <- pois.res$loglike.ratio
-					comp.results["Poisson","p1Val"] <- pois.res$p.one.sided
-					comp.results["Poisson","p2Val"] <- pois.res$p.two.sided
+					temp <- zeta.poisson.llr(x=data, zeta.d=power.d, pois.d=pois.d)
+					if(all(!is.infinite(temp)))
+					{	pois.res <- vuong(temp)
+						comp.results["Poisson","LLRatio"] <- pois.res$loglike.ratio
+						comp.results["Poisson","p1Val"] <- pois.res$p.one.sided
+						comp.results["Poisson","p2Val"] <- pois.res$p.two.sided
+					}
 				}
 				# power law vs. yule
 				if(all(!is.na(yule.d)))
 				{	cat("Comparing power law vs. yule-simon distribution\n")
-					yule.res <- vuong(zeta.yule.llr(x=data, zeta.d=power.d, yule.d=yule.d))
-					comp.results["YuleSimon","LLRatio"] <- yule.res$loglike.ratio
-					comp.results["YuleSimon","p1Val"] <- yule.res$p.one.sided
-					comp.results["YuleSimon","p2Val"] <- yule.res$p.two.sided
+					temp <- zeta.yule.llr(x=data, zeta.d=power.d, yule.d=yule.d)
+					if(all(!is.infinite(temp)))
+					{	yule.res <- vuong(temp)
+						comp.results["YuleSimon","LLRatio"] <- yule.res$loglike.ratio
+						comp.results["YuleSimon","p1Val"] <- yule.res$p.one.sided
+						comp.results["YuleSimon","p2Val"] <- yule.res$p.two.sided
+					}
 				}
 			}	
 			# record comparison results
