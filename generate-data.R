@@ -1,7 +1,7 @@
 # Generates some random data, for testing purposes.
 #
 # setwd("~/eclipse/workspaces/Networks")
-# setwd("c:/eclipse/workspaces/Networks")
+# setwd("D:/eclipse/workspaces/Networks")
 #
 # source("SystProp/generate-data.R")
 ###################################################

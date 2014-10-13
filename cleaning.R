@@ -9,7 +9,7 @@
 # and creates a new, cleaned, dataset. No original data are lost.
 #
 # setwd("~/eclipse/workspaces/Networks")
-# setwd("c:/eclipse/workspaces/Networks")
+# setwd("D:/eclipse/workspaces/Networks")
 #
 # source("SystProp/cleaning.R")
 ###################################################

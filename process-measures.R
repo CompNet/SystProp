@@ -1,7 +1,7 @@
 # Processes all the network measures at once.
 #
 # setwd("~/eclipse/workspaces/Networks")
-# setwd("C:/eclipse/workspaces/Networks")
+# setwd("D:/eclipse/workspaces/Networks")
 #
 # source("SystProp/process-measures.R")
 ###################################################
@@ -14,14 +14,15 @@ library(igraph)
 #################################
 # setup parameters
 #################################
-do.cache <- FALSE			# cache table results (series such as degree are always cached)
+do.cache <- TRUE			# cache table results (series such as degree are always cached)
 do.plot <- FALSE			# plot measures
 os <- .Platform$OS.type
 if(os=="windows")
-{	data.folder <- "D:/networks/_cleaned/"
-#	data.folder <- "c:/Temp/"
-#	folders <- 1:611
-	folders <- c(
+{	
+#	data.folder <- "D:/networks/_cleaned/"
+	data.folder <- "H:/networks/"
+	folders <- 1:613
+#	folders <- c(
 #		107,34,160,108,571,166,159,568,111,113,569,112,570,
 #		585,168,164,491,167,152,586,538,177,539,581,580,178,
 #		583,582,584,576,604,599,531,502,595,530,598,605,606,
@@ -65,8 +66,8 @@ if(os=="windows")
 #		392,458,99,309,449,375,219,444,374,445,316,418,424,443,446,
 #		54,408,441,308,471,409,305,386,419,306,442,387,461,329,456,
 #		440,191,330,448,327,474,328,310
-		5
-	)
+#		5
+#	)
 }else
 {	data.folder <- "/var/data/networks/_cleaned/"
 	#data.folder <- "/media/Samsung/networks/_cleaned/"
@@ -117,7 +118,7 @@ if(os=="windows")
 		440,191,330,448,327,474,328,310
 	)
 }
-folders <- folders[!(folders %in% c(308,310,330,418,474))] 				#remove missing multipartite projections
+#folders <- folders[!(folders %in% c(308,310,330,418,474))] 				#remove missing multipartite projections
 #folders <- folders[!(folders %in% c(4,9,116,163,386,388,420,421,422,469))]	# remove networks with a full density
 plot.folder <- paste(data.folder,"plots/",sep="")
 missing.folders <- c(182,312,326,399,400,401,439,464,465)
@@ -138,14 +139,14 @@ size.limit <- 10^36#1000000000 # only process files whose size is below this lim
 #		VS. type of system (biological, artificial, etc.)
 
 measures <- list()
-#source("SystProp/measures-check.R")
-#source("SystProp/measures-general.R")
-#source("SystProp/measures-attribute.R")
-#source("SystProp/measures-element.R")
+source("SystProp/measures-check.R")
+source("SystProp/measures-general.R")
+source("SystProp/measures-attribute.R")
+source("SystProp/measures-element.R")
 #	source("SystProp/measures-component.R")
 #source("SystProp/measures-degree.R")
-source("SystProp/measures-distance.R")
-source("SystProp/measures-transitivity.R")
+#source("SystProp/measures-distance.R")
+#source("SystProp/measures-transitivity.R")
 #source("SystProp/measures-betweenness.R")
 #source("SystProp/measures-closeness.R")
 #source("SystProp/measures-edgebetweenness.R")
@@ -280,7 +281,7 @@ for(f in folders)
 	# add minimal information for unavailable networks
 	if(unavailable)
 	{	# update file name and size
-		pn <- c("file-name","file-size")
+		pn <- c("file-name") # "file-size"
 		for(propn in pn)
 		{	p <- which(prop.names==propn)
 			if(length(p)>0)
