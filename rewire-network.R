@@ -18,7 +18,7 @@ library(igraph)
 # Returns the adjacency matrix when
 # considering only the specified nodes
 # vs. the whole network.
-# The result is an k*n matrix, where
+# The result is a k*n matrix, where
 # n is the total number of nodes in the
 # network and k the number of nodes
 # of interest.
@@ -51,7 +51,9 @@ get.partial.matrix <- function(g, nodes)
 #
 # g: network
 # comp.nb: number of components in the network
-# a,b,c,d: nodes concerned by the rewiring 
+# a,b,c,d: nodes concerned by the rewiring
+#
+# (estimated) complexity: O(m+n)
 #################################
 is.splitting.network <- function(g, comp.nb, a, b, c, d)
 {	result <- FALSE
@@ -87,7 +89,7 @@ is.splitting.network <- function(g, comp.nb, a, b, c, d)
 			result <- !is.connected(graph=g)
 		# disconnected network
 		else
-			result <- no.clusters(graph=g)!=comp.nb
+			result <- no.clusters(graph=g)!=comp.nb # complexity: O(m+n)
 	}
 	
 	return(result)
@@ -102,14 +104,16 @@ is.splitting.network <- function(g, comp.nb, a, b, c, d)
 #
 # g: network to be rewired.
 # iterations: number of times a link is rewired (approximately)
+#
+# (estimated) complexity: O(m+n) (* iterations * attempts)
 #################################
 randomize.network <- function(g, iterations)
 {	# init
 	n <- vcount(g)
 	m <- ecount(g)
 	iter <- m*iterations
-	comp.nb <- no.clusters(graph=g)
-	# maximal number of rewiring attempts per iter
+	comp.nb <- no.clusters(graph=g) # complexity=O(m+n) cf igraph C source code comments
+	# maximal number of rewiring attempts per iteration
 	max.attempts <- round(n*m/(n*(n-1.0)))
 	# actual number of successful rewirings
 	eff <- 0
@@ -171,6 +175,8 @@ randomize.network <- function(g, iterations)
 #
 # g: network
 # iterations: number of times a link is rewired (approximately)
+#
+# (estimated) complexity: O(m+n) (* iterations * attempts)
 #################################
 latticize.network <- function(g, iterations)
 {	# init
@@ -218,10 +224,10 @@ latticize.network <- function(g, iterations)
 						>=(abs(rdmz[a]-rdmz[d])+abs(rdmz[c]-rdmz[b])))
 					{	
 						# check if the rewiring is going to split the network
-						rewire <- !is.splitting.network(g,comp.nb,a,b,c,d)
+						rewire <- !is.splitting.network(g,comp.nb,a,b,c,d) # complexity: O(m+n)
 						if(rewire)
-						{	g <- delete.edges(graph=g, edges=es)
-							g <- add.edges(graph=g, edges=c(a,d,b,c))
+						{	g <- delete.edges(graph=g, edges=es) # complexity: O(m+n)
+							g <- add.edges(graph=g, edges=c(a,d,b,c)) # complexity: O(m+n)
 							eff <- eff + 1
 						}
 					}
