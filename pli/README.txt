@@ -4,7 +4,7 @@ Alternatives
 
 The contents of this directory should consist of some R functions for
 estimating continuous and discrete power laws, and comparing them to various
-more-or-less heavy-tailed alternative distributions.  It is inteded to
+more-or-less heavy-tailed alternative distributions.  It is intended to
 accompany the paper [1], and is likely to not be very comprehensible without
 that paper.  This document gives a brief overview of the accompanying files and
 their installation and usage.  It does NOT explain how to use R.  Some of the
