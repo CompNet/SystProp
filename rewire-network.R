@@ -3,7 +3,7 @@
 # random, the other is a latticization.
 #
 # setwd("~/eclipse/workspaces/Networks")
-# setwd("C:/eclipse/workspaces/Networks")
+# setwd("D:/eclipse/workspaces/Networks")
 #
 # source("SystProp/rewire-network.R")
 ###################################################

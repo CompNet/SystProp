@@ -6,7 +6,7 @@
 # - Lowest density (projection tends to lead to dense graphs)
 #
 # setwd("~/eclipse/workspaces/Networks")
-# setwd("c:/eclipse/workspaces/Networks")
+# setwd("D:/eclipse/workspaces/Networks")
 #
 # source("SystProp/comparing-multiplex.R")
 ###################################################

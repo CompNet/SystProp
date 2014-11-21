@@ -6,7 +6,7 @@
 # http://tuvalu.santafe.edu/~aaronc/powerlaws/
 # 
 # setwd("~/eclipse/workspaces/Networks")
-# setwd("c:/eclipse/workspaces/Networks")
+# setwd("D:/eclipse/workspaces/Networks")
 #
 # source("SystProp/process-powerlawtests.R")
 ########################################################
