@@ -5,8 +5,8 @@
 # source code from from 
 # http://tuvalu.santafe.edu/~aaronc/powerlaws/
 # 
-# setwd("~/eclipse/workspaces/Networks")
-# setwd("c:/eclipse/workspaces/Networks")
+# setwd("~/eclipse/workspaces/Networks/SystProp")
+# setwd("c:/eclipse/workspaces/Networks/SystProp")
 #
 # source("pli/_main.R")
 ########################################################

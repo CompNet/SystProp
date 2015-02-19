@@ -1,7 +1,7 @@
 # Processes all the network measures at once.
 #
-# setwd("~/eclipse/workspaces/Networks")
-# setwd("D:/eclipse/workspaces/Networks")
+# setwd("~/eclipse/workspaces/Networks/SystProp")
+# setwd("D:/eclipse/workspaces/Networks/SystProp")
 #
 # source("process-measures.R")
 ###################################################
@@ -20,7 +20,7 @@ os <- .Platform$OS.type
 if(os=="windows")
 {	
 #	data.folder <- "D:/networks/_cleaned/"
-	data.folder <- "H:/networks/"
+	data.folder <- "H:/networks/_cleaned/"
 	folders <- 1:613
 #	folders <- c(
 #		107,34,160,108,571,166,159,568,111,113,569,112,570,
@@ -341,7 +341,7 @@ if(do.plot)
 					png(filename=plot.file,width=1000,height=1000,units="px",pointsize=20,bg="white")
 					#pdf(file=plot.file,bg="white")
 				
-					plot(values1b,values2,xlab=name1,ylab=name2,main=paste(name1,"vs",name2),xlim=bounds1, ylim=bounds2)
+					plot(values1b,values2,xlab=name1,ylab=name2,main=paste(name1,"vs",name2),xlim=bounds1,ylim=bounds2)
 					dev.off()
 				}
 				else

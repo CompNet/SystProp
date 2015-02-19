@@ -2,8 +2,8 @@
 # less random way. One function is completely
 # random, the other is a latticization.
 #
-# setwd("~/eclipse/workspaces/Networks")
-# setwd("D:/eclipse/workspaces/Networks")
+# setwd("~/eclipse/workspaces/Networks/SystProp")
+# setwd("D:/eclipse/workspaces/Networks/SystProp")
 #
 # source("tools/rewire-network.R")
 ###################################################
@@ -114,7 +114,7 @@ randomize.network <- function(g, iterations)
 	iter <- m*iterations
 	comp.nb <- no.clusters(graph=g) # complexity=O(m+n) cf igraph C source code comments
 	# maximal number of rewiring attempts per iteration
-	max.attempts <- round(n*m/(n*(n-1.0)))
+	max.attempts <- max(5,round(n*m/(n*(n-1.0))))
 	# actual number of successful rewirings
 	eff <- 0
 	
