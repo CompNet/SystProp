@@ -3,7 +3,7 @@
 # setwd("~/eclipse/workspaces/Networks")
 # setwd("D:/eclipse/workspaces/Networks")
 #
-# source("SystProp/process-measures.R")
+# source("process-measures.R")
 ###################################################
 
 #################################
@@ -139,21 +139,21 @@ size.limit <- 10^36#1000000000 # only process files whose size is below this lim
 #		VS. type of system (biological, artificial, etc.)
 
 measures <- list()
-source("SystProp/measures-check.R")
-source("SystProp/measures-general.R")
-source("SystProp/measures-attribute.R")
-source("SystProp/measures-element.R")
-#	source("SystProp/measures-component.R")
-#source("SystProp/measures-degree.R")
-#source("SystProp/measures-distance.R")
-#source("SystProp/measures-transitivity.R")
-#source("SystProp/measures-betweenness.R")
-#source("SystProp/measures-closeness.R")
-#source("SystProp/measures-edgebetweenness.R")
-#source("SystProp/measures-spectral.R")
-##source("SystProp/measures-connectivity.R")
-#source("SystProp/measures-eccentricity.R")
-#source("SystProp/measures-community.R")
+source("measures/check.R")
+source("measures/general.R")
+source("measures/attribute.R")
+source("measures/element.R")
+#	source("measures/component.R")
+#source("measures/degree.R")
+#source("measures/distance.R")
+#source("measures/transitivity.R")
+#source("measures/betweenness.R")
+#source("measures/closeness.R")
+#source("measures/edgebetweenness.R")
+#source("measures/spectral.R")
+##source("measures/connectivity.R")
+#source("measures/eccentricity.R")
+#source("measures/community.R")
 
 
 #################################

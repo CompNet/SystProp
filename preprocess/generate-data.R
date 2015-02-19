@@ -3,7 +3,7 @@
 # setwd("~/eclipse/workspaces/Networks")
 # setwd("D:/eclipse/workspaces/Networks")
 #
-# source("SystProp/generate-data.R")
+# source("preprocess/generate-data.R")
 ###################################################
 library(igraph)
 

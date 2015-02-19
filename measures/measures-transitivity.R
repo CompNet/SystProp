@@ -1,7 +1,7 @@
 #################################
 # Processes transitivity-related measures.
 #################################
-source("SystProp/rewire-network.R")
+source("tools/rewire-network.R")
 
 # processes local transitivities
 process.local.transitivity <- function(graph)
@@ -41,7 +41,7 @@ measures[["transitivity-global-latt"]] <- list(	# global transitivity in the lat
 			g2 <- latticize.network(g=g2, iterations=10)
 			
 			if(update.trans)
-			{	# process its global transitivity (complexity : O(n<k>²) cf igraph C source code comments)
+			{	# process its global transitivity (complexity : O(n<k>ï¿½) cf igraph C source code comments)
 				cur.res <- transitivity(g2, type="globalundirected", weights=NULL, isolates="zero")
 				# compare with current best 
 				go.on <- cur.res-best.res > tolerance

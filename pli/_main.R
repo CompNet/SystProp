@@ -8,30 +8,30 @@
 # setwd("~/eclipse/workspaces/Networks")
 # setwd("c:/eclipse/workspaces/Networks")
 #
-# source("SystProp/pli/_main.R")
+# source("pli/_main.R")
 ########################################################
 library("poweRlaw")	# implements partially the functions of Clauset et al.
 
-source("SystProp/pli/discexp.R")
-source("SystProp/pli/disclnorm.R")
-source("SystProp/pli/discpowerexp.R")
-source("SystProp/pli/discweib.R")
-source("SystProp/pli/exp.R")							# continuous distribution >> not needed
-source("SystProp/pli/lnorm.R")							# continuous distribution >> not needed
-source("SystProp/pli/pareto.R")							# continuous distribution >> not needed
-source("SystProp/pli/poisson.R")
-source("SystProp/pli/powerexp.R")						# continuous distribution >> not needed
-source("SystProp/pli/powerexp-exponential-integral.R")	# continuous distribution >> not needed
-source("SystProp/pli/power-law-test.R")
-source("SystProp/pli/weibull.R")						# continuous distribution >> not needed
-source("SystProp/pli/yule.R")
-source("SystProp/pli/zeta.R")
+source("pli/discexp.R")
+source("pli/disclnorm.R")
+source("pli/discpowerexp.R")
+source("pli/discweib.R")
+source("pli/exp.R")							# continuous distribution >> not needed
+source("pli/lnorm.R")							# continuous distribution >> not needed
+source("pli/pareto.R")							# continuous distribution >> not needed
+source("pli/poisson.R")
+source("pli/powerexp.R")						# continuous distribution >> not needed
+source("pli/powerexp-exponential-integral.R")	# continuous distribution >> not needed
+source("pli/power-law-test.R")
+source("pli/weibull.R")						# continuous distribution >> not needed
+source("pli/yule.R")
+source("pli/zeta.R")
 
 
 ########################################################
 # retrieving data
 ########################################################
-folder <- "SystProp/pli/temp/"
+folder <- "pli/temp/"
 file.name <- "degree-all"
 file.ext <- ".txt"
 in.file <- paste(folder,file.name,file.ext,sep="") 

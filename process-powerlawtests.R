@@ -1,5 +1,5 @@
 ########################################################
-# Retrieves the data, fits the power laws
+# Retrieves the data (degrees), fits the power laws
 # and alternative distributions, compares
 # them. All of that using Clauset et al.'s
 # source code from from 
@@ -8,7 +8,7 @@
 # setwd("~/eclipse/workspaces/Networks")
 # setwd("D:/eclipse/workspaces/Networks")
 #
-# source("SystProp/process-powerlawtests.R")
+# source("process-powerlawtests.R")
 ########################################################
 
 #################################
@@ -16,20 +16,20 @@
 #################################
 library("poweRlaw")	# implements partially the functions of Clauset et al.
 
-source("SystProp/pli/discexp.R")
-source("SystProp/pli/disclnorm.R")
-source("SystProp/pli/discpowerexp.R")
-source("SystProp/pli/discweib.R")
-source("SystProp/pli/exp.R")							# continuous distribution >> not needed
-source("SystProp/pli/lnorm.R")							# continuous distribution >> not needed
-source("SystProp/pli/pareto.R")							# continuous distribution >> not needed
-source("SystProp/pli/poisson.R")
-source("SystProp/pli/powerexp.R")						# continuous distribution >> not needed
-source("SystProp/pli/powerexp-exponential-integral.R")	# continuous distribution >> not needed
-source("SystProp/pli/power-law-test.R")
-source("SystProp/pli/weibull.R")						# continuous distribution >> not needed
-source("SystProp/pli/yule.R")
-source("SystProp/pli/zeta.R")
+source("pli/discexp.R")
+source("pli/disclnorm.R")
+source("pli/discpowerexp.R")
+source("pli/discweib.R")
+source("pli/exp.R")							# continuous distribution >> not needed
+source("pli/lnorm.R")							# continuous distribution >> not needed
+source("pli/pareto.R")							# continuous distribution >> not needed
+source("pli/poisson.R")
+source("pli/powerexp.R")						# continuous distribution >> not needed
+source("pli/powerexp-exponential-integral.R")	# continuous distribution >> not needed
+source("pli/power-law-test.R")
+source("pli/weibull.R")						# continuous distribution >> not needed
+source("pli/yule.R")
+source("pli/zeta.R")
 
 
 #################################
@@ -146,8 +146,8 @@ for(f in folders)
 		}else
 		{	# load network
 			cat("[",format(start.time,"%a %d %b %Y %X"),"] Loading data file #",f,": '",data.file,"'\n",sep="")
-			data <- as.vector(read.table(data.file)[,1])
-			data <- data[which(data!=0)] # this should not happen
+				data <- as.vector(read.table(data.file)[,1])
+				data <- data[which(data!=0)] # this should not happen
 			end.time <- Sys.time();
 			total.time <- end.time - start.time;
 			cat("[",format(end.time,"%a %d %b %Y %X"),"] Loading completed in ",format(total.time),"\n",sep="")
