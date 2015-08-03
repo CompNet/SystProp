@@ -11,7 +11,7 @@
 # setwd("~/eclipse/workspaces/Networks")
 # setwd("D:/eclipse/workspaces/Networks")
 #
-# source("SystProp/cleaning.R")
+# source("preprocess/cleaning.R")
 ###################################################
 
 #################################
