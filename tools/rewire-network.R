@@ -5,7 +5,7 @@
 # setwd("~/eclipse/workspaces/Networks")
 # setwd("D:/eclipse/workspaces/Networks")
 #
-# source("SystProp/rewire-network.R")
+# source("tools/rewire-network.R")
 ###########################################################################
 
 ###########################################################################

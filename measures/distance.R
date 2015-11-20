@@ -1,7 +1,7 @@
 #################################
 # Processes distance-related measures.
 #################################
-source("SystProp/rewire-network.R")
+source("tools/rewire-network.R")
 
 # processes distances
 process.distance <- function(graph)

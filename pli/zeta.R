@@ -46,7 +46,7 @@
 # Used by zeta_function_once.gsl
 #zeta_function_filename <- "~/bin/zeta_function"
 ### TODO EDIT THIS LOCATION!!! ####
-zeta_function_filename <- "SystProp/pli/zeta-function/zeta_func"
+zeta_function_filename <- "pli/zeta-function/zeta_func"
 
 
 
