@@ -1,34 +1,31 @@
-# Rewires an existing network in a more or
-# less random way. One function is completely
-# random, the other is a latticization.
+###########################################################################
+# Rewires an existing network in a more or less random way. One function 
+# is completely random, the other is a latticization.
 #
 # setwd("~/eclipse/workspaces/Networks/SystProp")
 # setwd("D:/eclipse/workspaces/Networks/SystProp")
 #
 # source("tools/rewire-network.R")
-###################################################
+###########################################################################
 
-#################################
+###########################################################################
 # load dependencies
-#################################
+###########################################################################
 library(igraph)
 
 
-#################################
-# Returns the adjacency matrix when
-# considering only the specified nodes
-# vs. the whole network.
-# The result is a k*n matrix, where
-# n is the total number of nodes in the
-# network and k the number of nodes
-# of interest.
+
+###########################################################################
+# Returns the adjacency matrix when considering only the specified nodes
+# vs. the whole network. The result is a k*n matrix, where n is the total 
+# number of nodes in the network and k the number of nodes of interest.
 #
-# g: network
+# g: network to process.
 # nodes: nodes of interest.
-#################################
+# returns: the partial adjacency matrix.
+###########################################################################
 get.partial.matrix <- function(g, nodes)
 {	result <- matrix(data=FALSE,ncol=vcount(g),nrow=length(nodes))
-	#cat("!!!!!!!!!!!!!!\n")
 	#print(nodes)
 	if(length(nodes)>0)
 	{	for(i in 1:length(nodes))
@@ -41,20 +38,18 @@ get.partial.matrix <- function(g, nodes)
 }
 
 
-#################################
-# Checks if the specified rewiring is
-# going to split the network, i.e.
-# lead to the apparition of a new component.
-# Before the rewiring the existing links
-# are (a,b) and (c,d). After the rewiring,
-# they are (a,d) and (b,c).
+###########################################################################
+# Checks if the specified rewiring is going to split the network, i.e.
+# lead to the apparition of a new component. Before the rewiring, the existing 
+# links are (a,b) and (c,d). After the rewiring, they are (a,d) and (b,c).
 #
-# g: network
-# comp.nb: number of components in the network
-# a,b,c,d: nodes concerned by the rewiring
+# (estimated) Complexity: O(m+n)
 #
-# (estimated) complexity: O(m+n)
-#################################
+# g: network to process.
+# comp.nb: number of components in the network.
+# a,b,c,d: nodes concerned by the rewiring.
+# returns: TRUE iff the rewiring splits the graph.
+###########################################################################
 is.splitting.network <- function(g, comp.nb, a, b, c, d)
 {	result <- FALSE
 	
@@ -80,7 +75,7 @@ is.splitting.network <- function(g, comp.nb, a, b, c, d)
 #			p1 <- p1 | p0
 #		}
 		
-		# igraph-based method
+		# igraph-based method (faster)
 		# modify and check the graph
 		g <- delete.edges(graph=g, edges=c(E(g)[a %--% b],E(g)[c %--% d]))
 		g <- add.edges(graph=g, edges=c(a,d,b,c))
@@ -95,18 +90,17 @@ is.splitting.network <- function(g, comp.nb, a, b, c, d)
 	return(result)
 }
 
-#################################
-# Randomly rewires the network,
-# while preserving the degree distribution.
-#
-# Adapted from function randmio_und_connected from BCT
+###########################################################################
+# Randomly rewires the network, while preserving the degree distribution.
+# Adapted from function "randmio_und_connected" from BCT:
 # https://sites.google.com/site/bctnet
 #
-# g: network to be rewired.
-# iterations: number of times a link is rewired (approximately)
+# (estimated) Complexity: O(m+n) (* iterations * attempts)
 #
-# (estimated) complexity: O(m+n) (* iterations * attempts)
-#################################
+# g: network to be rewired.
+# iterations: number of times a link is rewired (approximately).
+# returns: the rewired network.
+###########################################################################
 randomize.network <- function(g, iterations)
 {	# init
 	n <- vcount(g)
@@ -165,19 +159,18 @@ randomize.network <- function(g, iterations)
 	return(g)
 }
 
-#################################
-# Randomly rewires the specified
-# network, so that it becomes more
-# similar to a lattice.
-#
-# Adapted from function latmio_und_connected from BCT
+###########################################################################
+# Randomly rewires the specified network, so that it becomes more similar 
+# to a lattice.
+# Adapted from function "latmio_und_connected" from BCT:
 # https://sites.google.com/site/bctnet
 #
-# g: network
-# iterations: number of times a link is rewired (approximately)
+# (estimated) Complexity: O(m+n) (* iterations * attempts)
 #
-# (estimated) complexity: O(m+n) (* iterations * attempts)
-#################################
+# g: network to process.
+# iterations: number of times a link is rewired (approximately).
+# returns: the rewired network.
+###########################################################################
 latticize.network <- function(g, iterations)
 {	# init
 	n <- vcount(g)
@@ -243,7 +236,7 @@ latticize.network <- function(g, iterations)
 }
 
 
-#################################
+###########################################################################
 # a few tests
 #g <- barabasi.game(n=1000,directed=FALSE,m=3)
 #t <- system.time(g2 <- randomize.network(g2,10))
