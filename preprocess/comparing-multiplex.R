@@ -5,8 +5,8 @@
 # - Highest number of nodes
 # - Lowest density (projection tends to lead to dense graphs)
 #
-# setwd("~/eclipse/workspaces/Networks")
-# setwd("D:/eclipse/workspaces/Networks")
+# setwd("~/eclipse/workspaces/Networks/SystProp")
+# setwd("D:/eclipse/workspaces/Networks/SystProp")
 #
 # source("preprocess/comparing-multiplex.R")
 ###################################################
