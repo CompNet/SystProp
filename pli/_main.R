@@ -1,9 +1,9 @@
 ########################################################
 # Retrieves the data, fits the power laws
 # and alternative distributions, compares
-# them. All of that using Clauset et al.'s
+# them. All of that using Cosma Rohilla Shalizi's
 # source code from from 
-# http://tuvalu.santafe.edu/~aaronc/powerlaws/
+# https://aaronclauset.github.io/powerlaws/
 # 
 # setwd("~/eclipse/workspaces/Networks/SystProp")
 # setwd("c:/eclipse/workspaces/Networks/SystProp")
@@ -16,14 +16,14 @@ source("pli/discexp.R")
 source("pli/disclnorm.R")
 source("pli/discpowerexp.R")
 source("pli/discweib.R")
-source("pli/exp.R")							# continuous distribution >> not needed
+source("pli/exp.R")								# continuous distribution >> not needed
 source("pli/lnorm.R")							# continuous distribution >> not needed
 source("pli/pareto.R")							# continuous distribution >> not needed
 source("pli/poisson.R")
 source("pli/powerexp.R")						# continuous distribution >> not needed
 source("pli/powerexp-exponential-integral.R")	# continuous distribution >> not needed
 source("pli/power-law-test.R")
-source("pli/weibull.R")						# continuous distribution >> not needed
+source("pli/weibull.R")							# continuous distribution >> not needed
 source("pli/yule.R")
 source("pli/zeta.R")
 

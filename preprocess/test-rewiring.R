@@ -232,7 +232,7 @@ for(f in folders)
 					ylim <- c(0,1)
 				plot.file <- paste(net.folder,measure,".PDF",sep="")
 				pdf(file=plot.file,bg="white")
-				plot(0:i,values,xlab="Iteration",ylab=measure,ylim=ylim)
+					plot(0:i,values,xlab="Iteration",ylab=measure,ylim=ylim)
 				dev.off()
 			}
 			cat("\n")

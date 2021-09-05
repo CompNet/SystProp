@@ -1,6 +1,9 @@
 ###########################################################################
 # Rewires an existing network in a more or less random way. One function 
 # is completely random, the other is a latticization.
+
+# Vincent Labatut
+# 06/2014
 #
 # setwd("~/eclipse/workspaces/Networks/SystProp")
 # setwd("D:/eclipse/workspaces/Networks/SystProp")
@@ -22,6 +25,7 @@ library(igraph)
 #
 # g: network to process.
 # nodes: nodes of interest.
+#
 # returns: the partial adjacency matrix.
 ###########################################################################
 get.partial.matrix <- function(g, nodes)
@@ -48,6 +52,7 @@ get.partial.matrix <- function(g, nodes)
 # g: network to process.
 # comp.nb: number of components in the network.
 # a,b,c,d: nodes concerned by the rewiring.
+#
 # returns: TRUE iff the rewiring splits the graph.
 ###########################################################################
 is.splitting.network <- function(g, comp.nb, a, b, c, d)
@@ -90,6 +95,9 @@ is.splitting.network <- function(g, comp.nb, a, b, c, d)
 	return(result)
 }
 
+
+
+
 ###########################################################################
 # Randomly rewires the network, while preserving the degree distribution.
 # Adapted from function "randmio_und_connected" from BCT:
@@ -99,6 +107,7 @@ is.splitting.network <- function(g, comp.nb, a, b, c, d)
 #
 # g: network to be rewired.
 # iterations: number of times a link is rewired (approximately).
+#
 # returns: the rewired network.
 ###########################################################################
 randomize.network <- function(g, iterations)
@@ -159,6 +168,9 @@ randomize.network <- function(g, iterations)
 	return(g)
 }
 
+
+
+
 ###########################################################################
 # Randomly rewires the specified network, so that it becomes more similar 
 # to a lattice.
@@ -169,6 +181,7 @@ randomize.network <- function(g, iterations)
 #
 # g: network to process.
 # iterations: number of times a link is rewired (approximately).
+#
 # returns: the rewired network.
 ###########################################################################
 latticize.network <- function(g, iterations)
@@ -234,6 +247,8 @@ latticize.network <- function(g, iterations)
 		
 	return(g)
 }
+
+
 
 
 ###########################################################################
